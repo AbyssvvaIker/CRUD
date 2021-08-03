@@ -13,7 +13,7 @@ namespace Warehouse.WebMvc.Models
         
         [Required]
         [RegularExpression(@"^[A-Z]+[a-zA-Z\s]*$")]
-        [StringLength(32, MinimumLength = 3)]
+        [StringLength(32, MinimumLength = 2)]
         public string Name { get; set; }
 
     }
