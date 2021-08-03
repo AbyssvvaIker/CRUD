@@ -8,7 +8,7 @@ namespace Warehouse.WebMvc.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Movie",
+                name: "Category",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -16,14 +16,14 @@ namespace Warehouse.WebMvc.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Movie", x => x.Id);
+                    table.PrimaryKey("PK_Category", x => x.Id);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Movie");
+                name: "Category");
         }
     }
 }
