@@ -32,7 +32,7 @@ namespace Warehouse.WebMvc.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Movie");
+                    b.ToTable("Category");
                 });
 #pragma warning restore 612, 618
         }
