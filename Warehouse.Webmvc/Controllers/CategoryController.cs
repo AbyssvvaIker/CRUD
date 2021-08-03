@@ -22,7 +22,7 @@ namespace Warehouse.WebMvc.Controllers
         // GET: Category
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Movie.ToListAsync());
+            return View(await _context.Category.ToListAsync());
         }
 
         // GET: Category/Details/5
@@ -33,7 +33,7 @@ namespace Warehouse.WebMvc.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Movie
+            var category = await _context.Category
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (category == null)
             {
@@ -74,7 +74,7 @@ namespace Warehouse.WebMvc.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Movie.FindAsync(id);
+            var category = await _context.Category.FindAsync(id);
             if (category == null)
             {
                 return NotFound();
@@ -125,7 +125,7 @@ namespace Warehouse.WebMvc.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Movie
+            var category = await _context.Category
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (category == null)
             {
@@ -140,15 +140,15 @@ namespace Warehouse.WebMvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var category = await _context.Movie.FindAsync(id);
-            _context.Movie.Remove(category);
+            var category = await _context.Category.FindAsync(id);
+            _context.Category.Remove(category);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CategoryExists(Guid id)
         {
-            return _context.Movie.Any(e => e.Id == id);
+            return _context.Category.Any(e => e.Id == id);
         }
     }
 }

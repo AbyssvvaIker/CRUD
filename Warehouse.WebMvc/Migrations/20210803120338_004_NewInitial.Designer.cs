@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Warehouse.WebMvc.Data;
 
 namespace Warehouse.WebMvc.Migrations
 {
     [DbContext(typeof(MvcCategoryContext))]
-    partial class MvcCategoryContextModelSnapshot : ModelSnapshot
+    [Migration("20210803120338_004_NewInitial")]
+    partial class _004_NewInitial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,7 +34,7 @@ namespace Warehouse.WebMvc.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Movie");
+                    b.ToTable("Category");
                 });
 #pragma warning restore 612, 618
         }

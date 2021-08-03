@@ -15,6 +15,6 @@ namespace Warehouse.WebMvc.Data
 
         }
 
-        public DbSet<Category> Movie { get; set; }
+        public DbSet<Category> Category { get; set; }
     }
 }
