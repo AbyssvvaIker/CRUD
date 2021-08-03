@@ -6,6 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using Warehouse.WebMvc.Data;
+using Warehouse.WebMvc.Models;
+
 
 namespace Warehouse.WebMvc
 {
@@ -13,7 +17,22 @@ namespace Warehouse.WebMvc
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                try
+                {
+                    SeedCategory.Initialize(services);
+                }
+                catch (Exception e)
+                {
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(e, "error while seeding db");
+                }
+            }
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

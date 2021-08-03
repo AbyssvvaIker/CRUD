@@ -23,15 +23,18 @@ namespace Warehouse.WebMvc.Models
                     new Category
                     {
                         Name = "Food"
-                    });
+                    },
+
                     new Category
                     {
                         Name = "PC"
-                    };
+                    },
+
                     new Category
                     {
                         Name = "Car"
-                    };
+                    }
+                );
                 context.SaveChanges();
             }
         }
