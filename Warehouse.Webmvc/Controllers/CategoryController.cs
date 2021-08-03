@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using Warehouse.WebMvc.Data;
 using Warehouse.WebMvc.Models;
 
@@ -56,7 +54,7 @@ namespace Warehouse.WebMvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name")] Category category)
         {
-           
+
 
             if (ModelState.IsValid)
             {
@@ -103,7 +101,7 @@ namespace Warehouse.WebMvc.Controllers
 
             if (ModelState.IsValid)
             {
-                if (CategoryNameExists(category))
+                if (CategoryNameExists(category, true))
                 {
                     return RedirectToAction(nameof(Index));
                 }
@@ -162,18 +160,34 @@ namespace Warehouse.WebMvc.Controllers
             return _context.Category.Any(e => e.Id == id);
         }
 
-        private bool CategoryNameExists(Category category)
+        private bool CategoryNameExists(Category category, bool caseSensitive = false)
         {
             IQueryable<string> categoryNameQuery = from m in _context.Category
                                                    orderby m.Name
                                                    select m.Name;
-            foreach (var item in categoryNameQuery) //if new category already exists we wont be able to add it
+            if (caseSensitive)
             {
-                if (item.Equals(category.Name))
+                foreach (var item in categoryNameQuery) //if new category already exists we wont be able to add it
                 {
-                    return true;
+
+                    if (item.Equals(category.Name)) //not case-sensitive
+                    {
+                        return true;
+                    }
                 }
             }
+            else
+            {
+                foreach (var item in categoryNameQuery) //if new category already exists we wont be able to add it
+                {
+
+                    if (item.ToLower().Equals(category.Name.ToLower())) //not case-sensitive
+                    {
+                        return true;
+                    }
+                }
+            }
+
             return false;
         }
     }
