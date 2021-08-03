@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Warehouse.WebMvc.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Warehouse.WebMvc
 {
@@ -24,6 +26,8 @@ namespace Warehouse.WebMvc
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddDbContext<MvcCategoryContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("MvcCategoryContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
