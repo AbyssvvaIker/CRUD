@@ -56,6 +56,17 @@ namespace Warehouse.WebMvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name")] Category category)
         {
+            IQueryable<string> categoryNameQuery = from m in _context.Category
+                                                   orderby m.Name
+                                                   select m.Name;
+            foreach(var item in categoryNameQuery) //if new category already exists we wont be able to add it
+            {
+                if (item.Equals(category.Name))
+                {
+                    return View();
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 category.Id = Guid.NewGuid();
