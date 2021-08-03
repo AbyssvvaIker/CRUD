@@ -56,19 +56,15 @@ namespace Warehouse.WebMvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name")] Category category)
         {
-            IQueryable<string> categoryNameQuery = from m in _context.Category
-                                                   orderby m.Name
-                                                   select m.Name;
-            foreach(var item in categoryNameQuery) //if new category already exists we wont be able to add it
-            {
-                if (item.Equals(category.Name))
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-            }
+           
 
             if (ModelState.IsValid)
             {
+                if (CategoryNameExists(category))
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+
                 category.Id = Guid.NewGuid();
                 _context.Add(category);
                 await _context.SaveChangesAsync();
@@ -107,6 +103,10 @@ namespace Warehouse.WebMvc.Controllers
 
             if (ModelState.IsValid)
             {
+                if (CategoryNameExists(category))
+                {
+                    return RedirectToAction(nameof(Index));
+                }
                 try
                 {
                     _context.Update(category);
@@ -160,6 +160,21 @@ namespace Warehouse.WebMvc.Controllers
         private bool CategoryExists(Guid id)
         {
             return _context.Category.Any(e => e.Id == id);
+        }
+
+        private bool CategoryNameExists(Category category)
+        {
+            IQueryable<string> categoryNameQuery = from m in _context.Category
+                                                   orderby m.Name
+                                                   select m.Name;
+            foreach (var item in categoryNameQuery) //if new category already exists we wont be able to add it
+            {
+                if (item.Equals(category.Name))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
