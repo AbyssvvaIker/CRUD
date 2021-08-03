@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace Warehouse.WebMvc.Models
+namespace Warehouse.Infrastructure.DataAccess
 {
     public class Category
     {

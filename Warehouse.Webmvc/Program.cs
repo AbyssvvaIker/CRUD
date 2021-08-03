@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using Warehouse.WebMvc.Data;
+using Warehouse.Infrastructure.DataAccess;
 using Warehouse.WebMvc.Models;
 
 

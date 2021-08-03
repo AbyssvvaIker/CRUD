@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Warehouse.WebMvc.Data;
 using Warehouse.WebMvc.Models;
+using Warehouse.Infrastructure.DataAccess;
 
 namespace Warehouse.WebMvc.Controllers
 {

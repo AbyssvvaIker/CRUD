@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Warehouse.WebMvc.Data;
+using Warehouse.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
 
 namespace Warehouse.WebMvc
