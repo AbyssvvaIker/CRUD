@@ -63,7 +63,7 @@ namespace Warehouse.WebMvc.Controllers
             {
                 if (item.Equals(category.Name))
                 {
-                    return View();
+                    return RedirectToAction(nameof(Index));
                 }
             }
 
