@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 using Warehouse.Infrastructure.DataAccess;
+using Warehouse.Core;
 
 namespace Warehouse.WebMvc.Models
 {

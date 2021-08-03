@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Warehouse.WebMvc.Models;
+using Warehouse.Core;
 
 namespace Warehouse.WebMvc.Controllers
 {

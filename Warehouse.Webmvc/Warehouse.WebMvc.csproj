@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Warehouse.Core\Warehouse.Core.csproj" />
     <ProjectReference Include="..\Warehouse.Infrastructure.DataAccess\Warehouse.Infrastructure.DataAccess.csproj" />
   </ItemGroup>
 
