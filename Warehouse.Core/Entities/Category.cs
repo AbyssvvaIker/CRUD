@@ -10,9 +10,7 @@ namespace Warehouse.Core.Entities
     public class Category : BaseEntity
     {
 
-        [Required]
-        [RegularExpression(@"^[A-Z]+[a-zA-Z\s]*$")]
-        [StringLength(32, MinimumLength = 2)]
+        
         public string Name { get; set; }
 
     }
