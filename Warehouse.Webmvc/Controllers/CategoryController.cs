@@ -61,23 +61,23 @@ namespace Warehouse.WebMvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Category category)
+        public async Task<IActionResult> Create(CategoryViewModel categoryViewModel)
         {
-
-
-            if (ModelState.IsValid)
+            if (ModelState.IsValid != false)
             {
-                if (CategoryNameExists(category))
+                categoryViewModel.Id = Guid.NewGuid();
+                Category category = new Category
                 {
-                    return RedirectToAction(nameof(Index));
-                }
-
-                category.Id = Guid.NewGuid();
+                    Name = categoryViewModel.Name, //Should I use constructor in Category class?
+                    Id = categoryViewModel.Id
+                };
                 _context.Add(category);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
+
             }
-            return View(category);
+
+            return View(categoryViewModel);
         }
 
         [HttpGet]
