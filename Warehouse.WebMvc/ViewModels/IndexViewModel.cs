@@ -14,5 +14,12 @@ namespace Warehouse.WebMvc.ViewModels
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
+
+        public IndexItemViewModel() { }
+        public IndexItemViewModel(Guid Id, string Name)
+        {
+            this.Id = Id;
+            this.Name = Name;
+        }
     }
 }
