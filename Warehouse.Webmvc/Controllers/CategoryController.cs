@@ -23,12 +23,10 @@ namespace Warehouse.WebMvc.Controllers
         {
             IndexViewModel viewModel = new IndexViewModel();
             var categoriesContext = await _context.Categories.ToListAsync();
-
             foreach (var item in categoriesContext)
             {
                 viewModel.Categories.Add(new IndexItemViewModel(item.Id, item.Name));
             }
-
             return View(viewModel.Categories);
         }
 
@@ -39,7 +37,6 @@ namespace Warehouse.WebMvc.Controllers
             {
                 return NotFound();
             }
-
             var category = await _context.Categories
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (category == null)
