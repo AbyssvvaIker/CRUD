@@ -18,13 +18,13 @@ namespace Warehouse.WebMvc.Controllers
             _context = context;
         }
 
-        // GET: Category
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Categories.ToListAsync());
         }
 
-        // GET: Category/Details/5
+        [HttpGet]
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -42,15 +42,12 @@ namespace Warehouse.WebMvc.Controllers
             return View(category);
         }
 
-        // GET: Category/Create
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Category/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name")] Category category)
@@ -72,7 +69,7 @@ namespace Warehouse.WebMvc.Controllers
             return View(category);
         }
 
-        // GET: Category/Edit/5
+        [HttpGet]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -88,9 +85,7 @@ namespace Warehouse.WebMvc.Controllers
             return View(category);
         }
 
-        // POST: Category/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("Id,Name")] Category category)
@@ -126,8 +121,7 @@ namespace Warehouse.WebMvc.Controllers
             }
             return View(category);
         }
-
-        // GET: Category/Delete/5
+        [HttpGet]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -145,7 +139,6 @@ namespace Warehouse.WebMvc.Controllers
             return View(category);
         }
 
-        // POST: Category/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
@@ -168,10 +161,10 @@ namespace Warehouse.WebMvc.Controllers
                                                    select m.Name;
             if (caseSensitive)
             {
-                foreach (var item in categoryNameQuery) //if new category already exists we wont be able to add it
+                foreach (var item in categoryNameQuery) 
                 {
 
-                    if (item.Equals(category.Name)) //not case-sensitive
+                    if (item.Equals(category.Name)) 
                     {
                         return true;
                     }
@@ -179,10 +172,10 @@ namespace Warehouse.WebMvc.Controllers
             }
             else
             {
-                foreach (var item in categoryNameQuery) //if new category already exists we wont be able to add it
+                foreach (var item in categoryNameQuery)
                 {
 
-                    if (item.ToLower().Equals(category.Name.ToLower())) //not case-sensitive
+                    if (item.ToLower().Equals(category.Name.ToLower()))
                     {
                         return true;
                     }
