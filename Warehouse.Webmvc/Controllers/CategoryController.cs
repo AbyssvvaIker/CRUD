@@ -136,7 +136,7 @@ namespace Warehouse.WebMvc.Controllers
             var category = await _context.Categories.FindAsync(id);
             if(category == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Index));
             }
             _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
