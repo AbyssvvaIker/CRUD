@@ -94,9 +94,10 @@ namespace Warehouse.WebMvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Name")] Category category)
+        public async Task<IActionResult> Edit(Guid id,CategoryViewModel categoryViewModel)
         {
-            if (id != category.Id)
+
+            if (id != categoryViewModel.Id)
             {
                 return NotFound();
             }
@@ -104,18 +105,17 @@ namespace Warehouse.WebMvc.Controllers
             if (ModelState.IsValid == false)
             {
 
-                return View(category);
+                return View(categoryViewModel);
 
             }
+
+            Category category = new Category
+            {
+                Id = categoryViewModel.Id,
+                Name = categoryViewModel.Name,
+            };
             _context.Update(category);
             await _context.SaveChangesAsync();
-
-
-            if (!CategoryExists(category.Id))
-            {
-                return NotFound();
-            }
-
 
             return RedirectToAction(nameof(Index));
         }
