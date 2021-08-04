@@ -143,40 +143,5 @@ namespace Warehouse.WebMvc.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CategoryExists(Guid id)
-        {
-            return _context.Categories.Any(e => e.Id == id);
-        }
-
-        private bool CategoryNameExists(Category category, bool caseSensitive = false)
-        {
-            IQueryable<string> categoryNameQuery = from m in _context.Categories
-                                                   orderby m.Name
-                                                   select m.Name;
-            if (caseSensitive)
-            {
-                foreach (var item in categoryNameQuery)
-                {
-
-                    if (item.Equals(category.Name))
-                    {
-                        return true;
-                    }
-                }
-            }
-            else
-            {
-                foreach (var item in categoryNameQuery)
-                {
-
-                    if (item.ToLower().Equals(category.Name.ToLower()))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
     }
 }
