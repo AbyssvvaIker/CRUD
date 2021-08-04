@@ -119,15 +119,14 @@ namespace Warehouse.WebMvc.Controllers
             {
                 return NotFound();
             }
-
             var category = await _context.Categories
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (category == null)
             {
                 return NotFound();
             }
-
-            return View(category);
+            CategoryViewModel categoryViewModel = new CategoryViewModel(category.Id, category.Name);
+            return View(categoryViewModel);
         }
 
         [HttpPost, ActionName("Delete")]
@@ -135,6 +134,10 @@ namespace Warehouse.WebMvc.Controllers
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var category = await _context.Categories.FindAsync(id);
+            if(category == null)
+            {
+                return NotFound();
+            }
             _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
