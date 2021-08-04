@@ -48,8 +48,8 @@ namespace Warehouse.WebMvc.Controllers
             {
                 return NotFound();
             }
-
-            return View(category);
+            CategoryViewModel categoryViewModel = new CategoryViewModel(category.Id, category.Name);
+            return View(categoryViewModel);
         }
 
         [HttpGet]
