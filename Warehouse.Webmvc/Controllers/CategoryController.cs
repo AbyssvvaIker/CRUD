@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Warehouse.WebMvc.Models;
 using Warehouse.Infrastructure.DataAccess;
 using Warehouse.Core.Entities;
+using Warehouse.WebMvc.ViewModels;
+using System.Collections.Generic;
 
 namespace Warehouse.WebMvc.Controllers
 {
@@ -21,7 +23,15 @@ namespace Warehouse.WebMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Categories.ToListAsync());
+            IndexViewModel viewModel = new IndexViewModel();
+            var categoriesContext = await _context.Categories.ToListAsync();
+
+            foreach (var item in categoriesContext)
+            {
+                viewModel.Categories.Add(new IndexItemViewModel(item.Id, item.Name));
+            }
+
+            return View(viewModel.Categories);
         }
 
         [HttpGet]

@@ -8,6 +8,11 @@ namespace Warehouse.WebMvc.ViewModels
     public class IndexViewModel
     {
         public IList<IndexItemViewModel> Categories { get; set; }
+    
+        public IndexViewModel()
+        {
+            Categories = new List<IndexItemViewModel>();
+        }
     }
 
     public class IndexItemViewModel
