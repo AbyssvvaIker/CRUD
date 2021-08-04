@@ -65,11 +65,9 @@ namespace Warehouse.WebMvc.Controllers
         {
             if (ModelState.IsValid != false)
             {
-                categoryViewModel.Id = Guid.NewGuid();
                 Category category = new Category
                 {
                     Name = categoryViewModel.Name, //Should I use constructor in Category class?
-                    Id = categoryViewModel.Id
                 };
                 _context.Add(category);
                 await _context.SaveChangesAsync();
