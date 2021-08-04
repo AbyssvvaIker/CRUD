@@ -55,7 +55,8 @@ namespace Warehouse.WebMvc.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            CategoryViewModel categoryViewModel = new CategoryViewModel();
+            return View(categoryViewModel);
         }
 
         [HttpPost]
