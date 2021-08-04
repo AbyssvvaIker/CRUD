@@ -109,11 +109,9 @@ namespace Warehouse.WebMvc.Controllers
 
             }
 
-            Category category = new Category
-            {
-                Id = categoryViewModel.Id,
-                Name = categoryViewModel.Name,
-            };
+            Category category =await _context.Categories.FindAsync(categoryViewModel.Id);
+            category.Name = categoryViewModel.Name;
+
             _context.Update(category);
             await _context.SaveChangesAsync();
 
