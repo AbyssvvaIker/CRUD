@@ -94,13 +94,8 @@ namespace Warehouse.WebMvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id,CategoryViewModel categoryViewModel)
+        public async Task<IActionResult> Edit(CategoryViewModel categoryViewModel)
         {
-
-            if (id != categoryViewModel.Id)
-            {
-                return NotFound();
-            }
 
             if (ModelState.IsValid == false)
             {
