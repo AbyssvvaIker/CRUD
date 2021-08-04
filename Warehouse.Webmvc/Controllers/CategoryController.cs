@@ -3,11 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Warehouse.WebMvc.Models;
-using Warehouse.Infrastructure.DataAccess;
 using Warehouse.Core.Entities;
+using Warehouse.Infrastructure.DataAccess;
 using Warehouse.WebMvc.ViewModels;
-using System.Collections.Generic;
 
 namespace Warehouse.WebMvc.Controllers
 {
@@ -103,31 +101,23 @@ namespace Warehouse.WebMvc.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid == false)
             {
-                if (CategoryNameExists(category, true))
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-                try
-                {
-                    _context.Update(category);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CategoryExists(category.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+
+                return View(category);
+
             }
-            return View(category);
+            _context.Update(category);
+            await _context.SaveChangesAsync();
+
+
+            if (!CategoryExists(category.Id))
+            {
+                return NotFound();
+            }
+
+
+            return RedirectToAction(nameof(Index));
         }
         [HttpGet]
         public async Task<IActionResult> Delete(Guid? id)
@@ -169,10 +159,10 @@ namespace Warehouse.WebMvc.Controllers
                                                    select m.Name;
             if (caseSensitive)
             {
-                foreach (var item in categoryNameQuery) 
+                foreach (var item in categoryNameQuery)
                 {
 
-                    if (item.Equals(category.Name)) 
+                    if (item.Equals(category.Name))
                     {
                         return true;
                     }
