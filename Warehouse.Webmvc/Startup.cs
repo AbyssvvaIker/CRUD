@@ -27,7 +27,7 @@ namespace Warehouse.WebMvc
         {
             services.AddControllersWithViews();
             services.AddDbContext<DataContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("MvcCategoryContext")));
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
