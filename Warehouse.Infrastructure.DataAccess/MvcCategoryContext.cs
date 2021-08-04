@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Warehouse.Core;
+using Warehouse.Core.Entities;
 
 namespace Warehouse.Infrastructure.DataAccess
 {
