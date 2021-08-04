@@ -63,19 +63,17 @@ namespace Warehouse.WebMvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CategoryViewModel categoryViewModel)
         {
-            if (ModelState.IsValid != false)
+            if (ModelState.IsValid == false)
             {
-                Category category = new Category
-                {
-                    Name = categoryViewModel.Name, //Should I use constructor in Category class?
-                };
-                _context.Add(category);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-
+                return View(categoryViewModel);
             }
-
-            return View(categoryViewModel);
+            Category category = new Category
+            {
+                Name = categoryViewModel.Name, //Should I use constructor in Category class?
+            };
+            _context.Add(category);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]
@@ -91,7 +89,8 @@ namespace Warehouse.WebMvc.Controllers
             {
                 return NotFound();
             }
-            return View(category);
+            CategoryViewModel categoryViewModel = new CategoryViewModel(category.Id, category.Name);
+            return View(categoryViewModel);
         }
 
 
