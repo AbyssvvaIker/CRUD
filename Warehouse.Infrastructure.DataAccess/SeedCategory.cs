@@ -11,9 +11,9 @@ namespace Warehouse.WebMvc.Models
     {
         public static void Initialize(IServiceProvider serviceProvider)
         {
-            using (var context = new MvcCategoryContext(
+            using (var context = new DataContext(
                 serviceProvider.GetRequiredService<
-                    DbContextOptions<MvcCategoryContext>>()))
+                    DbContextOptions<DataContext>>()))
             {
                 if (context.Category.Any())
                 {

@@ -26,7 +26,7 @@ namespace Warehouse.WebMvc
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddDbContext<MvcCategoryContext>(options =>
+            services.AddDbContext<DataContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("MvcCategoryContext")));
         }
 

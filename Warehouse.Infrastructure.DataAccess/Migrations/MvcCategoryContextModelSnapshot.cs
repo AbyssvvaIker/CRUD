@@ -8,7 +8,7 @@ using Warehouse.Infrastructure.DataAccess;
 
 namespace Warehouse.Infrastructure.DataAccess.Migrations
 {
-    [DbContext(typeof(MvcCategoryContext))]
+    [DbContext(typeof(DataContext))]
     partial class MvcCategoryContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

@@ -11,9 +11,9 @@ namespace Warehouse.WebMvc.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly MvcCategoryContext _context;
+        private readonly DataContext _context;
 
-        public CategoryController(MvcCategoryContext context)
+        public CategoryController(DataContext context)
         {
             _context = context;
         }

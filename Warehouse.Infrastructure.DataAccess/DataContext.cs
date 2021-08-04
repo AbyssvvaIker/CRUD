@@ -7,9 +7,9 @@ using Warehouse.Core.Entities;
 
 namespace Warehouse.Infrastructure.DataAccess
 {
-    public class MvcCategoryContext : DbContext
+    public class DataContext : DbContext
     {
-        public MvcCategoryContext(DbContextOptions<MvcCategoryContext> options)
+        public DataContext(DbContextOptions<DataContext> options)
             : base(options)
         {
 

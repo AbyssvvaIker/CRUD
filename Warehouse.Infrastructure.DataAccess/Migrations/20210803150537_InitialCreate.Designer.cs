@@ -9,7 +9,7 @@ using Warehouse.Infrastructure.DataAccess;
 
 namespace Warehouse.Infrastructure.DataAccess.Migrations
 {
-    [DbContext(typeof(MvcCategoryContext))]
+    [DbContext(typeof(DataContext))]
     [Migration("20210803150537_InitialCreate")]
     partial class InitialCreate
     {
