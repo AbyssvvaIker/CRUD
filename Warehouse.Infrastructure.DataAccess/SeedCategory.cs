@@ -15,12 +15,12 @@ namespace Warehouse.WebMvc.Models
                 serviceProvider.GetRequiredService<
                     DbContextOptions<DataContext>>()))
             {
-                if (context.Category.Any())
+                if (context.Categories.Any())
                 {
                     return;
                 }
 
-                context.Category.AddRange(
+                context.Categories.AddRange(
                     new Category
                     {
                         Name = "Food"

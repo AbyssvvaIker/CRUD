@@ -21,7 +21,7 @@ namespace Warehouse.WebMvc.Controllers
         // GET: Category
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Category.ToListAsync());
+            return View(await _context.Categories.ToListAsync());
         }
 
         // GET: Category/Details/5
@@ -32,7 +32,7 @@ namespace Warehouse.WebMvc.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Category
+            var category = await _context.Categories
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (category == null)
             {
@@ -80,7 +80,7 @@ namespace Warehouse.WebMvc.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Category.FindAsync(id);
+            var category = await _context.Categories.FindAsync(id);
             if (category == null)
             {
                 return NotFound();
@@ -135,7 +135,7 @@ namespace Warehouse.WebMvc.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Category
+            var category = await _context.Categories
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (category == null)
             {
@@ -150,20 +150,20 @@ namespace Warehouse.WebMvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var category = await _context.Category.FindAsync(id);
-            _context.Category.Remove(category);
+            var category = await _context.Categories.FindAsync(id);
+            _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CategoryExists(Guid id)
         {
-            return _context.Category.Any(e => e.Id == id);
+            return _context.Categories.Any(e => e.Id == id);
         }
 
         private bool CategoryNameExists(Category category, bool caseSensitive = false)
         {
-            IQueryable<string> categoryNameQuery = from m in _context.Category
+            IQueryable<string> categoryNameQuery = from m in _context.Categories
                                                    orderby m.Name
                                                    select m.Name;
             if (caseSensitive)
