@@ -19,13 +19,13 @@ namespace Warehouse.Web.Controllers
             _context = context;
         }
 
-        // GET: Products
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Products.ToListAsync());
         }
 
-        // GET: Products/Details/5
+        [HttpGet]
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -43,15 +43,12 @@ namespace Warehouse.Web.Controllers
             return View(product);
         }
 
-        // GET: Products/Create
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Products/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Category,Description,Name,Price,Id")] Product product)
@@ -66,7 +63,7 @@ namespace Warehouse.Web.Controllers
             return View(product);
         }
 
-        // GET: Products/Edit/5
+        [HttpGet]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -82,9 +79,6 @@ namespace Warehouse.Web.Controllers
             return View(product);
         }
 
-        // POST: Products/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("Category,Description,Name,Price,Id")] Product product)
@@ -117,7 +111,7 @@ namespace Warehouse.Web.Controllers
             return View(product);
         }
 
-        // GET: Products/Delete/5
+        [HttpGet]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -135,7 +129,6 @@ namespace Warehouse.Web.Controllers
             return View(product);
         }
 
-        // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
