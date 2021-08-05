@@ -73,7 +73,7 @@ namespace Warehouse.WebMvc.Controllers
             {
                 Name = categoryViewModel.Name, //Should I use constructor in Category class?
             };
-            _context.Add(category);
+            await _context.AddAsync(category);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
