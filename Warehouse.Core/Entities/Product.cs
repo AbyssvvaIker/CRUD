@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Warehouse.Core.Entities
 {
-    class Product : BaseEntity
+    public class Product : BaseEntity
     {
         public string Category { get; set; }
         public string Description { get; set; }
