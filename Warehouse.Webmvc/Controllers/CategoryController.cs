@@ -25,7 +25,11 @@ namespace Warehouse.WebMvc.Controllers
             var categoriesContext = await _context.Categories.ToListAsync();
             foreach (var item in categoriesContext)
             {
-                viewModel.Categories.Add(new IndexItemViewModel(item.Id, item.Name));
+                viewModel.Categories.Add(
+                    new IndexItemViewModel { 
+                        Id = item.Id, 
+                        Name = item.Name }
+                    );
             }
             return View(viewModel.Categories);
         }
@@ -43,7 +47,10 @@ namespace Warehouse.WebMvc.Controllers
             {
                 return NotFound();
             }
-            CategoryViewModel categoryViewModel = new CategoryViewModel(category.Id, category.Name);
+            CategoryViewModel categoryViewModel = new CategoryViewModel { 
+                Id = category.Id,
+                Name = category.Name 
+            };
             return View(categoryViewModel);
         }
 
@@ -84,7 +91,10 @@ namespace Warehouse.WebMvc.Controllers
             {
                 return NotFound();
             }
-            CategoryViewModel categoryViewModel = new CategoryViewModel(category.Id, category.Name);
+            CategoryViewModel categoryViewModel = new CategoryViewModel { 
+                Id = category.Id,
+                Name = category.Name 
+            };
             return View(categoryViewModel);
         }
 
@@ -122,7 +132,10 @@ namespace Warehouse.WebMvc.Controllers
             {
                 return NotFound();
             }
-            CategoryViewModel categoryViewModel = new CategoryViewModel(category.Id, category.Name);
+            CategoryViewModel categoryViewModel = new CategoryViewModel { 
+                Id = category.Id,
+                Name = category.Name 
+            };
             return View(categoryViewModel);
         }
 

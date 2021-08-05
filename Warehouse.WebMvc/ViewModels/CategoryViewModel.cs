@@ -9,14 +9,6 @@ namespace Warehouse.WebMvc.ViewModels
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-
-        public CategoryViewModel() { }
-        public CategoryViewModel(Guid Id, string Name)
-        {
-            this.Id = Id;
-            this.Name = Name;
-        }
-
     }
 
 }
