@@ -21,16 +21,19 @@ namespace Warehouse.WebMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var viewModel = new IndexViewModel();
+
             var result = await _context.Categories.ToListAsync();
-            foreach (var item in result)
+
+            var viewModel = new IndexViewModel()
             {
-                viewModel.Categories.Add(
-                    new IndexItemViewModel { 
-                        Id = item.Id, 
-                        Name = item.Name }
-                    );
-            }
+                Categories = result.Select(cat =>
+                   new IndexItemViewModel()
+                   {
+                       Id = cat.Id,
+                       Name = cat.Name,
+                   }
+                ).ToList()
+            };
             return View(viewModel.Categories);
         }
 
@@ -47,9 +50,10 @@ namespace Warehouse.WebMvc.Controllers
             {
                 return NotFound();
             }
-            var categoryViewModel = new CategoryViewModel { 
+            var categoryViewModel = new CategoryViewModel
+            {
                 Id = category.Id,
-                Name = category.Name 
+                Name = category.Name
             };
             return View(categoryViewModel);
         }
@@ -91,9 +95,10 @@ namespace Warehouse.WebMvc.Controllers
             {
                 return NotFound();
             }
-            var categoryViewModel = new CategoryViewModel { 
+            var categoryViewModel = new CategoryViewModel
+            {
                 Id = category.Id,
-                Name = category.Name 
+                Name = category.Name
             };
             return View(categoryViewModel);
         }
@@ -111,7 +116,7 @@ namespace Warehouse.WebMvc.Controllers
 
             }
 
-            Category category =await _context.Categories.FindAsync(categoryViewModel.Id);
+            Category category = await _context.Categories.FindAsync(categoryViewModel.Id);
             category.Name = categoryViewModel.Name;
 
             _context.Update(category);
@@ -132,9 +137,10 @@ namespace Warehouse.WebMvc.Controllers
             {
                 return NotFound();
             }
-            var categoryViewModel = new CategoryViewModel { 
+            var categoryViewModel = new CategoryViewModel
+            {
                 Id = category.Id,
-                Name = category.Name 
+                Name = category.Name
             };
             return View(categoryViewModel);
         }
@@ -144,7 +150,7 @@ namespace Warehouse.WebMvc.Controllers
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var category = await _context.Categories.FindAsync(id);
-            if(category == null)
+            if (category == null)
             {
                 return RedirectToAction(nameof(Index));
             }
