@@ -37,8 +37,9 @@ namespace Warehouse.Web.Controllers
             {
                 return NotFound();
             }
-            var productViewModel = new ProductViewModel()
+            var productViewModel = new ProductViewModel
             {
+                Id = product.Id,
                 Name = product.Name,
                 Price = product.Price,
                 Description = product.Description,
