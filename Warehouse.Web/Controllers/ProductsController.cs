@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading.Tasks;
 using Warehouse.Core.Entities;
 using Warehouse.Infrastructure.DataAccess;
+using Warehouse.Web.ViewModels;
 
 namespace Warehouse.Web.Controllers
 {
@@ -39,28 +37,41 @@ namespace Warehouse.Web.Controllers
             {
                 return NotFound();
             }
-
-            return View(product);
+            var productViewModel = new ProductViewModel()
+            {
+                Name = product.Name,
+                Price = product.Price,
+                Description = product.Description,
+                Category = product.Category,
+            };
+            return View(productViewModel);
         }
 
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            var productViewModel = new ProductViewModel();
+            return View(productViewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Category,Description,Name,Price,Id")] Product product)
+        public async Task<IActionResult> Create(ProductViewModel productViewModel)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid == false)
             {
-                product.Id = Guid.NewGuid();
-                _context.Add(product);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return View(productViewModel);
             }
-            return View(product);
+            var product = new Product()
+            {
+                Name = productViewModel.Name,
+                Price = productViewModel.Price,
+                Description = productViewModel.Description,
+                Category = productViewModel.Category,
+            };
+            await _context.AddAsync(product);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]
@@ -76,39 +87,35 @@ namespace Warehouse.Web.Controllers
             {
                 return NotFound();
             }
-            return View(product);
+            var productViewModel = new ProductViewModel()
+            {
+                Name = product.Name,
+                Price = product.Price,
+                Description = product.Description,
+                Category = product.Category,
+            };
+            return View(productViewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Category,Description,Name,Price,Id")] Product product)
+        public async Task<IActionResult> Edit(ProductViewModel productViewModel)
         {
-            if (id != product.Id)
+            if (ModelState.IsValid == false)
             {
-                return NotFound();
+                return View(productViewModel);
             }
 
-            if (ModelState.IsValid)
+            var product = new Product()
             {
-                try
-                {
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductExists(product.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(product);
+                Name = productViewModel.Name,
+                Price = productViewModel.Price,
+                Description = productViewModel.Description,
+                Category = productViewModel.Category,
+            };
+            _context.Update(product);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]
@@ -125,8 +132,14 @@ namespace Warehouse.Web.Controllers
             {
                 return NotFound();
             }
-
-            return View(product);
+            var productViewModel = new ProductViewModel()
+            {
+                Name = product.Name,
+                Price = product.Price,
+                Description = product.Description,
+                Category = product.Category,
+            };
+            return View(productViewModel);
         }
 
         [HttpPost, ActionName("Delete")]
@@ -134,14 +147,13 @@ namespace Warehouse.Web.Controllers
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var product = await _context.Products.FindAsync(id);
+            if (product == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool ProductExists(Guid id)
-        {
-            return _context.Products.Any(e => e.Id == id);
         }
     }
 }
