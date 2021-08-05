@@ -3,12 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31019.35
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Warehouse.WebMvc", "Warehouse.WebMvc\Warehouse.WebMvc.csproj", "{D65393DE-DA91-4512-95F3-858508EFFD09}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Warehouse.WebMvc", "Warehouse.WebMvc\Warehouse.WebMvc.csproj", "{D65393DE-DA91-4512-95F3-858508EFFD09}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5632BF3D-22A6-4275-AC76-C36AAC28FE55}"
 	ProjectSection(SolutionItems) = preProject
-		gitignore = gitignore
+		.gitignore = .gitignore
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Warehouse.Infrastructure.DataAccess", "Warehouse.Infrastructure.DataAccess\Warehouse.Infrastructure.DataAccess.csproj", "{6C526D0B-7974-47CF-904B-3EA76B58271F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Warehouse.Core", "Warehouse.Core\Warehouse.Core.csproj", "{B49BBC51-3148-4CD5-A43D-CDDB8640A89E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +24,14 @@ Global
 		{D65393DE-DA91-4512-95F3-858508EFFD09}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D65393DE-DA91-4512-95F3-858508EFFD09}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D65393DE-DA91-4512-95F3-858508EFFD09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C526D0B-7974-47CF-904B-3EA76B58271F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C526D0B-7974-47CF-904B-3EA76B58271F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C526D0B-7974-47CF-904B-3EA76B58271F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C526D0B-7974-47CF-904B-3EA76B58271F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B49BBC51-3148-4CD5-A43D-CDDB8640A89E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B49BBC51-3148-4CD5-A43D-CDDB8640A89E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B49BBC51-3148-4CD5-A43D-CDDB8640A89E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B49BBC51-3148-4CD5-A43D-CDDB8640A89E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
