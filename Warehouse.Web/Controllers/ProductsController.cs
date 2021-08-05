@@ -106,13 +106,12 @@ namespace Warehouse.Web.Controllers
                 return View(productViewModel);
             }
 
-            var product = new Product()
-            {
-                Name = productViewModel.Name,
-                Price = productViewModel.Price,
-                Description = productViewModel.Description,
-                Category = productViewModel.Category,
-            };
+            var product = await _context.Products.FindAsync(productViewModel.Id);
+            product.Name = productViewModel.Name;
+            product.Price = productViewModel.Price;
+            product.Description = productViewModel.Description;
+            product.Category = productViewModel.Category;
+            
             _context.Update(product);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
