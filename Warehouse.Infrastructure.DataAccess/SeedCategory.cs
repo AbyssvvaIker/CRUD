@@ -5,7 +5,7 @@ using System.Linq;
 using Warehouse.Infrastructure.DataAccess;
 using Warehouse.Core.Entities;
 
-namespace Warehouse.WebMvc.Models
+namespace Warehouse.Infrastructure.DataAccess
 {
     public static class SeedCategory
     {

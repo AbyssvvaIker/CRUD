@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Warehouse.WebMvc.ViewModels
+namespace Warehouse.Web.ViewModels
 {
     public class CategoryViewModel
     {

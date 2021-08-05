@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Warehouse.WebMvc.Models;
+using Warehouse.Web.Models;
 
-namespace Warehouse.WebMvc.Controllers
+namespace Warehouse.Web.Controllers
 {
     public class HomeController : Controller
     {

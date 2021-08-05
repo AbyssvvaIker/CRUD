@@ -8,10 +8,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Warehouse.Infrastructure.DataAccess;
-using Warehouse.WebMvc.Models;
 
 
-namespace Warehouse.WebMvc
+namespace Warehouse.Web
 {
     public class Program
     {

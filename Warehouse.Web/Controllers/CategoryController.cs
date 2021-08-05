@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Warehouse.Core.Entities;
 using Warehouse.Infrastructure.DataAccess;
-using Warehouse.WebMvc.ViewModels;
+using Warehouse.Web.ViewModels;
 
-namespace Warehouse.WebMvc.Controllers
+namespace Warehouse.Web.Controllers
 {
     public class CategoryController : Controller
     {

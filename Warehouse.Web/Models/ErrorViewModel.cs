@@ -1,6 +1,6 @@
 using System;
 
-namespace Warehouse.WebMvc.Models
+namespace Warehouse.Web.Models
 {
     public class ErrorViewModel
     {

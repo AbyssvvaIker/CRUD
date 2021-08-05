@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using Warehouse.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
 
-namespace Warehouse.WebMvc
+namespace Warehouse.Web
 {
     public class Startup
     {
