@@ -21,9 +21,9 @@ namespace Warehouse.WebMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            IndexViewModel viewModel = new IndexViewModel();
-            var categoriesContext = await _context.Categories.ToListAsync();
-            foreach (var item in categoriesContext)
+            var viewModel = new IndexViewModel();
+            var result = await _context.Categories.ToListAsync();
+            foreach (var item in result)
             {
                 viewModel.Categories.Add(
                     new IndexItemViewModel { 
@@ -47,7 +47,7 @@ namespace Warehouse.WebMvc.Controllers
             {
                 return NotFound();
             }
-            CategoryViewModel categoryViewModel = new CategoryViewModel { 
+            var categoryViewModel = new CategoryViewModel { 
                 Id = category.Id,
                 Name = category.Name 
             };
@@ -57,7 +57,7 @@ namespace Warehouse.WebMvc.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            CategoryViewModel categoryViewModel = new CategoryViewModel();
+            var categoryViewModel = new CategoryViewModel();
             return View(categoryViewModel);
         }
 
@@ -69,7 +69,7 @@ namespace Warehouse.WebMvc.Controllers
             {
                 return View(categoryViewModel);
             }
-            Category category = new Category
+            var category = new Category
             {
                 Name = categoryViewModel.Name, //Should I use constructor in Category class?
             };
@@ -91,7 +91,7 @@ namespace Warehouse.WebMvc.Controllers
             {
                 return NotFound();
             }
-            CategoryViewModel categoryViewModel = new CategoryViewModel { 
+            var categoryViewModel = new CategoryViewModel { 
                 Id = category.Id,
                 Name = category.Name 
             };
@@ -132,7 +132,7 @@ namespace Warehouse.WebMvc.Controllers
             {
                 return NotFound();
             }
-            CategoryViewModel categoryViewModel = new CategoryViewModel { 
+            var categoryViewModel = new CategoryViewModel { 
                 Id = category.Id,
                 Name = category.Name 
             };
