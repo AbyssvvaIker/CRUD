@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Warehouse.Core.Entities;
 using Warehouse.Infrastructure.DataAccess;
 using Warehouse.Web.ViewModels.Product;
-using Warehouse.Web.ViewModels;
+//using Warehouse.Web.ViewModels;
 
 namespace Warehouse.Web.Controllers
 {
@@ -67,6 +67,7 @@ namespace Warehouse.Web.Controllers
         public IActionResult Create()
         {
             var productViewModel = new ProductViewModel();
+            GetCategoriesFromDb(productViewModel);
             return View(productViewModel);
         }
 
@@ -76,6 +77,7 @@ namespace Warehouse.Web.Controllers
         {
             if (ModelState.IsValid == false)
             {
+                GetCategoriesFromDb(productViewModel);
                 return View(productViewModel);
             }
             var product = new Product()
@@ -87,6 +89,7 @@ namespace Warehouse.Web.Controllers
             };
             await _context.AddAsync(product);
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -103,13 +106,15 @@ namespace Warehouse.Web.Controllers
             {
                 return NotFound();
             }
-            var productViewModel = new ProductViewModel()
+            var productViewModel = new ProductViewModel
             {
+                Id = product.Id,
                 Name = product.Name,
                 Price = product.Price,
                 Description = product.Description,
                 Category = product.Category.Id,
             };
+            GetCategoriesFromDb(productViewModel);
             return View(productViewModel);
         }
 
@@ -119,6 +124,7 @@ namespace Warehouse.Web.Controllers
         {
             if (ModelState.IsValid == false)
             {
+                GetCategoriesFromDb(productViewModel);
                 return View(productViewModel);
             }
 
@@ -176,12 +182,11 @@ namespace Warehouse.Web.Controllers
             var result = _context.Categories
                 .OrderBy(c => c.Name)
                 .Select(c => 
-                new SelectItemViewModel()
+                new ViewModels.SelectItemViewModel()
                 {
                     Display = c.Name,
-                    //Value = ??
+                    Value = c.Name,
                 }
-
                 ).ToList();
             viewModel.AvailableCategories = result;
         }
