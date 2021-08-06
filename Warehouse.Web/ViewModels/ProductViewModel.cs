@@ -12,5 +12,13 @@ namespace Warehouse.Web.ViewModels
         public string Description { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
+
+        public IEnumerable<SelectItemViewModel> AvailableCategories { get; set; }
+    }
+
+    public class SelectItemViewModel
+    {
+        public string Value { get; set; }
+        public string Display { get; set; }
     }
 }
