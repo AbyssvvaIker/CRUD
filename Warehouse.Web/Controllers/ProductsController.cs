@@ -185,7 +185,7 @@ namespace Warehouse.Web.Controllers
                 new ViewModels.SelectItemViewModel()
                 {
                     Display = c.Name,
-                    Value = c.Name,
+                    Value = c.Id.ToString(),
                 }
                 ).ToList();
             viewModel.AvailableCategories = result;
