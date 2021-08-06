@@ -5,17 +5,17 @@ using System.Threading.Tasks;
 
 namespace Warehouse.Web.ViewModels
 {
-    public class IndexViewModel
+    public class CategoryIndexViewModel
     {
-        public IList<IndexItemViewModel> Categories { get; set; }
+        public IList<CategoryIndexItemViewModel> Categories { get; set; }
     
-        public IndexViewModel()
+        public CategoryIndexViewModel()
         {
-            Categories = new List<IndexItemViewModel>();
+            Categories = new List<CategoryIndexItemViewModel>();
         }
     }
 
-    public class IndexItemViewModel
+    public class CategoryIndexItemViewModel
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

@@ -24,10 +24,10 @@ namespace Warehouse.Web.Controllers
 
             var result = await _context.Categories.ToListAsync();
 
-            var viewModel = new IndexViewModel()
+            var viewModel = new CategoryIndexViewModel()
             {
                 Categories = result.Select(cat =>
-                   new IndexItemViewModel()
+                   new CategoryIndexItemViewModel()
                    {
                        Id = cat.Id,
                        Name = cat.Name,
