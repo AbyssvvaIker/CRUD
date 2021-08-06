@@ -29,7 +29,6 @@ namespace Warehouse.Web.Controllers
                 {
                     Id = prod.Id,
                     Name = prod.Name,
-                    Category = prod.Category,
                     Description = prod.Description,
                     Price = prod.Price,
                 }
@@ -58,7 +57,7 @@ namespace Warehouse.Web.Controllers
                 Name = product.Name,
                 Price = product.Price,
                 Description = product.Description,
-                Category = product.Category,
+                Category = product.Category.Id,
             };
             return View(productViewModel);
         }
@@ -83,7 +82,7 @@ namespace Warehouse.Web.Controllers
                 Name = productViewModel.Name,
                 Price = productViewModel.Price,
                 Description = productViewModel.Description,
-                Category = productViewModel.Category,
+                CategoryId = productViewModel.Category,
             };
             await _context.AddAsync(product);
             await _context.SaveChangesAsync();
@@ -108,7 +107,7 @@ namespace Warehouse.Web.Controllers
                 Name = product.Name,
                 Price = product.Price,
                 Description = product.Description,
-                Category = product.Category,
+                Category = product.Category.Id,
             };
             return View(productViewModel);
         }
@@ -126,7 +125,7 @@ namespace Warehouse.Web.Controllers
             product.Name = productViewModel.Name;
             product.Price = productViewModel.Price;
             product.Description = productViewModel.Description;
-            product.Category = productViewModel.Category;
+            product.CategoryId = productViewModel.Category;
             
             _context.Update(product);
             await _context.SaveChangesAsync();
@@ -152,7 +151,7 @@ namespace Warehouse.Web.Controllers
                 Name = product.Name,
                 Price = product.Price,
                 Description = product.Description,
-                Category = product.Category,
+                Category = product.Category.Id,
             };
             return View(productViewModel);
         }
