@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Warehouse.Core.Entities;
 using Warehouse.Infrastructure.DataAccess;
@@ -20,7 +21,21 @@ namespace Warehouse.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Products.ToListAsync());
+            var result = await _context.Products.ToListAsync();
+            var viewModel = new ProductIndexViewModel()
+            {
+                Products = result.Select(prod =>
+                new ProductIndexItemViewModel()
+                {
+                    Id = prod.Id,
+                    Name = prod.Name,
+                    Category = prod.Category,
+                    Description = prod.Description,
+                    Price = prod.Price,
+                }
+                ).ToList()
+            };
+            return View(viewModel.Products);
         }
 
         [HttpGet]
