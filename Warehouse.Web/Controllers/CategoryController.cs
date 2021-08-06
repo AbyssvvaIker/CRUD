@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Warehouse.Core.Entities;
 using Warehouse.Infrastructure.DataAccess;
-using Warehouse.Web.ViewModels;
+using Warehouse.Web.ViewModels.Category;
 
 namespace Warehouse.Web.Controllers
 {
@@ -24,10 +24,10 @@ namespace Warehouse.Web.Controllers
 
             var result = await _context.Categories.ToListAsync();
 
-            var viewModel = new CategoryIndexViewModel()
+            var viewModel = new IndexViewModel()
             {
                 Categories = result.Select(cat =>
-                   new CategoryIndexItemViewModel()
+                   new IndexItemViewModel()
                    {
                        Id = cat.Id,
                        Name = cat.Name,
