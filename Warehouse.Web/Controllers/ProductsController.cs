@@ -58,7 +58,7 @@ namespace Warehouse.Web.Controllers
                 Name = product.Name,
                 Price = product.Price,
                 Description = product.Description,
-                Category = product.Category.Id,
+                Category = product.CategoryId,
             };
             return View(productViewModel);
         }
@@ -112,7 +112,7 @@ namespace Warehouse.Web.Controllers
                 Name = product.Name,
                 Price = product.Price,
                 Description = product.Description,
-                Category = product.Category.Id,
+                Category = product.CategoryId,
             };
             GetCategoriesFromDb(productViewModel);
             return View(productViewModel);
@@ -158,7 +158,7 @@ namespace Warehouse.Web.Controllers
                 Name = product.Name,
                 Price = product.Price,
                 Description = product.Description,
-                Category = product.Category.Id,
+                Category = product.CategoryId,
             };
             return View(productViewModel);
         }
