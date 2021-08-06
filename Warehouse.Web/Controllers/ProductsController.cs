@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Warehouse.Core.Entities;
 using Warehouse.Infrastructure.DataAccess;
+using Warehouse.Web.ViewModels.Product;
 using Warehouse.Web.ViewModels;
 
 namespace Warehouse.Web.Controllers
@@ -22,10 +23,10 @@ namespace Warehouse.Web.Controllers
         public async Task<IActionResult> Index()
         {
             var result = await _context.Products.ToListAsync();
-            var viewModel = new ProductIndexViewModel()
+            var viewModel = new IndexViewModel()
             {
                 Products = result.Select(prod =>
-                new ProductIndexItemViewModel()
+                new IndexItemViewModel()
                 {
                     Id = prod.Id,
                     Name = prod.Name,

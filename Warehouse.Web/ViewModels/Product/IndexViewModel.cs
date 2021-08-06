@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Warehouse.Web.ViewModels
+namespace Warehouse.Web.ViewModels.Product
 {
-    public class ProductIndexViewModel
+    public class IndexViewModel
     {
-        public IList<ProductIndexItemViewModel> Products { get; set; }
+        public IList<IndexItemViewModel> Products { get; set; }
 
-        public ProductIndexViewModel()
+        public IndexViewModel()
         {
-            Products = new List<ProductIndexItemViewModel>();
+            Products = new List<IndexItemViewModel>();
         }
     }
 
-    public class ProductIndexItemViewModel
+    public class IndexItemViewModel
     {
         public Guid Id { get; set; }
         //public string Category { get; set; }
