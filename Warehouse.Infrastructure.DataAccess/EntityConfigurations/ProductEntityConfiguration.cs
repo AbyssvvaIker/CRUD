@@ -21,8 +21,8 @@ namespace Warehouse.Infrastructure.DataAccess.EntityConfigurations
                 .IsRequired()
                 .HasMaxLength(256);
             builder.Property(p => p.Price)
-                .IsRequired();
-                //how to format decimal ?
+                .IsRequired()
+                .HasColumnType("decimal(9,2)");
         }
     }
 }
