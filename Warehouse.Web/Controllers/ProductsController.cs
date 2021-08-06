@@ -170,5 +170,20 @@ namespace Warehouse.Web.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        private void GetCategoriesFromDb(ProductViewModel viewModel)
+        {
+            var result = _context.Categories
+                .OrderBy(c => c.Name)
+                .Select(c => 
+                new SelectItemViewModel()
+                {
+                    Display = c.Name,
+                    //Value = ??
+                }
+
+                ).ToList();
+            viewModel.AvailableCategories = result;
+        }
     }
 }
