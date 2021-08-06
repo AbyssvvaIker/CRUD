@@ -16,9 +16,4 @@ namespace Warehouse.Web.ViewModels
         public IEnumerable<SelectItemViewModel> AvailableCategories { get; set; }
     }
 
-    public class SelectItemViewModel
-    {
-        public string Value { get; set; }
-        public string Display { get; set; }
-    }
 }
