@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Warehouse.Core.Entities;
 using Warehouse.Infrastructure.DataAccess;
-using Warehouse.Web.ViewModels;
+using Warehouse.Web.ViewModels.Category;
 
 namespace Warehouse.Web.Controllers
 {
