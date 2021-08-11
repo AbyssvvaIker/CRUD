@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Warehouse.Core.Entities;
+using Warehouse.Core;
 
 namespace Warehouse.Core.Interfaces
 {
