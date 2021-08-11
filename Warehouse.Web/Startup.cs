@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Warehouse.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
+using Autofac;
 
 namespace Warehouse.Web
 {
@@ -56,6 +57,10 @@ namespace Warehouse.Web
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterAssemblyModules(typeof(Startup).Assembly);
         }
     }
 }
