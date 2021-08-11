@@ -14,7 +14,6 @@ namespace Warehouse.Infrastructure.DataAccess.EntityConfigurations
             builder.Property(p => p.Name)
                 .IsRequired()
                 .HasMaxLength(50);
-            //Category is formatted in CategoryEntityConfiguration
             builder.Property(p => p.Description)
                 .IsRequired()
                 .HasMaxLength(256);
