@@ -54,6 +54,7 @@ namespace Warehouse.Core
                 Success = false,
                 Errors = errorsList,
             };
+            return result;
         }
     }
 
