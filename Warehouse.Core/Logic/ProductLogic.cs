@@ -19,11 +19,11 @@ namespace Warehouse.Core.Logic
 
         public async Task<Result<Product>> AddAsync(Product product)
         {
-            var result = await _productRepository.AddAsync(product);
-            if (result == null)
+            if(product == null)
             {
-                return Result.Failure<Product>($"Unable to add product");
+                throw new ArgumentNullException(nameof(product));
             }
+            var result = await _productRepository.AddAsync(product);
             await _productRepository.SaveChangesAsync();
             return Result.Ok(result);
         }
