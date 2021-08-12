@@ -13,7 +13,6 @@ namespace Warehouse.Core.Interfaces
         void Delete(T entity);
         Task SaveChangesAsync();
 
-        Task<T> UpdateAsync(T entity);
 
     }
 }

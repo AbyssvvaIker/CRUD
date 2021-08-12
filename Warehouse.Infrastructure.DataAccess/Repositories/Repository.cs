@@ -48,11 +48,5 @@ namespace Warehouse.Infrastructure.DataAccess.Repositories
                 .SaveChangesAsync();
         }
 
-        public virtual async Task<T> UpdateAsync(T entity)
-        {
-            DataContext.Set<T>()
-                .Update(entity);
-            return entity;
-        }
     }
 }
