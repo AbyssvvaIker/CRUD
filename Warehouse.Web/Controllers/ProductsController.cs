@@ -69,10 +69,10 @@ namespace Warehouse.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             var productViewModel = new ProductViewModel();
-            GetCategoriesFromDb(productViewModel);
+            await GetCategoriesFromDb(productViewModel);
             return View(productViewModel);
         }
 
@@ -82,7 +82,7 @@ namespace Warehouse.Web.Controllers
         {
             if (ModelState.IsValid == false)
             {
-                GetCategoriesFromDb(productViewModel);
+                await GetCategoriesFromDb(productViewModel);
                 return View(productViewModel);
             }
             var product = new Product()
@@ -118,7 +118,7 @@ namespace Warehouse.Web.Controllers
                 Description = result.Value.Description,
                 Category = result.Value.CategoryId,
             };
-            GetCategoriesFromDb(productViewModel);
+            await GetCategoriesFromDb(productViewModel);
             return View(productViewModel);
         }
 
@@ -128,7 +128,7 @@ namespace Warehouse.Web.Controllers
         {
             if (ModelState.IsValid == false)
             {
-                GetCategoriesFromDb(productViewModel);
+                await GetCategoriesFromDb(productViewModel);
                 return View(productViewModel);
             }
 
@@ -178,7 +178,7 @@ namespace Warehouse.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private async void GetCategoriesFromDb(ProductViewModel viewModel)
+        private async Task GetCategoriesFromDb(ProductViewModel viewModel)
         {
             var result = await _categoryLogic.GetAllActiveAsync();
             var categories = result.Value.Select(c =>
@@ -189,6 +189,7 @@ namespace Warehouse.Web.Controllers
                 }
                 ).ToList();
             viewModel.AvailableCategories = categories;
+            return; 
         }
     }
 }
