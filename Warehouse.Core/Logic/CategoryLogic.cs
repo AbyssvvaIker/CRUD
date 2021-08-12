@@ -9,29 +9,56 @@ namespace Warehouse.Core.Logic
 {
     class CategoryLogic : ICategoryLogic
     {
-        public Task<Result<Category>> AddAsync(Category product)
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IProductRepository _productRepository;
+        
+        public async Task<Result<Category>> AddAsync(Category category)
         {
-            throw new NotImplementedException();
+            var result = await _categoryRepository.AddAsync(category);
+            if(result == null)
+            {
+                return Result.Failure<Category>($"Unable to add category");
+            }
+            return Result.Ok(result);
         }
 
-        public Task<Result> DeleteAsync(Category product)
+        public async Task<Result> DeleteAsync(Category category)
         {
-            throw new NotImplementedException();
+            _categoryRepository.Delete(category);
+            return Result.Ok();
         }
 
-        public Task<Result<IEnumerable<Category>>> GetAllActiveAsync()
+        public async Task<Result<IEnumerable<Category>>> GetAllActiveAsync()
         {
-            throw new NotImplementedException();
+            var result = await _categoryRepository.GetAllActiveAsync();
+            if(result == null)
+            {
+                return Result.Failure<IEnumerable<Category>>($"No Active categories found");
+            }
+            return Result.Ok<IEnumerable<Category>>(result);
         }
 
-        public Task<Result<Category>> GetByIdAsync(Guid id)
+        public async Task<Result<Category>> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var category = await _categoryRepository.GetByIdAsync(id);
+            if(category == null)
+            {
+                return Result.Failure<Category>($"Category {id} does not exist");
+            }
+            return Result.Ok(category);
         }
 
-        public Task<Result<Category>> UpdateAsync(Category product)
+        public async Task<Result<Category>> UpdateAsync(Category category)
         {
-            throw new NotImplementedException();
+            var result = await _categoryRepository.GetByIdAsync(category.Id);
+            if (result == null)
+            {
+                return Result.Failure<Category>($"category with id {category.Id} not found");
+            }
+            result.Name = category.Name;
+            result.Products = category.Products;
+
+            return Result.Ok(result);
         }
     }
 }
