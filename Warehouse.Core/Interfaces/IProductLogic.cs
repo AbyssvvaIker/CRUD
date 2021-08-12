@@ -15,5 +15,7 @@ namespace Warehouse.Core.Interfaces
         Task<Result<Product>> UpdateAsync(Product product);
         Task<Result> DeleteAsync(Product product);
         Task<Result> DeleteAsync(Guid id);
+
+        Task<Result<IEnumerable<string>>> GetCategories();
     }
 }

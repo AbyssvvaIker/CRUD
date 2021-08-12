@@ -80,5 +80,16 @@ namespace Warehouse.Core.Logic
 
             return Result.Ok(result);
         }
+
+        public async Task<Result<IEnumerable<string>>> GetCategories()
+        {
+            var result = await _productRepository.GetUniqueCategories();
+            if(result == null)
+            {
+                return Result.Failure<IEnumerable<string>>($"no available categories");
+            }
+            return Result.Ok<IEnumerable<string>>(result);
+        }
+
     }
 }
