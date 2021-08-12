@@ -31,6 +31,7 @@ namespace Warehouse.Core.Logic
         public async Task<Result> DeleteAsync(Product product)
         {
             _productRepository.Delete(product);
+            await _productRepository.SaveChangesAsync();
             return Result.Ok();
         }
         public async Task<Result> DeleteAsync(Guid id)
