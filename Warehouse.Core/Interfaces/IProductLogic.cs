@@ -7,7 +7,7 @@ using Warehouse.Core.Entities;
 
 namespace Warehouse.Core.Interfaces
 {
-    interface IProductLogic : ILogic
+    public interface IProductLogic : ILogic
     {
         Task<Result<IEnumerable<Product>>> GetAllActiveAsync();
 

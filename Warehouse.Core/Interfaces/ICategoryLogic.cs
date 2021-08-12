@@ -6,7 +6,7 @@ using Warehouse.Core.Entities;
 
 namespace Warehouse.Core.Interfaces
 {
-    interface ICategoryLogic : ILogic
+    public interface ICategoryLogic : ILogic
     {
         Task<Result<IEnumerable<Category>>> GetAllActiveAsync();
         Task<Result<Category>> GetByIdAsync(Guid id);
