@@ -9,7 +9,6 @@ namespace Warehouse.Core.Logic
 {
     class ProductLogic : IProductLogic
     {
-        private readonly ICategoryRepository _categoryRepository;
         private readonly IProductRepository _productRepository;
 
         public async Task<Result<Product>> AddAsync(Product product)
