@@ -9,29 +9,59 @@ namespace Warehouse.Core.Logic
 {
     class ProductLogic : IProductLogic
     {
-        public Task<Result<Product>> AddAsync(Product product)
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IProductRepository _productRepository;
+
+        public async Task<Result<Product>> AddAsync(Product product)
         {
-            throw new NotImplementedException();
+            var result = await _productRepository.AddAsync(product);
+            if (result == null)
+            {
+                return Result.Failure<Product>($"Unable to add product");
+            }
+            return Result.Ok(result);
         }
 
-        public Task<Result> DeleteAsync(Product product)
+        public async Task<Result> DeleteAsync(Product product)
         {
-            throw new NotImplementedException();
+            _productRepository.Delete(product);
+            return Result.Ok();
         }
 
-        public Task<Result<IEnumerable<Product>>> GetAllActiveAsync()
+        public async Task<Result<IEnumerable<Product>>> GetAllActiveAsync()
         {
-            throw new NotImplementedException();
+            var result = await _productRepository.GetAllActiveAsync();
+            if (result == null)
+            {
+                return Result.Failure<IEnumerable<Product>>($"No Active products found");
+            }
+            return Result.Ok<IEnumerable<Product>>(result);
         }
 
-        public Task<Result<Product>> GetByIdAsync(Guid id)
+        public async Task<Result<Product>> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var product = await _productRepository.GetByIdAsync(id);
+            if (product == null)
+            {
+                return Result.Failure<Product>($"product {id} does not exist");
+            }
+            return Result.Ok(product);
         }
 
-        public Task<Result<Product>> UpdateAsync(Product product)
+        public async Task<Result<Product>> UpdateAsync(Product product)
         {
-            throw new NotImplementedException();
+            var result = await _productRepository.GetByIdAsync(product.Id);
+            if (result == null)
+            {
+                return Result.Failure<Product>($"category with id {product.Id} not found");
+            }
+            result.Name = product.Name;
+            result.Description = product.Description;
+            result.CategoryId = product.CategoryId;
+            result.Category = product.Category;
+            result.Price = product.Price;
+
+            return Result.Ok(result);
         }
     }
 }
