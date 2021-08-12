@@ -58,7 +58,7 @@ namespace Warehouse.Core.Logic
             {
                 return Result.Failure<IEnumerable<Category>>($"No Active categories found");
             }
-            return Result.Ok<IEnumerable<Category>>(result);
+            return Result.Ok(result);
         }
 
         public async Task<Result<Category>> GetByIdAsync(Guid id)

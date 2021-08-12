@@ -53,7 +53,7 @@ namespace Warehouse.Core.Logic
             {
                 return Result.Failure<IEnumerable<Product>>($"No Active products found");
             }
-            return Result.Ok<IEnumerable<Product>>(result);
+            return Result.Ok(result);
         }
 
         public async Task<Result<Product>> GetByIdAsync(Guid id)
