@@ -18,6 +18,11 @@ namespace Warehouse.Core.Logic
         
         public async Task<Result<Category>> AddAsync(Category category)
         {
+            if(category == null)
+            {
+                throw new ArgumentNullException(nameof(category));
+            }
+
             var result = await _categoryRepository.AddAsync(category);
             if(result == null)
             {
