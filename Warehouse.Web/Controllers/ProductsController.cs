@@ -15,11 +15,13 @@ namespace Warehouse.Web.Controllers
     {
         //private readonly DataContext _context;
         private readonly IProductLogic _productLogic;
+        private readonly ICategoryLogic _categoryLogic;
 
-        public ProductsController(DataContext context, IProductLogic productLogic)
+        public ProductsController(DataContext context, IProductLogic productLogic, ICategoryLogic categoryLogic)
         {
             //_context = context;
             _productLogic = productLogic;
+            _categoryLogic = categoryLogic;
         }
 
         [HttpGet]
@@ -188,37 +190,36 @@ namespace Warehouse.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        //private void GetCategoriesFromDb(ProductViewModel viewModel)
-        //{
-        //    var result = _context.Categories
-        //        .OrderBy(c => c.Name)
-        //        .Select(c => 
-        //        new ViewModels.SelectItemViewModel()
-        //        {
-        //            Display = c.Name,
-        //            Value = c.Id.ToString(),
-        //        }
-        //        ).ToList();
-        //    viewModel.AvailableCategories = result;
-        //}
-
         private async void GetCategoriesFromDb(ProductViewModel viewModel)
         {
-            var result = await _productLogic.GetCategories();
-            if (result.Success == false)
-            {
-                NotFound();
-            }
-            var categoriesList = result.Value
-                .Select(c =>
+            var result = await _categoryLogic.GetAllActiveAsync();
+            var categories = result.Value.Select(c =>
                 new ViewModels.SelectItemViewModel()
                 {
-                    Display = c,
-                    Value = c,
+                    Display = c.Name,
+                    Value = c.Id.ToString(),
                 }
                 ).ToList();
-            viewModel.AvailableCategories = categoriesList;
-
+            viewModel.AvailableCategories = categories;
         }
+
+        //private async void GetCategoriesFromDb(ProductViewModel viewModel)
+        //{
+        //    var result = await _productLogic.GetCategories();
+        //    if (result.Success == false)
+        //    {
+        //        NotFound();
+        //    }
+        //    var categoriesList = result.Value
+        //        .Select(c =>
+        //        new ViewModels.SelectItemViewModel()
+        //        {
+        //            Display = c,
+        //            Value = c,
+        //        }
+        //        ).ToList();
+        //    viewModel.AvailableCategories = categoriesList;
+
+        //}
     }
 }
