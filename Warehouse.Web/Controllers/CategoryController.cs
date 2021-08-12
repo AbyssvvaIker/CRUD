@@ -114,6 +114,10 @@ namespace Warehouse.Web.Controllers
                 return View(categoryViewModel);
             }
             var result = await _categoryLogic.GetByIdAsync(categoryViewModel.Id);
+            if(result.Success == false)
+            {
+                return NotFound();
+            }
             result.Value.Name = categoryViewModel.Name;
             await _categoryLogic.UpdateAsync(result.Value);
 
