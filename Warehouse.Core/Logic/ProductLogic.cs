@@ -30,6 +30,10 @@ namespace Warehouse.Core.Logic
 
         public async Task<Result> DeleteAsync(Product product)
         {
+            if(product == null)
+            {
+                throw new ArgumentNullException(nameof(product));
+            }
             _productRepository.Delete(product);
             await _productRepository.SaveChangesAsync();
             return Result.Ok();
