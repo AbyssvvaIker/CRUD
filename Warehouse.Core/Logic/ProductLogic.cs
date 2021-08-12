@@ -11,6 +11,11 @@ namespace Warehouse.Core.Logic
     {
         private readonly IProductRepository _productRepository;
 
+        public ProductLogic(IProductRepository productRepository)
+        {
+            _productRepository = productRepository;
+        }
+
         public async Task<Result<Product>> AddAsync(Product product)
         {
             var result = await _productRepository.AddAsync(product);
