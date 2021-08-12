@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Warehouse.Core.Entities;
 using Warehouse.Core.Interfaces;
+using Warehouse.Core.Interfaces.Repositories;
 
 namespace Warehouse.Core.Logic
 {
