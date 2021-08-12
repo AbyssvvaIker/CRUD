@@ -23,12 +23,14 @@ namespace Warehouse.Core.Logic
             {
                 return Result.Failure<Category>($"Unable to add category");
             }
+            await _categoryRepository.SaveChangesAsync();
             return Result.Ok(result);
         }
 
         public async Task<Result> DeleteAsync(Category category)
         {
             _categoryRepository.Delete(category);
+            await _categoryRepository.SaveChangesAsync();
             return Result.Ok();
         }
 
