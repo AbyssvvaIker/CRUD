@@ -54,10 +54,6 @@ namespace Warehouse.Core.Logic
         public async Task<Result<IEnumerable<Category>>> GetAllActiveAsync()
         {
             var result = await _categoryRepository.GetAllActiveAsync();
-            if(result == null)
-            {
-                return Result.Failure<IEnumerable<Category>>($"No Active categories found");
-            }
             return Result.Ok(result);
         }
 
