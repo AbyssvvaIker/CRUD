@@ -6,27 +6,32 @@ using System.Threading.Tasks;
 using Warehouse.Core.Entities;
 using Warehouse.Infrastructure.DataAccess;
 using Warehouse.Web.ViewModels.Category;
+using Warehouse.Core.Interfaces;
 
 namespace Warehouse.Web.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly DataContext _context;
+        //private readonly DataContext _context;
+        private readonly ICategoryLogic _categoryLogic; 
 
-        public CategoryController(DataContext context)
+        public CategoryController(DataContext context, ICategoryLogic categoryLogic)
         {
-            _context = context;
+            //_context = context;
+            _categoryLogic = categoryLogic;
+
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
 
-            var result = await _context.Categories.ToListAsync();
+            //var result = await _context.Categories.ToListAsync();
+            var result = await _categoryLogic.GetAllActiveAsync();
 
             var viewModel = new IndexViewModel()
             {
-                Categories = result.Select(cat =>
+                Categories = result.Value.Select(cat =>
                    new IndexItemViewModel()
                    {
                        Id = cat.Id,
@@ -44,16 +49,17 @@ namespace Warehouse.Web.Controllers
             {
                 return NotFound();
             }
-            var category = await _context.Categories
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
+            //var category = await _context.Categories
+            //    .FirstOrDefaultAsync(m => m.Id == id);
+            var result = await _categoryLogic.GetByIdAsync((Guid)id);
+            if (result.Success == false)
             {
                 return NotFound();
             }
             var categoryViewModel = new CategoryViewModel
             {
-                Id = category.Id,
-                Name = category.Name
+                Id = result.Value.Id,
+                Name = result.Value.Name
             };
             return View(categoryViewModel);
         }
@@ -77,8 +83,9 @@ namespace Warehouse.Web.Controllers
             {
                 Name = categoryViewModel.Name, //Should I use constructor in Category class?
             };
-            await _context.AddAsync(category);
-            await _context.SaveChangesAsync();
+            //await _context.AddAsync(category);
+            //await _context.SaveChangesAsync();
+            var result = await _categoryLogic.AddAsync(category);
             return RedirectToAction(nameof(Index));
         }
 
@@ -90,15 +97,16 @@ namespace Warehouse.Web.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Categories.FindAsync(id);
-            if (category == null)
+            //var category = await _context.Categories.FindAsync(id);
+            var result = await _categoryLogic.GetByIdAsync((Guid)id);
+            if (result.Success == false)
             {
                 return NotFound();
             }
             var categoryViewModel = new CategoryViewModel
             {
-                Id = category.Id,
-                Name = category.Name
+                Id = result.Value.Id,
+                Name = result.Value.Name
             };
             return View(categoryViewModel);
         }
@@ -116,11 +124,11 @@ namespace Warehouse.Web.Controllers
 
             }
 
-            Category category = await _context.Categories.FindAsync(categoryViewModel.Id);
-            category.Name = categoryViewModel.Name;
+            //Category category = await _context.Categories.FindAsync(categoryViewModel.Id);
+            var result = await _categoryLogic.GetByIdAsync(categoryViewModel.Id);
+            result.Value.Name = categoryViewModel.Name;
 
-            _context.Update(category);
-            await _context.SaveChangesAsync();
+            await _categoryLogic.UpdateAsync(result.Value);
 
             return RedirectToAction(nameof(Index));
         }
@@ -131,16 +139,17 @@ namespace Warehouse.Web.Controllers
             {
                 return NotFound();
             }
-            var category = await _context.Categories
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
+            //var category = await _context.Categories
+            //    .FirstOrDefaultAsync(m => m.Id == id);
+            var result = await _categoryLogic.GetByIdAsync((Guid)id);
+            if (result.Success == false)
             {
                 return NotFound();
             }
             var categoryViewModel = new CategoryViewModel
             {
-                Id = category.Id,
-                Name = category.Name
+                Id = result.Value.Id,
+                Name = result.Value.Name,
             };
             return View(categoryViewModel);
         }
@@ -149,13 +158,14 @@ namespace Warehouse.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var category = await _context.Categories.FindAsync(id);
-            if (category == null)
+            //var category = await _context.Categories.FindAsync(id);
+            var result = await _categoryLogic.DeleteAsync(id);
+            if (result.Success == false)
             {
                 return RedirectToAction(nameof(Index));
             }
-            _context.Categories.Remove(category);
-            await _context.SaveChangesAsync();
+            //_context.Categories.Remove(category);
+            //await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
