@@ -10,6 +10,11 @@ namespace Warehouse.Core.Logic
     class CategoryLogic : ICategoryLogic
     {
         private readonly ICategoryRepository _categoryRepository;
+
+        public CategoryLogic(ICategoryRepository categoryRepository)
+        {
+            _categoryRepository = categoryRepository;
+        }
         
         public async Task<Result<Category>> AddAsync(Category category)
         {
