@@ -18,12 +18,24 @@ namespace Warehouse.Core.Logic
             {
                 return Result.Failure<Product>($"Unable to add product");
             }
+            await _productRepository.SaveChangesAsync();
             return Result.Ok(result);
         }
 
         public async Task<Result> DeleteAsync(Product product)
         {
             _productRepository.Delete(product);
+            return Result.Ok();
+        }
+        public async Task<Result> DeleteAsync(Guid id)
+        {
+            var category = await _productRepository.GetByIdAsync(id);
+            if (category == null)
+            {
+                return Result.Failure<Category>($"failed to find category {id}");
+            }
+            _productRepository.Delete(category);
+            await _productRepository.SaveChangesAsync();
             return Result.Ok();
         }
 
