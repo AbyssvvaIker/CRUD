@@ -56,6 +56,7 @@ namespace Warehouse.Core.Logic
             }
             result.Name = category.Name;
             result.Products = category.Products;
+            await _categoryRepository.SaveChangesAsync();
 
             return Result.Ok(result);
         }

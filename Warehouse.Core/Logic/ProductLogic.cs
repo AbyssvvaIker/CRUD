@@ -59,6 +59,7 @@ namespace Warehouse.Core.Logic
             result.CategoryId = product.CategoryId;
             result.Category = product.Category;
             result.Price = product.Price;
+            await _productRepository.SaveChangesAsync();
 
             return Result.Ok(result);
         }
