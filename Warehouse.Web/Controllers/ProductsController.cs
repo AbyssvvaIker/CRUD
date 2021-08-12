@@ -7,19 +7,16 @@ using Warehouse.Core.Entities;
 using Warehouse.Core.Interfaces;
 using Warehouse.Infrastructure.DataAccess;
 using Warehouse.Web.ViewModels.Product;
-//using Warehouse.Web.ViewModels;
 
 namespace Warehouse.Web.Controllers
 {
     public class ProductsController : Controller
     {
-        //private readonly DataContext _context;
         private readonly IProductLogic _productLogic;
         private readonly ICategoryLogic _categoryLogic;
 
-        public ProductsController(DataContext context, IProductLogic productLogic, ICategoryLogic categoryLogic)
+        public ProductsController(IProductLogic productLogic, ICategoryLogic categoryLogic)
         {
-            //_context = context;
             _productLogic = productLogic;
             _categoryLogic = categoryLogic;
         }
@@ -55,8 +52,6 @@ namespace Warehouse.Web.Controllers
                 return NotFound();
             }
 
-            //var product = await _context.Products
-            //    .FirstOrDefaultAsync(m => m.Id == id);
             var result = await _productLogic.GetByIdAsync((Guid)id);
             if (result.Success == false)
             {
@@ -97,8 +92,6 @@ namespace Warehouse.Web.Controllers
                 Description = productViewModel.Description,
                 CategoryId = productViewModel.Category,
             };
-            //await _context.AddAsync(product);
-            //await _context.SaveChangesAsync();
             await _productLogic.AddAsync(product);
 
             return RedirectToAction(nameof(Index));
@@ -112,7 +105,6 @@ namespace Warehouse.Web.Controllers
                 return NotFound();
             }
 
-            //var product = await _context.Products.FindAsync(id);
             var result = await _productLogic.GetByIdAsync((Guid)id);
             if (result.Success == false)
             {
@@ -147,8 +139,6 @@ namespace Warehouse.Web.Controllers
             result.Value.CategoryId = productViewModel.Category;
 
             await _productLogic.UpdateAsync(result.Value);
-            //_context.Update(result);
-            //await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
@@ -185,8 +175,6 @@ namespace Warehouse.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
             await _productLogic.DeleteAsync(id);
-            //_context.Products.Remove(result);
-            //await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
@@ -202,24 +190,5 @@ namespace Warehouse.Web.Controllers
                 ).ToList();
             viewModel.AvailableCategories = categories;
         }
-
-        //private async void GetCategoriesFromDb(ProductViewModel viewModel)
-        //{
-        //    var result = await _productLogic.GetCategories();
-        //    if (result.Success == false)
-        //    {
-        //        NotFound();
-        //    }
-        //    var categoriesList = result.Value
-        //        .Select(c =>
-        //        new ViewModels.SelectItemViewModel()
-        //        {
-        //            Display = c,
-        //            Value = c,
-        //        }
-        //        ).ToList();
-        //    viewModel.AvailableCategories = categoriesList;
-
-        //}
     }
 }
