@@ -24,7 +24,7 @@ namespace Warehouse.Infrastructure.DataAccess.Repositories
                 .ToListAsync();
         }
 
-        public virtual async Task<T> GetIdAsync(Guid id)
+        public virtual async Task<T> GetByIdAsync(Guid id)
         {
             return await DataContext.Set<T>()
                 .FirstOrDefaultAsync(x => x.Id == id && x.IsActive);
