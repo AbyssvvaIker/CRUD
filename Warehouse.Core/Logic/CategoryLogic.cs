@@ -22,12 +22,7 @@ namespace Warehouse.Core.Logic
             {
                 throw new ArgumentNullException(nameof(category));
             }
-
             var result = await _categoryRepository.AddAsync(category);
-            if(result == null)
-            {
-                return Result.Failure<Category>($"Unable to add category");
-            }
             await _categoryRepository.SaveChangesAsync();
             return Result.Ok(result);
         }
