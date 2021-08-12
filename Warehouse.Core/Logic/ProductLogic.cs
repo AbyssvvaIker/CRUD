@@ -49,10 +49,6 @@ namespace Warehouse.Core.Logic
         public async Task<Result<IEnumerable<Product>>> GetAllActiveAsync()
         {
             var result = await _productRepository.GetAllActiveAsync();
-            if (result == null)
-            {
-                return Result.Failure<IEnumerable<Product>>($"No Active products found");
-            }
             return Result.Ok(result);
         }
 
