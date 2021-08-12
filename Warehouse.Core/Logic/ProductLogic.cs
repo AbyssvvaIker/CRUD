@@ -68,6 +68,11 @@ namespace Warehouse.Core.Logic
 
         public async Task<Result<Product>> UpdateAsync(Product product)
         {
+            if(product == null)
+            {
+                throw new ArgumentNullException(nameof(product));
+            }
+
             var result = await _productRepository.GetByIdAsync(product.Id);
             if (result == null)
             {

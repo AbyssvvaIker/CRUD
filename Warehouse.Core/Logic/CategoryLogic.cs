@@ -73,6 +73,11 @@ namespace Warehouse.Core.Logic
 
         public async Task<Result<Category>> UpdateAsync(Category category)
         {
+            if(category == null)
+            {
+                throw new ArgumentNullException(nameof(category));
+            }
+
             var result = await _categoryRepository.GetByIdAsync(category.Id);
             if (result == null)
             {
