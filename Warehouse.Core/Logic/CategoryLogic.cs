@@ -29,6 +29,10 @@ namespace Warehouse.Core.Logic
 
         public async Task<Result> DeleteAsync(Category category)
         {
+            if(category == null)
+            {
+                throw new ArgumentNullException(nameof(category));
+            }
             _categoryRepository.Delete(category);
             await _categoryRepository.SaveChangesAsync();
             return Result.Ok();
