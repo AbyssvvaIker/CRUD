@@ -14,7 +14,7 @@ namespace Warehouse.Web.Controllers
     {
         private readonly ICategoryLogic _categoryLogic; 
 
-        public CategoryController(DataContext context, ICategoryLogic categoryLogic)
+        public CategoryController(ICategoryLogic categoryLogic)
         {
             _categoryLogic = categoryLogic;
 
