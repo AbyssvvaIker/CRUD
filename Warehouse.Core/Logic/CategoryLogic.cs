@@ -36,7 +36,7 @@ namespace Warehouse.Core.Logic
             {
                 throw new ArgumentNullException(nameof(category));
             }
-            _productRepository.DeleteByCategoryIdAsync(category.Id);
+            await _productRepository.DeleteByCategoryIdAsync(category.Id);
             await _productRepository.SaveChangesAsync();
             _categoryRepository.Delete(category);
             await _categoryRepository.SaveChangesAsync();

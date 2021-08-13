@@ -17,7 +17,7 @@ namespace Warehouse.Infrastructure.DataAccess.Repositories
 
         }
 
-        public async void DeleteByCategoryIdAsync(Guid categoryId)
+        public async Task DeleteByCategoryIdAsync(Guid categoryId)
         {
             var products =  await DataContext.Set<Product>()
                 .Where(x => x.CategoryId == categoryId)

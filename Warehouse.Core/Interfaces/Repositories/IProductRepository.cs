@@ -8,6 +8,6 @@ namespace Warehouse.Core.Interfaces.Repositories
 {
     public interface IProductRepository : IRepository<Product>
     {
-        void DeleteByCategoryIdAsync(Guid id);
+        Task DeleteByCategoryIdAsync(Guid id);
     }
 }
