@@ -7,6 +7,7 @@ using Warehouse.Core.Entities;
 using Warehouse.Infrastructure.DataAccess;
 using Warehouse.Web.ViewModels.Category;
 using Warehouse.Core.Interfaces;
+using Warehouse.Web.ExtensionMethods;
 
 namespace Warehouse.Web.Controllers
 {
@@ -79,6 +80,11 @@ namespace Warehouse.Web.Controllers
                 Name = categoryViewModel.Name,
             };
             var result = await _categoryLogic.AddAsync(category);
+            if(result.Success == false)
+            {
+                result.AddErrorToModelState(ModelState);
+                return View(categoryViewModel);
+            }
             return RedirectToAction(nameof(Index));
         }
 
@@ -114,9 +120,11 @@ namespace Warehouse.Web.Controllers
                 return View(categoryViewModel);
             }
             var result = await _categoryLogic.GetByIdAsync(categoryViewModel.Id);
+            
             if(result.Success == false)
             {
-                return NotFound();
+                result.AddErrorToModelState(ModelState);
+                return View(categoryViewModel);
             }
             result.Value.Name = categoryViewModel.Name;
             await _categoryLogic.UpdateAsync(result.Value);
