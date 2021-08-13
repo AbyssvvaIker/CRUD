@@ -18,8 +18,10 @@ namespace Warehouse.Web.AutoMapperProfiles
             CreateMap<Category, CategoryViewModel>().ReverseMap()
                 .ForMember(x => x.Id, opt => opt.Ignore());
             CreateMap<Category, IndexItemViewModel>();
-            CreateMap<Category, SelectItemViewModel>();
-            CreateMap<Guid, Category>();
+            CreateMap<Category, SelectItemViewModel>()
+                .ConvertUsing<ToSelectItemViewModelConverter>();
+            CreateMap<Guid, Category>()
+                .ConvertUsing<GuidTocategoryConverter>();
         }
     }
 
