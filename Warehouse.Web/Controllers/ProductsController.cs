@@ -61,14 +61,6 @@ namespace Warehouse.Web.Controllers
             {
                 return NotFound();
             }
-            //var productViewModel = new ProductViewModel
-            //{
-            //    Id = result.Value.Id,
-            //    Name = result.Value.Name,
-            //    Price = result.Value.Price,
-            //    Description = result.Value.Description,
-            //    Category = result.Value.CategoryId,
-            //};
             var productViewModel = _mapper.Map<ProductViewModel>(result.Value);
             return View(productViewModel);
         }
@@ -90,13 +82,6 @@ namespace Warehouse.Web.Controllers
                 await GetCategoriesFromDb(productViewModel);
                 return View(productViewModel);
             }
-            //var product = new Product()
-            //{
-            //    Name = productViewModel.Name,
-            //    Price = productViewModel.Price,
-            //    Description = productViewModel.Description,
-            //    CategoryId = productViewModel.CategoryId,
-            //};
             var product = _mapper.Map<Product>(productViewModel);
             var result = await _productLogic.AddAsync(product);
             if(result.Success == false)
@@ -121,14 +106,6 @@ namespace Warehouse.Web.Controllers
             {
                 return NotFound();
             }
-            //var productViewModel = new ProductViewModel
-            //{
-            //    Id = result.Value.Id,
-            //    Name = result.Value.Name,
-            //    Price = result.Value.Price,
-            //    Description = result.Value.Description,
-            //    CategoryId = result.Value.CategoryId,
-            //};
             var productViewModel = _mapper.Map<ProductViewModel>(result.Value);
             await GetCategoriesFromDb(productViewModel);
             return View(productViewModel);
@@ -150,10 +127,6 @@ namespace Warehouse.Web.Controllers
                 result.AddErrorToModelState(ModelState);
                 return View(productViewModel);
             }
-            //result.Value.Name = productViewModel.Name;
-            //result.Value.Price = productViewModel.Price;
-            //result.Value.Description = productViewModel.Description;
-            //result.Value.CategoryId = productViewModel.CategoryId;
             result.Value = _mapper.Map<Product>(productViewModel);
              
             result = await _productLogic.UpdateAsync(result.Value);
@@ -178,13 +151,6 @@ namespace Warehouse.Web.Controllers
             {
                 return NotFound();
             }
-            //var productViewModel = new ProductViewModel()
-            //{
-            //    Name = result.Value.Name,
-            //    Price = result.Value.Price,
-            //    Description = result.Value.Description,
-            //    CategoryId = result.Value.CategoryId,
-            //};
             var productViewModel = _mapper.Map<ProductViewModel>(result.Value);
             return View(productViewModel);
         }
@@ -193,7 +159,6 @@ namespace Warehouse.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            //var result = await _productLogic.GetByIdAsync(id);
             var result = await _productLogic.GetByIdAsync((Guid)id);
             if (result.Success == false)
             {
