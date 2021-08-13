@@ -15,11 +15,11 @@ namespace Warehouse.Web.AutoMapperProfiles
         public CategoryProfile()
         {
             CreateMap<Category, CategoryViewModel>();
-            CreateMap<CategoryViewModel, Category>();
+            CreateMap<Category, CategoryViewModel>().ReverseMap();
             CreateMap<Category, IndexItemViewModel>();
             CreateMap<Category, SelectItemViewModel>();
             CreateMap<Guid, Category>();
-            CreateMap<Category, Guid>();
+            CreateMap<Guid, Category>().ReverseMap();
         }
     }
 

@@ -13,7 +13,7 @@ namespace Warehouse.Web.AutoMapperProfiles
         public ProductProfile()
         {
             CreateMap<Product, ProductViewModel>();
-            CreateMap<ProductViewModel, Product>();
+            CreateMap<Product, ProductViewModel>().ReverseMap();
             CreateMap<Product, IndexItemViewModel>();
         }
     }
