@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Warehouse.Core.Entities;
 using Warehouse.Core.Interfaces;
 using Warehouse.Core.Interfaces.Repositories;
+using Z.EntityFramework.Plus;
 
 namespace Warehouse.Infrastructure.DataAccess.Repositories
 {
@@ -19,13 +20,10 @@ namespace Warehouse.Infrastructure.DataAccess.Repositories
 
         public async Task DeleteByCategoryIdAsync(Guid categoryId)
         {
-            var products =  await DataContext.Set<Product>()
+            await DataContext.Set<Product>()
                 .Where(x => x.CategoryId == categoryId)
-                .ToListAsync();
-            foreach(var product in products)
-            {
-                product.IsActive = false;
-            }
+                .UpdateAsync(x => new Product() { IsActive = false });
+
         }
     }
 }
