@@ -20,7 +20,6 @@ namespace Warehouse.Web.AutoMapperProfiles
             CreateMap<Category, IndexItemViewModel>();
             CreateMap<Category, SelectItemViewModel>();
             CreateMap<Guid, Category>();
-            CreateMap<Guid, Category>().ReverseMap();
         }
     }
 
