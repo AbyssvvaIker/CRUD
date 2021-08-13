@@ -52,11 +52,6 @@ namespace Warehouse.Web.Controllers
             {
                 return NotFound();
             }
-            //var categoryViewModel = new CategoryViewModel
-            //{
-            //    Id = result.Value.Id,
-            //    Name = result.Value.Name
-            //};
             var categoryViewModel = _mapper.Map<CategoryViewModel>(result.Value);
             return View(categoryViewModel);
         }
@@ -76,10 +71,6 @@ namespace Warehouse.Web.Controllers
             {
                 return View(categoryViewModel);
             }
-            //var category = new Category
-            //{
-            //    Name = categoryViewModel.Name,
-            //};
             var category = _mapper.Map<Category>(categoryViewModel);
             var result = await _categoryLogic.AddAsync(category);
             if(result.Success == false)
@@ -103,11 +94,6 @@ namespace Warehouse.Web.Controllers
             {
                 return NotFound();
             }
-            //var categoryViewModel = new CategoryViewModel
-            //{
-            //    Id = result.Value.Id,
-            //    Name = result.Value.Name
-            //};
             var categoryViewModel = _mapper.Map<CategoryViewModel>(result.Value);
             return View(categoryViewModel);
         }
@@ -150,11 +136,6 @@ namespace Warehouse.Web.Controllers
             {
                 return NotFound();
             }
-            //var categoryViewModel = new CategoryViewModel
-            //{
-            //    Id = result.Value.Id,
-            //    Name = result.Value.Name,
-            //};
             var categoryViewModel = _mapper.Map<CategoryViewModel>(result.Value);
             return View(categoryViewModel);
         }
