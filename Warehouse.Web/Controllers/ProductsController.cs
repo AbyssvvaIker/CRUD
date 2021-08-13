@@ -8,6 +8,7 @@ using Warehouse.Core.Entities;
 using Warehouse.Core.Interfaces;
 using Warehouse.Infrastructure.DataAccess;
 using Warehouse.Web.Infrastructure.ExtensionMethods;
+using Warehouse.Web.ViewModels;
 using Warehouse.Web.ViewModels.Product;
 
 namespace Warehouse.Web.Controllers
@@ -166,11 +167,7 @@ namespace Warehouse.Web.Controllers
         {
             var result = await _categoryLogic.GetAllActiveAsync();
             var categories = result.Value.Select(c =>
-                new ViewModels.SelectItemViewModel()
-                {
-                    Display = c.Name,
-                    Value = c.Id.ToString(),
-                }
+                _mapper.Map<SelectItemViewModel>(c)
                 ).ToList();
             viewModel.AvailableCategories = categories;
             return; 
