@@ -12,7 +12,6 @@ namespace Warehouse.Web.AutoMapperProfiles
     {
         public ProductProfile()
         {
-            CreateMap<Product, ProductViewModel>();
             CreateMap<Product, ProductViewModel>().ReverseMap();
             CreateMap<Product, IndexItemViewModel>();
         }
