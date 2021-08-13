@@ -128,7 +128,7 @@ namespace Warehouse.Web.Controllers
                 result.AddErrorToModelState(ModelState);
                 return View(categoryViewModel);
             }
-            result.Value = _mapper.Map<Category>(categoryViewModel);
+            result.Value = _mapper.Map(categoryViewModel, result.Value);
 
             result = await _categoryLogic.UpdateAsync(result.Value);
             if (result.Success == false)

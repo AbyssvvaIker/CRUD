@@ -122,8 +122,8 @@ namespace Warehouse.Web.Controllers
                 result.AddErrorToModelState(ModelState);
                 return View(productViewModel);
             }
-            result.Value = _mapper.Map<Product>(productViewModel);
-             
+            //result.Value = _mapper.Map<Product>(productViewModel);
+            result.Value = _mapper.Map(productViewModel, result.Value);
             result = await _productLogic.UpdateAsync(result.Value);
             if (result.Success == false)
             {
