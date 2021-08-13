@@ -8,16 +8,20 @@ using Warehouse.Infrastructure.DataAccess;
 using Warehouse.Web.ViewModels.Category;
 using Warehouse.Core.Interfaces;
 using Warehouse.Web.Infrastructure.ExtensionMethods;
+using AutoMapper;
 
 namespace Warehouse.Web.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ICategoryLogic _categoryLogic; 
+        private readonly ICategoryLogic _categoryLogic;
 
-        public CategoryController(ICategoryLogic categoryLogic)
+        private readonly IMapper _mapper;
+
+        public CategoryController(ICategoryLogic categoryLogic, IMapper mapper)
         {
             _categoryLogic = categoryLogic;
+            _mapper = mapper;
 
         }
 
@@ -29,11 +33,7 @@ namespace Warehouse.Web.Controllers
             var viewModel = new IndexViewModel()
             {
                 Categories = result.Value.Select(cat =>
-                   new IndexItemViewModel()
-                   {
-                       Id = cat.Id,
-                       Name = cat.Name,
-                   }
+                   _mapper.Map<IndexItemViewModel>(cat)
                 ).ToList()
             };
             return View(viewModel.Categories);
@@ -52,11 +52,12 @@ namespace Warehouse.Web.Controllers
             {
                 return NotFound();
             }
-            var categoryViewModel = new CategoryViewModel
-            {
-                Id = result.Value.Id,
-                Name = result.Value.Name
-            };
+            //var categoryViewModel = new CategoryViewModel
+            //{
+            //    Id = result.Value.Id,
+            //    Name = result.Value.Name
+            //};
+            var categoryViewModel = _mapper.Map<CategoryViewModel>(result.Value);
             return View(categoryViewModel);
         }
 
@@ -75,10 +76,11 @@ namespace Warehouse.Web.Controllers
             {
                 return View(categoryViewModel);
             }
-            var category = new Category
-            {
-                Name = categoryViewModel.Name,
-            };
+            //var category = new Category
+            //{
+            //    Name = categoryViewModel.Name,
+            //};
+            var category = _mapper.Map<Category>(categoryViewModel);
             var result = await _categoryLogic.AddAsync(category);
             if(result.Success == false)
             {
@@ -101,11 +103,12 @@ namespace Warehouse.Web.Controllers
             {
                 return NotFound();
             }
-            var categoryViewModel = new CategoryViewModel
-            {
-                Id = result.Value.Id,
-                Name = result.Value.Name
-            };
+            //var categoryViewModel = new CategoryViewModel
+            //{
+            //    Id = result.Value.Id,
+            //    Name = result.Value.Name
+            //};
+            var categoryViewModel = _mapper.Map<CategoryViewModel>(result.Value);
             return View(categoryViewModel);
         }
 
@@ -125,7 +128,7 @@ namespace Warehouse.Web.Controllers
                 result.AddErrorToModelState(ModelState);
                 return View(categoryViewModel);
             }
-            result.Value.Name = categoryViewModel.Name;
+            result.Value = _mapper.Map<Category>(categoryViewModel);
 
             result = await _categoryLogic.UpdateAsync(result.Value);
             if (result.Success == false)
@@ -147,11 +150,12 @@ namespace Warehouse.Web.Controllers
             {
                 return NotFound();
             }
-            var categoryViewModel = new CategoryViewModel
-            {
-                Id = result.Value.Id,
-                Name = result.Value.Name,
-            };
+            //var categoryViewModel = new CategoryViewModel
+            //{
+            //    Id = result.Value.Id,
+            //    Name = result.Value.Name,
+            //};
+            var categoryViewModel = _mapper.Map<CategoryViewModel>(result.Value);
             return View(categoryViewModel);
         }
 
