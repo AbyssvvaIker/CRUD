@@ -119,17 +119,17 @@ namespace Warehouse.Web.Controllers
                 return View(productViewModel);
             }
 
-            var result = await _productLogic.GetByIdAsync(productViewModel.Id);
-            if(result.Success == false)
+            var getResult = await _productLogic.GetByIdAsync(productViewModel.Id);
+            if(getResult.Success == false)
             {
-                result.AddErrorToModelState(ModelState);
+                getResult.AddErrorToModelState(ModelState);
                 return View(productViewModel);
             }
-            result.Value = _mapper.Map(productViewModel, result.Value);
-            result = await _productLogic.UpdateAsync(result.Value);
-            if (result.Success == false)
+            getResult.Value = _mapper.Map(productViewModel, getResult.Value);
+            var updateResult = await _productLogic.UpdateAsync(getResult.Value);
+            if (updateResult.Success == false)
             {
-                result.AddErrorToModelState(ModelState);
+                updateResult.AddErrorToModelState(ModelState);
                 return View(productViewModel);
             }
             return RedirectToAction(nameof(Index));

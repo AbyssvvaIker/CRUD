@@ -106,19 +106,19 @@ namespace Warehouse.Web.Controllers
             {
                 return View(categoryViewModel);
             }
-            var result = await _categoryLogic.GetByIdAsync(categoryViewModel.Id);
+            var getResult = await _categoryLogic.GetByIdAsync(categoryViewModel.Id);
             
-            if(result.Success == false)
+            if(getResult.Success == false)
             {
-                result.AddErrorToModelState(ModelState);
+                getResult.AddErrorToModelState(ModelState);
                 return View(categoryViewModel);
             }
-            result.Value = _mapper.Map(categoryViewModel, result.Value);
+            getResult.Value = _mapper.Map(categoryViewModel, getResult.Value);
 
-            result = await _categoryLogic.UpdateAsync(result.Value);
-            if (result.Success == false)
+            var updateResult = await _categoryLogic.UpdateAsync(getResult.Value);
+            if (updateResult.Success == false)
             {
-                result.AddErrorToModelState(ModelState);
+                updateResult.AddErrorToModelState(ModelState);
                 return View(categoryViewModel);
             }
             return RedirectToAction(nameof(Index));
