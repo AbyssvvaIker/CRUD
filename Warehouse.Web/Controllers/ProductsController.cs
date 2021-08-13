@@ -61,14 +61,15 @@ namespace Warehouse.Web.Controllers
             {
                 return NotFound();
             }
-            var productViewModel = new ProductViewModel
-            {
-                Id = result.Value.Id,
-                Name = result.Value.Name,
-                Price = result.Value.Price,
-                Description = result.Value.Description,
-                Category = result.Value.CategoryId,
-            };
+            //var productViewModel = new ProductViewModel
+            //{
+            //    Id = result.Value.Id,
+            //    Name = result.Value.Name,
+            //    Price = result.Value.Price,
+            //    Description = result.Value.Description,
+            //    Category = result.Value.CategoryId,
+            //};
+            var productViewModel = _mapper.Map<ProductViewModel>(result.Value);
             return View(productViewModel);
         }
 
@@ -94,7 +95,7 @@ namespace Warehouse.Web.Controllers
                 Name = productViewModel.Name,
                 Price = productViewModel.Price,
                 Description = productViewModel.Description,
-                CategoryId = productViewModel.Category,
+                CategoryId = productViewModel.CategoryId,
             };
             var result = await _productLogic.AddAsync(product);
             if(result.Success == false)
@@ -125,7 +126,7 @@ namespace Warehouse.Web.Controllers
                 Name = result.Value.Name,
                 Price = result.Value.Price,
                 Description = result.Value.Description,
-                Category = result.Value.CategoryId,
+                CategoryId = result.Value.CategoryId,
             };
             await GetCategoriesFromDb(productViewModel);
             return View(productViewModel);
@@ -150,7 +151,7 @@ namespace Warehouse.Web.Controllers
             result.Value.Name = productViewModel.Name;
             result.Value.Price = productViewModel.Price;
             result.Value.Description = productViewModel.Description;
-            result.Value.CategoryId = productViewModel.Category;
+            result.Value.CategoryId = productViewModel.CategoryId;
 
             result = await _productLogic.UpdateAsync(result.Value);
             if (result.Success == false)
@@ -179,7 +180,7 @@ namespace Warehouse.Web.Controllers
                 Name = result.Value.Name,
                 Price = result.Value.Price,
                 Description = result.Value.Description,
-                Category = result.Value.CategoryId,
+                CategoryId = result.Value.CategoryId,
             };
             return View(productViewModel);
         }
