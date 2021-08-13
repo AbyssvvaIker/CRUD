@@ -17,6 +17,8 @@ namespace Warehouse.Web.AutoMapperProfiles
             CreateMap<Category, CategoryViewModel>();
             CreateMap<CategoryViewModel, Category>();
             CreateMap<Category, SelectItemViewModel>();
+            CreateMap<Guid, Category>();
+            CreateMap<Category, Guid>();
         }
     }
 
