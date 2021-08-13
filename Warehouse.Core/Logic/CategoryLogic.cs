@@ -11,10 +11,12 @@ namespace Warehouse.Core.Logic
     class CategoryLogic : ICategoryLogic
     {
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IProductRepository _productRepository;
 
-        public CategoryLogic(ICategoryRepository categoryRepository)
+        public CategoryLogic(ICategoryRepository categoryRepository, IProductRepository productRepository)
         {
             _categoryRepository = categoryRepository;
+            _productRepository = productRepository;
         }
         
         public async Task<Result<Category>> AddAsync(Category category)
@@ -34,6 +36,8 @@ namespace Warehouse.Core.Logic
             {
                 throw new ArgumentNullException(nameof(category));
             }
+            _productRepository.DeleteByCategoryIdAsync(category.Id);
+            await _productRepository.SaveChangesAsync();
             _categoryRepository.Delete(category);
             await _categoryRepository.SaveChangesAsync();
             return Result.Ok();
