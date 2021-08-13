@@ -168,9 +168,7 @@ namespace Warehouse.Web.Controllers
         private async Task GetCategoriesFromDb(ProductViewModel viewModel)
         {
             var result = await _categoryLogic.GetAllActiveAsync();
-            var categories = result.Value.Select(c =>
-                _mapper.Map<SelectItemViewModel>(c)
-                ).ToList();
+            var categories = _mapper.Map<IList<SelectItemViewModel>>(result.Value);
             viewModel.AvailableCategories = categories;
             return; 
         }
