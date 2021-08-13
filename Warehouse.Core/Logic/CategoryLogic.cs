@@ -39,18 +39,6 @@ namespace Warehouse.Core.Logic
             return Result.Ok();
         }
 
-        public async Task<Result> DeleteAsync(Guid id)
-        {
-            var category = await _categoryRepository.GetByIdAsync(id);
-            if(category == null)
-            {
-                return Result.Failure<Category>($"failed to find category {id}");
-            }
-            _categoryRepository.Delete(category);
-            await _categoryRepository.SaveChangesAsync();
-            return Result.Ok();
-        }
-
         public async Task<Result<IEnumerable<Category>>> GetAllActiveAsync()
         {
             var result = await _categoryRepository.GetAllActiveAsync();
