@@ -36,13 +36,8 @@ namespace Warehouse.Web.Controllers
             var viewModel = new IndexViewModel()
             {
                 Products = result.Value.Select(prod =>
-                new IndexItemViewModel()
-                {
-                    Id = prod.Id,
-                    Name = prod.Name,
-                    Description = prod.Description,
-                    Price = prod.Price,
-                }
+                _mapper.Map<IndexItemViewModel>(prod)
+
                 ).ToList()
             };
             return View(viewModel.Products);
