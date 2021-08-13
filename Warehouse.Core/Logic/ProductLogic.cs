@@ -62,16 +62,6 @@ namespace Warehouse.Core.Logic
                 throw new ArgumentNullException(nameof(product));
             }
 
-            //var result = await _productRepository.GetByIdAsync(product.Id);
-            //if (result == null)
-            //{
-            //    return Result.Failure<Product>($"category with id {product.Id} not found");
-            //}
-            //result.Name = product.Name;
-            //result.Description = product.Description;
-            //result.CategoryId = product.CategoryId;
-            //result.Category = product.Category;
-            //result.Price = product.Price;
             await _productRepository.SaveChangesAsync();
 
             return Result.Ok(product);
