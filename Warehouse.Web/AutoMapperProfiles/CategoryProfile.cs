@@ -15,7 +15,8 @@ namespace Warehouse.Web.AutoMapperProfiles
         public CategoryProfile()
         {
             CreateMap<Category, CategoryViewModel>();
-            CreateMap<Category, CategoryViewModel>().ReverseMap();
+            CreateMap<Category, CategoryViewModel>().ReverseMap()
+                .ForMember(x => x.Id, opt => opt.Ignore());
             CreateMap<Category, IndexItemViewModel>();
             CreateMap<Category, SelectItemViewModel>();
             CreateMap<Guid, Category>();
