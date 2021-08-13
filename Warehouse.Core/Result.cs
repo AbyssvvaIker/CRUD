@@ -11,7 +11,8 @@ namespace Warehouse.Core
         {
             return new Result()
             {
-                Success = true
+                Success = true,
+                Errors = new List<ErrorMessage>(),
             };
         }
 
