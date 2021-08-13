@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Warehouse.Core.Entities;
 using Warehouse.Core.Interfaces;
 using Warehouse.Infrastructure.DataAccess;
-using Warehouse.Web.ExtensionMethods;
+using Warehouse.Web.Infrastructure.ExtensionMethods;
 using Warehouse.Web.ViewModels.Product;
 
 namespace Warehouse.Web.Controllers

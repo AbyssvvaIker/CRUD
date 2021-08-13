@@ -7,7 +7,7 @@ using Warehouse.Core.Entities;
 using Warehouse.Infrastructure.DataAccess;
 using Warehouse.Web.ViewModels.Category;
 using Warehouse.Core.Interfaces;
-using Warehouse.Web.ExtensionMethods;
+using Warehouse.Web.Infrastructure.ExtensionMethods;
 
 namespace Warehouse.Web.Controllers
 {
