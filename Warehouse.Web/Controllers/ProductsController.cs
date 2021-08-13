@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -15,11 +16,13 @@ namespace Warehouse.Web.Controllers
     {
         private readonly IProductLogic _productLogic;
         private readonly ICategoryLogic _categoryLogic;
+        private readonly IMapper _mapper;
 
-        public ProductsController(IProductLogic productLogic, ICategoryLogic categoryLogic)
+        public ProductsController(IProductLogic productLogic, ICategoryLogic categoryLogic, IMapper mapper)
         {
             _productLogic = productLogic;
             _categoryLogic = categoryLogic;
+            _mapper = mapper;
         }
 
         [HttpGet]
