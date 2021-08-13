@@ -4,28 +4,35 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Warehouse.Core.Entities;
+using Warehouse.Core.Interfaces;
 using Warehouse.Infrastructure.DataAccess;
+using Warehouse.Web.Infrastructure.ExtensionMethods;
 using Warehouse.Web.ViewModels.Product;
-//using Warehouse.Web.ViewModels;
 
 namespace Warehouse.Web.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly DataContext _context;
+        private readonly IProductLogic _productLogic;
+        private readonly ICategoryLogic _categoryLogic;
 
-        public ProductsController(DataContext context)
+        public ProductsController(IProductLogic productLogic, ICategoryLogic categoryLogic)
         {
-            _context = context;
+            _productLogic = productLogic;
+            _categoryLogic = categoryLogic;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var result = await _context.Products.ToListAsync();
+            var result = await _productLogic.GetAllActiveAsync();
+            if(result.Success == false)
+            {
+                return NotFound();
+            }
             var viewModel = new IndexViewModel()
             {
-                Products = result.Select(prod =>
+                Products = result.Value.Select(prod =>
                 new IndexItemViewModel()
                 {
                     Id = prod.Id,
@@ -46,28 +53,27 @@ namespace Warehouse.Web.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
+            var result = await _productLogic.GetByIdAsync((Guid)id);
+            if (result.Success == false)
             {
                 return NotFound();
             }
             var productViewModel = new ProductViewModel
             {
-                Id = product.Id,
-                Name = product.Name,
-                Price = product.Price,
-                Description = product.Description,
-                Category = product.CategoryId,
+                Id = result.Value.Id,
+                Name = result.Value.Name,
+                Price = result.Value.Price,
+                Description = result.Value.Description,
+                Category = result.Value.CategoryId,
             };
             return View(productViewModel);
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             var productViewModel = new ProductViewModel();
-            GetCategoriesFromDb(productViewModel);
+            await GetCategoriesFromDb(productViewModel);
             return View(productViewModel);
         }
 
@@ -77,7 +83,7 @@ namespace Warehouse.Web.Controllers
         {
             if (ModelState.IsValid == false)
             {
-                GetCategoriesFromDb(productViewModel);
+                await GetCategoriesFromDb(productViewModel);
                 return View(productViewModel);
             }
             var product = new Product()
@@ -87,8 +93,12 @@ namespace Warehouse.Web.Controllers
                 Description = productViewModel.Description,
                 CategoryId = productViewModel.Category,
             };
-            await _context.AddAsync(product);
-            await _context.SaveChangesAsync();
+            var result = await _productLogic.AddAsync(product);
+            if(result.Success == false)
+            {
+                result.AddErrorToModelState(ModelState);
+                return View(productViewModel);
+            }
 
             return RedirectToAction(nameof(Index));
         }
@@ -101,20 +111,20 @@ namespace Warehouse.Web.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
+            var result = await _productLogic.GetByIdAsync((Guid)id);
+            if (result.Success == false)
             {
                 return NotFound();
             }
             var productViewModel = new ProductViewModel
             {
-                Id = product.Id,
-                Name = product.Name,
-                Price = product.Price,
-                Description = product.Description,
-                Category = product.CategoryId,
+                Id = result.Value.Id,
+                Name = result.Value.Name,
+                Price = result.Value.Price,
+                Description = result.Value.Description,
+                Category = result.Value.CategoryId,
             };
-            GetCategoriesFromDb(productViewModel);
+            await GetCategoriesFromDb(productViewModel);
             return View(productViewModel);
         }
 
@@ -124,18 +134,27 @@ namespace Warehouse.Web.Controllers
         {
             if (ModelState.IsValid == false)
             {
-                GetCategoriesFromDb(productViewModel);
+                await GetCategoriesFromDb(productViewModel);
                 return View(productViewModel);
             }
 
-            var product = await _context.Products.FindAsync(productViewModel.Id);
-            product.Name = productViewModel.Name;
-            product.Price = productViewModel.Price;
-            product.Description = productViewModel.Description;
-            product.CategoryId = productViewModel.Category;
-            
-            _context.Update(product);
-            await _context.SaveChangesAsync();
+            var result = await _productLogic.GetByIdAsync(productViewModel.Id);
+            if(result.Success == false)
+            {
+                result.AddErrorToModelState(ModelState);
+                return View(productViewModel);
+            }
+            result.Value.Name = productViewModel.Name;
+            result.Value.Price = productViewModel.Price;
+            result.Value.Description = productViewModel.Description;
+            result.Value.CategoryId = productViewModel.Category;
+
+            result = await _productLogic.UpdateAsync(result.Value);
+            if (result.Success == false)
+            {
+                result.AddErrorToModelState(ModelState);
+                return View(productViewModel);
+            }
             return RedirectToAction(nameof(Index));
         }
 
@@ -147,18 +166,17 @@ namespace Warehouse.Web.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
+            var result = await _productLogic.GetByIdAsync((Guid)id);
+            if (result.Success == false)
             {
                 return NotFound();
             }
             var productViewModel = new ProductViewModel()
             {
-                Name = product.Name,
-                Price = product.Price,
-                Description = product.Description,
-                Category = product.CategoryId,
+                Name = result.Value.Name,
+                Price = result.Value.Price,
+                Description = result.Value.Description,
+                Category = result.Value.CategoryId,
             };
             return View(productViewModel);
         }
@@ -167,28 +185,28 @@ namespace Warehouse.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
+            //var result = await _productLogic.GetByIdAsync(id);
+            var result = await _productLogic.GetByIdAsync((Guid)id);
+            if (result.Success == false)
             {
                 return RedirectToAction(nameof(Index));
             }
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
+            await _productLogic.DeleteAsync(result.Value);
             return RedirectToAction(nameof(Index));
         }
 
-        private void GetCategoriesFromDb(ProductViewModel viewModel)
+        private async Task GetCategoriesFromDb(ProductViewModel viewModel)
         {
-            var result = _context.Categories
-                .OrderBy(c => c.Name)
-                .Select(c => 
+            var result = await _categoryLogic.GetAllActiveAsync();
+            var categories = result.Value.Select(c =>
                 new ViewModels.SelectItemViewModel()
                 {
                     Display = c.Name,
                     Value = c.Id.ToString(),
                 }
                 ).ToList();
-            viewModel.AvailableCategories = result;
+            viewModel.AvailableCategories = categories;
+            return; 
         }
     }
 }
