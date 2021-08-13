@@ -14,13 +14,13 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                @Html.DropDownListFor(p => p.CategoryId,
+                <label asp-for="Category" class="control-label"></label>
+                @Html.DropDownListFor(p => p.Category,
                     new SelectList(Model.AvailableCategories,
                         nameof(SelectItemViewModel.Value),
                         nameof(SelectItemViewModel.Display)),
                     new { @class = "form-control" })
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                <span asp-validation-for="Category" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
