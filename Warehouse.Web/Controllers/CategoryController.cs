@@ -114,7 +114,6 @@ namespace Warehouse.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(CategoryViewModel categoryViewModel)
         {
-
             if (ModelState.IsValid == false)
             {
                 return View(categoryViewModel);
@@ -127,8 +126,13 @@ namespace Warehouse.Web.Controllers
                 return View(categoryViewModel);
             }
             result.Value.Name = categoryViewModel.Name;
-            await _categoryLogic.UpdateAsync(result.Value);
 
+            result = await _categoryLogic.UpdateAsync(result.Value);
+            if (result.Success == false)
+            {
+                result.AddErrorToModelState(ModelState);
+                return View(categoryViewModel);
+            }
             return RedirectToAction(nameof(Index));
         }
         [HttpGet]

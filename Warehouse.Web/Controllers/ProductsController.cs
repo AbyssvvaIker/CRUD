@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Warehouse.Core.Entities;
 using Warehouse.Core.Interfaces;
 using Warehouse.Infrastructure.DataAccess;
+using Warehouse.Web.ExtensionMethods;
 using Warehouse.Web.ViewModels.Product;
 
 namespace Warehouse.Web.Controllers
@@ -92,7 +93,12 @@ namespace Warehouse.Web.Controllers
                 Description = productViewModel.Description,
                 CategoryId = productViewModel.Category,
             };
-            await _productLogic.AddAsync(product);
+            var result = await _productLogic.AddAsync(product);
+            if(result.Success == false)
+            {
+                result.AddErrorToModelState(ModelState);
+                return View(productViewModel);
+            }
 
             return RedirectToAction(nameof(Index));
         }
@@ -133,12 +139,22 @@ namespace Warehouse.Web.Controllers
             }
 
             var result = await _productLogic.GetByIdAsync(productViewModel.Id);
+            if(result.Success == false)
+            {
+                result.AddErrorToModelState(ModelState);
+                return View(productViewModel);
+            }
             result.Value.Name = productViewModel.Name;
             result.Value.Price = productViewModel.Price;
             result.Value.Description = productViewModel.Description;
             result.Value.CategoryId = productViewModel.Category;
 
-            await _productLogic.UpdateAsync(result.Value);
+            result = await _productLogic.UpdateAsync(result.Value);
+            if (result.Success == false)
+            {
+                result.AddErrorToModelState(ModelState);
+                return View(productViewModel);
+            }
             return RedirectToAction(nameof(Index));
         }
 
