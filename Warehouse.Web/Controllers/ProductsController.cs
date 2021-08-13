@@ -169,12 +169,13 @@ namespace Warehouse.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var result = await _productLogic.GetByIdAsync(id);
+            //var result = await _productLogic.GetByIdAsync(id);
+            var result = await _productLogic.GetByIdAsync((Guid)id);
             if (result.Success == false)
             {
                 return RedirectToAction(nameof(Index));
             }
-            await _productLogic.DeleteAsync(id);
+            await _productLogic.DeleteAsync(result.Value);
             return RedirectToAction(nameof(Index));
         }
 
