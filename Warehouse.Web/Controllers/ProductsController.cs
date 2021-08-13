@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Warehouse.Core.Entities;
@@ -36,10 +37,11 @@ namespace Warehouse.Web.Controllers
             }
             var viewModel = new IndexViewModel()
             {
-                Products = result.Value.Select(prod =>
-                _mapper.Map<IndexItemViewModel>(prod)
+                //Products = result.Value.Select(prod =>
+                //_mapper.Map<IndexItemViewModel>(prod)
 
-                ).ToList()
+                //).ToList()
+                Products = _mapper.Map<IList<IndexItemViewModel>>(result.Value)
             };
             return View(viewModel.Products);
         }

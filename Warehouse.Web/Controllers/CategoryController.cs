@@ -9,6 +9,7 @@ using Warehouse.Web.ViewModels.Category;
 using Warehouse.Core.Interfaces;
 using Warehouse.Web.Infrastructure.ExtensionMethods;
 using AutoMapper;
+using System.Collections.Generic;
 
 namespace Warehouse.Web.Controllers
 {
@@ -32,9 +33,7 @@ namespace Warehouse.Web.Controllers
 
             var viewModel = new IndexViewModel()
             {
-                Categories = result.Value.Select(cat =>
-                   _mapper.Map<IndexItemViewModel>(cat)
-                ).ToList()
+                Categories = _mapper.Map<IList<IndexItemViewModel>>(result.Value)
             };
             return View(viewModel.Categories);
         }
