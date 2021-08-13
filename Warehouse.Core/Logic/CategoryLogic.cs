@@ -61,17 +61,9 @@ namespace Warehouse.Core.Logic
             {
                 throw new ArgumentNullException(nameof(category));
             }
-
-            var result = await _categoryRepository.GetByIdAsync(category.Id);
-            if (result == null)
-            {
-                return Result.Failure<Category>($"category with id {category.Id} not found");
-            }
-            result.Name = category.Name;
-            result.Products = category.Products;
             await _categoryRepository.SaveChangesAsync();
 
-            return Result.Ok(result);
+            return Result.Ok(category);
         }
     }
 }
