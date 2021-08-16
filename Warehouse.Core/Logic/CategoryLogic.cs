@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentValidation;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,11 +13,14 @@ namespace Warehouse.Core.Logic
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IProductRepository _productRepository;
+        private readonly IValidator _validator;
 
-        public CategoryLogic(ICategoryRepository categoryRepository, IProductRepository productRepository)
+        public CategoryLogic(ICategoryRepository categoryRepository, IProductRepository productRepository,
+            IValidator validator)
         {
             _categoryRepository = categoryRepository;
             _productRepository = productRepository;
+            _validator = validator;
         }
         
         public async Task<Result<Category>> AddAsync(Category category)
@@ -25,6 +29,7 @@ namespace Warehouse.Core.Logic
             {
                 throw new ArgumentNullException(nameof(category));
             }
+            
             var result = await _categoryRepository.AddAsync(category);
             await _categoryRepository.SaveChangesAsync();
             return Result.Ok(result);
