@@ -10,7 +10,7 @@ namespace Warehouse.Core.Validators
     {
         public ProductValidator()
         {
-            RuleFor(x => x.Id).NotNull();
+            RuleFor(x => x.Id).NotEmpty();
             RuleFor(x => x.Name).Length(2, 32)
                 .NotEmpty();
             RuleFor(x => x.Description).Length(0, 512)

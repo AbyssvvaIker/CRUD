@@ -10,7 +10,7 @@ namespace Warehouse.Core.Validators
     {
         public CategoryValidator()
         {
-            RuleFor(x => x.Id).NotNull();
+            RuleFor(x => x.Id).NotEmpty();
             RuleFor(x => x.Name).Length(2, 32)
                 .NotEmpty();
         }
