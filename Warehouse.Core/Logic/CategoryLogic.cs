@@ -13,10 +13,10 @@ namespace Warehouse.Core.Logic
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IProductRepository _productRepository;
-        private readonly IValidator _validator;
+        private readonly IValidator<Category> _validator;
 
         public CategoryLogic(ICategoryRepository categoryRepository, IProductRepository productRepository,
-            IValidator validator)
+            IValidator<Category> validator)
         {
             _categoryRepository = categoryRepository;
             _productRepository = productRepository;
@@ -29,7 +29,11 @@ namespace Warehouse.Core.Logic
             {
                 throw new ArgumentNullException(nameof(category));
             }
-            //await _validator.Validate(category);
+            var validationResult = _validator.Validate(category);
+            if(validationResult.IsValid == false)
+            {
+                return Result.Failure<Category>(validationResult.Errors);
+            }
 
             var result = await _categoryRepository.AddAsync(category);
             await _categoryRepository.SaveChangesAsync();
@@ -70,6 +74,13 @@ namespace Warehouse.Core.Logic
             {
                 throw new ArgumentNullException(nameof(category));
             }
+            var validationResult = _validator.Validate(category);
+            if (validationResult.IsValid == false)
+            {
+                return Result.Failure<Category>(validationResult.Errors);
+            }
+
+
             await _categoryRepository.SaveChangesAsync();
 
             return Result.Ok(category);
