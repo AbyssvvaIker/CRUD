@@ -29,7 +29,8 @@ namespace Warehouse.Core.Logic
             {
                 throw new ArgumentNullException(nameof(category));
             }
-            
+            //await _validator.Validate(category);
+
             var result = await _categoryRepository.AddAsync(category);
             await _categoryRepository.SaveChangesAsync();
             return Result.Ok(result);
