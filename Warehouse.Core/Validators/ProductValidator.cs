@@ -18,6 +18,7 @@ namespace Warehouse.Core.Validators
                 .NotEmpty()
                 .WithMessage("{PropertyName}, it has to be from {MinLength} to {MaxLength} characters long");
             RuleFor(x => x.Price).GreaterThan((decimal)0)
+                .ScalePrecision(2,6)
                 .NotEmpty()
                 .WithMessage("{PropertyName}, it has to be greater than {ComparisionValue}");
             RuleFor(x => x.Category).NotEmpty();
