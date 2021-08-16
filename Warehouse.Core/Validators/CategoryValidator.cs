@@ -11,9 +11,9 @@ namespace Warehouse.Core.Validators
         public CategoryValidator()
         {
             RuleFor(x => x.Id).NotEmpty();
-            RuleFor(x => x.Name).Length(2, 32)
-                .NotEmpty()
-                .WithMessage("{PropertyName}, it has to be from {MinLength} to {MaxLength} long");
+            RuleFor(x => x.Name).NotEmpty()
+                .Length(2, 32)
+                .WithMessage("{PropertyName}, it has to be {MinLength} to {MaxLength} characters long");
         }
     }
 }

@@ -13,10 +13,10 @@ namespace Warehouse.Core.Validators
             RuleFor(x => x.Id).NotEmpty();
             RuleFor(x => x.Name).Length(2, 32)
                 .NotEmpty()
-                .WithMessage("{PropertyName}, it has to be from {MinLength} to {MaxLength} long");
+                .WithMessage("{PropertyName}, it has to be from {MinLength} to {MaxLength} characters long");
             RuleFor(x => x.Description).Length(1, 512)
                 .NotEmpty()
-                .WithMessage("{PropertyName}, it has to be from {MinLength} to {MaxLength} long");
+                .WithMessage("{PropertyName}, it has to be from {MinLength} to {MaxLength} characters long");
             RuleFor(x => x.Price).GreaterThan((decimal)0)
                 .NotEmpty()
                 .WithMessage("{PropertyName}, it has to be greater than {ComparisionValue}");
