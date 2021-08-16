@@ -21,6 +21,8 @@ namespace Warehouse.Web.AutoMapperProfiles
                 .ConvertUsing<ToSelectItemViewModelConverter>();
             CreateMap<Guid, Category>()
                 .ConvertUsing<GuidTocategoryConverter>();
+            CreateMap<Category, Guid>()
+                .ConvertUsing<CategoryToGuidConverter>();
         }
     }
 
