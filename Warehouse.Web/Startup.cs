@@ -33,8 +33,6 @@ namespace Warehouse.Web
             services.AddControllersWithViews();
             services.AddDbContext<DataContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddFluentValidation(fv =>
-                fv.RegisterValidatorsFromAssemblyContaining<ProductValidator>());
 
         }
 
