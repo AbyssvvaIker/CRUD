@@ -81,6 +81,7 @@ namespace Warehouse.Web.Controllers
             if(result.Success == false)
             {
                 result.AddErrorToModelState(ModelState);
+                await GetCategoriesFromDb(productViewModel);
                 return View(productViewModel);
             }
 
