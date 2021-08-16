@@ -1,10 +1,12 @@
-﻿using System;
+﻿using FluentValidation;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using Warehouse.Core.Entities;
 
 namespace Warehouse.Core.Validators
 {
-    class CategoryValidator
+    public class CategoryValidator :AbstractValidator<Category>
     {
     }
 }
