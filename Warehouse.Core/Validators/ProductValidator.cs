@@ -13,7 +13,7 @@ namespace Warehouse.Core.Validators
             RuleFor(x => x.Id).NotNull();
             RuleFor(x => x.Name).Length(2, 32);
             RuleFor(x => x.Description).Length(0, 512);
-            RuleFor(x => x.Price).GreaterThan(0);
+            RuleFor(x => x.Price).GreaterThan((decimal)0);
             RuleFor(x => x.CategoryId).NotNull();
         }
     }
