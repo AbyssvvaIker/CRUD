@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentValidation;
+using Warehouse.Core.Validators;
 
 namespace Warehouse.Web.Infrastructure.Autofac.Modules
 {
@@ -12,10 +14,9 @@ namespace Warehouse.Web.Infrastructure.Autofac.Modules
         {
             base.Load(builder);
 
-            builder.RegisterAssemblyTypes(typeof(ValidatorModule).Assembly)
-                .Where(t => t.Name.EndsWith("Validator"))
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
+            builder.RegisterAssemblyTypes(typeof(AbstractValidator<>).Assembly)
+                .Where(x => typeof(AbstractValidator<>).IsAssignableFrom(x))
+                .AsImplementedInterfaces();
         }
     }
 }
