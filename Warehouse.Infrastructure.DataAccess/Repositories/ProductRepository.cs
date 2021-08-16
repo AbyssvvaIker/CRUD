@@ -25,5 +25,12 @@ namespace Warehouse.Infrastructure.DataAccess.Repositories
                 .UpdateAsync(x => new Product() { IsActive = false });
 
         }
+
+        public override async Task<Product> GetByIdAsync(Guid id)
+        {
+            return await DataContext.Products
+                .Include(p => p.Category)
+                .FirstOrDefaultAsync(predicate => predicate.Id == id && predicate.IsActive);
+        }
     }
 }

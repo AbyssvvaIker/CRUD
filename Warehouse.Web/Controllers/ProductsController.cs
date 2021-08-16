@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Warehouse.Core.Entities;
 using Warehouse.Core.Interfaces;
 using Warehouse.Infrastructure.DataAccess;
 using Warehouse.Web.Infrastructure.ExtensionMethods;
+using Warehouse.Web.ViewModels;
 using Warehouse.Web.ViewModels.Product;
 
 namespace Warehouse.Web.Controllers
@@ -15,11 +18,13 @@ namespace Warehouse.Web.Controllers
     {
         private readonly IProductLogic _productLogic;
         private readonly ICategoryLogic _categoryLogic;
+        private readonly IMapper _mapper;
 
-        public ProductsController(IProductLogic productLogic, ICategoryLogic categoryLogic)
+        public ProductsController(IProductLogic productLogic, ICategoryLogic categoryLogic, IMapper mapper)
         {
             _productLogic = productLogic;
             _categoryLogic = categoryLogic;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -32,15 +37,11 @@ namespace Warehouse.Web.Controllers
             }
             var viewModel = new IndexViewModel()
             {
-                Products = result.Value.Select(prod =>
-                new IndexItemViewModel()
-                {
-                    Id = prod.Id,
-                    Name = prod.Name,
-                    Description = prod.Description,
-                    Price = prod.Price,
-                }
-                ).ToList()
+                //Products = result.Value.Select(prod =>
+                //_mapper.Map<IndexItemViewModel>(prod)
+
+                //).ToList()
+                Products = _mapper.Map<IList<IndexItemViewModel>>(result.Value)
             };
             return View(viewModel.Products);
         }
@@ -58,14 +59,7 @@ namespace Warehouse.Web.Controllers
             {
                 return NotFound();
             }
-            var productViewModel = new ProductViewModel
-            {
-                Id = result.Value.Id,
-                Name = result.Value.Name,
-                Price = result.Value.Price,
-                Description = result.Value.Description,
-                Category = result.Value.CategoryId,
-            };
+            var productViewModel = _mapper.Map<ProductViewModel>(result.Value);
             return View(productViewModel);
         }
 
@@ -86,13 +80,7 @@ namespace Warehouse.Web.Controllers
                 await GetCategoriesFromDb(productViewModel);
                 return View(productViewModel);
             }
-            var product = new Product()
-            {
-                Name = productViewModel.Name,
-                Price = productViewModel.Price,
-                Description = productViewModel.Description,
-                CategoryId = productViewModel.Category,
-            };
+            var product = _mapper.Map<Product>(productViewModel);
             var result = await _productLogic.AddAsync(product);
             if(result.Success == false)
             {
@@ -116,14 +104,7 @@ namespace Warehouse.Web.Controllers
             {
                 return NotFound();
             }
-            var productViewModel = new ProductViewModel
-            {
-                Id = result.Value.Id,
-                Name = result.Value.Name,
-                Price = result.Value.Price,
-                Description = result.Value.Description,
-                Category = result.Value.CategoryId,
-            };
+            var productViewModel = _mapper.Map<ProductViewModel>(result.Value);
             await GetCategoriesFromDb(productViewModel);
             return View(productViewModel);
         }
@@ -138,21 +119,17 @@ namespace Warehouse.Web.Controllers
                 return View(productViewModel);
             }
 
-            var result = await _productLogic.GetByIdAsync(productViewModel.Id);
-            if(result.Success == false)
+            var getResult = await _productLogic.GetByIdAsync(productViewModel.Id);
+            if(getResult.Success == false)
             {
-                result.AddErrorToModelState(ModelState);
+                getResult.AddErrorToModelState(ModelState);
                 return View(productViewModel);
             }
-            result.Value.Name = productViewModel.Name;
-            result.Value.Price = productViewModel.Price;
-            result.Value.Description = productViewModel.Description;
-            result.Value.CategoryId = productViewModel.Category;
-
-            result = await _productLogic.UpdateAsync(result.Value);
-            if (result.Success == false)
+            getResult.Value = _mapper.Map(productViewModel, getResult.Value);
+            var updateResult = await _productLogic.UpdateAsync(getResult.Value);
+            if (updateResult.Success == false)
             {
-                result.AddErrorToModelState(ModelState);
+                updateResult.AddErrorToModelState(ModelState);
                 return View(productViewModel);
             }
             return RedirectToAction(nameof(Index));
@@ -171,13 +148,7 @@ namespace Warehouse.Web.Controllers
             {
                 return NotFound();
             }
-            var productViewModel = new ProductViewModel()
-            {
-                Name = result.Value.Name,
-                Price = result.Value.Price,
-                Description = result.Value.Description,
-                Category = result.Value.CategoryId,
-            };
+            var productViewModel = _mapper.Map<ProductViewModel>(result.Value);
             return View(productViewModel);
         }
 
@@ -185,7 +156,6 @@ namespace Warehouse.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            //var result = await _productLogic.GetByIdAsync(id);
             var result = await _productLogic.GetByIdAsync((Guid)id);
             if (result.Success == false)
             {
@@ -198,13 +168,7 @@ namespace Warehouse.Web.Controllers
         private async Task GetCategoriesFromDb(ProductViewModel viewModel)
         {
             var result = await _categoryLogic.GetAllActiveAsync();
-            var categories = result.Value.Select(c =>
-                new ViewModels.SelectItemViewModel()
-                {
-                    Display = c.Name,
-                    Value = c.Id.ToString(),
-                }
-                ).ToList();
+            var categories = _mapper.Map<IList<SelectItemViewModel>>(result.Value);
             viewModel.AvailableCategories = categories;
             return; 
         }
