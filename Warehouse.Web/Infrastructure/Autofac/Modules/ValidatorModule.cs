@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
 using Warehouse.Core.Validators;
+using Warehouse.Core.Interfaces;
 
 namespace Warehouse.Web.Infrastructure.Autofac.Modules
 {
@@ -14,8 +15,8 @@ namespace Warehouse.Web.Infrastructure.Autofac.Modules
         {
             base.Load(builder);
 
-            builder.RegisterAssemblyTypes(typeof(AbstractValidator<>).Assembly)
-                .Where(x => typeof(AbstractValidator<>).IsAssignableFrom(x))
+            builder.RegisterAssemblyTypes(typeof(ILogic).Assembly)
+                .AsClosedTypesOf(typeof(IValidator<>))
                 .AsImplementedInterfaces();
         }
     }
