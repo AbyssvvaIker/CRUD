@@ -12,7 +12,8 @@ namespace Warehouse.Core.Validators
         {
             RuleFor(x => x.Id).NotEmpty();
             RuleFor(x => x.Name).Length(2, 32)
-                .NotEmpty();
+                .NotEmpty()
+                .WithMessage("{PropertyName}, it has to be from {MinLength} to {MaxLength} long");
         }
     }
 }
