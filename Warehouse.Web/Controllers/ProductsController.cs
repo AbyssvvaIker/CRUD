@@ -126,6 +126,7 @@ namespace Warehouse.Web.Controllers
             if (updateResult.Success == false)
             {
                 updateResult.AddErrorToModelState(ModelState);
+                await GetCategoriesFromDb(productViewModel);
                 return View(productViewModel);
             }
             return RedirectToAction(nameof(Index));
