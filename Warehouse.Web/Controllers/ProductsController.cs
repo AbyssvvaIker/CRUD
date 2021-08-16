@@ -37,10 +37,6 @@ namespace Warehouse.Web.Controllers
             }
             var viewModel = new IndexViewModel()
             {
-                //Products = result.Value.Select(prod =>
-                //_mapper.Map<IndexItemViewModel>(prod)
-
-                //).ToList()
                 Products = _mapper.Map<IList<IndexItemViewModel>>(result.Value)
             };
             return View(viewModel.Products);
@@ -85,6 +81,7 @@ namespace Warehouse.Web.Controllers
             if(result.Success == false)
             {
                 result.AddErrorToModelState(ModelState);
+                await GetCategoriesFromDb(productViewModel);
                 return View(productViewModel);
             }
 
@@ -130,6 +127,7 @@ namespace Warehouse.Web.Controllers
             if (updateResult.Success == false)
             {
                 updateResult.AddErrorToModelState(ModelState);
+                await GetCategoriesFromDb(productViewModel);
                 return View(productViewModel);
             }
             return RedirectToAction(nameof(Index));

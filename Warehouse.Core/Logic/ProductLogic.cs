@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentValidation;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,10 +12,12 @@ namespace Warehouse.Core.Logic
     class ProductLogic : IProductLogic
     {
         private readonly IProductRepository _productRepository;
+        private readonly IValidator<Product> _validator;
 
-        public ProductLogic(IProductRepository productRepository)
+        public ProductLogic(IProductRepository productRepository, IValidator<Product> validator)
         {
             _productRepository = productRepository;
+            _validator = validator;
         }
 
         public async Task<Result<Product>> AddAsync(Product product)
@@ -23,6 +26,13 @@ namespace Warehouse.Core.Logic
             {
                 throw new ArgumentNullException(nameof(product));
             }
+            var validationResult = _validator.Validate(product);
+            if (validationResult.IsValid == false)
+            {
+                return Result.Failure<Product>(validationResult.Errors);
+            }
+
+
             var result = await _productRepository.AddAsync(product);
             await _productRepository.SaveChangesAsync();
             return Result.Ok(result);
@@ -60,6 +70,11 @@ namespace Warehouse.Core.Logic
             if(product == null)
             {
                 throw new ArgumentNullException(nameof(product));
+            }
+            var validationResult = _validator.Validate(product);
+            if (validationResult.IsValid == false)
+            {
+                return Result.Failure<Product>(validationResult.Errors);
             }
 
             await _productRepository.SaveChangesAsync();

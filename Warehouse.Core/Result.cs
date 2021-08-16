@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using FluentValidation.Results;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Warehouse.Core
 {
@@ -54,6 +56,20 @@ namespace Warehouse.Core
             {
                 Success = false,
                 Errors = errorsList,
+            };
+            return result;
+        }
+
+        public static Result<T> Failure<T>(IEnumerable<ValidationFailure> validationErrorList)
+        {
+            var result = new Result<T>
+            {
+                Success = false,
+                Errors = validationErrorList.Select(x =>
+                new ErrorMessage {
+                    PropertyName = x.PropertyName,
+                    Message = x.ErrorMessage,
+                })
             };
             return result;
         }
