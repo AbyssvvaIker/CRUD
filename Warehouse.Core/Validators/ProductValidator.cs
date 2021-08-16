@@ -18,7 +18,8 @@ namespace Warehouse.Core.Validators
                 .NotEmpty()
                 .WithMessage("{PropertyName}, it has to be from {MinLength} to {MaxLength} characters long");
             RuleFor(x => x.Price)
-                .SetValidator(new PriceValidator<Product, decimal>());
+                .SetValidator(new PriceValidator<Product, decimal>())
+                .ScalePrecision(2, 9);
             RuleFor(x => x.Category).NotEmpty();
         }
     }
