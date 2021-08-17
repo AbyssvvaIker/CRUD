@@ -68,7 +68,7 @@ namespace Warehouse.Core.UnitTests.Logic.Products
 
             var productLogic = new ProductLogic(mockProductRepository.Object, mockValidator.Object);
 
-            Func<Task> act = async () => await productLogic.AddAsync((Product)null);
+            Func<Task> act = async () => await productLogic.AddAsync(null);
 
             act.Should().ThrowAsync<ArgumentNullException>();
         }
