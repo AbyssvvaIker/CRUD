@@ -9,7 +9,7 @@ using Warehouse.Core.Interfaces.Repositories;
 
 namespace Warehouse.Core.Logic
 {
-    class ProductLogic : IProductLogic
+    public class ProductLogic : IProductLogic
     {
         private readonly IProductRepository _productRepository;
         private readonly IValidator<Product> _validator;
