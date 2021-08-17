@@ -29,10 +29,10 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             mockProductRepository.Setup(x => x.AddAsync(product)).ReturnsAsync(product);
             var mockValidator = new Mock<IValidator<Product>>();
 
-            var categoryLogic = new ProductLogic(mockProductRepository.Object, mockValidator.Object);
+            var productLogic = new ProductLogic(mockProductRepository.Object, mockValidator.Object);
             mockValidator.SetValidationSuccess();
             
-            var result = await categoryLogic.AddAsync(product);
+            var result = await productLogic.AddAsync(product);
             
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
@@ -50,10 +50,10 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             mockProductRepository.Setup(x => x.AddAsync(product)).ReturnsAsync((Product)null);
             var mockValidator = new Mock<IValidator<Product>>();
 
-            var categoryLogic = new ProductLogic(mockProductRepository.Object, mockValidator.Object);
+            var productLogic = new ProductLogic(mockProductRepository.Object, mockValidator.Object);
             mockValidator.SetValidationFailure("test", "test error message");
 
-            var result = await categoryLogic.AddAsync(product);
+            var result = await productLogic.AddAsync(product);
 
             result.Should().NotBeNull();
             result.Success.Should().BeFalse();
@@ -66,9 +66,9 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             var mockProductRepository = new Mock<IProductRepository>();
             var mockValidator = new Mock<IValidator<Product>>();
 
-            var categoryLogic = new ProductLogic(mockProductRepository.Object, mockValidator.Object);
+            var productLogic = new ProductLogic(mockProductRepository.Object, mockValidator.Object);
 
-            Func<Task> act = async () => await categoryLogic.AddAsync((Product)null);
+            Func<Task> act = async () => await productLogic.AddAsync((Product)null);
 
             act.Should().ThrowAsync<ArgumentNullException>();
         }
