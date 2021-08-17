@@ -28,7 +28,7 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
                 .Build();
 
             var mockCategoryRepository = new Mock<ICategoryRepository>();
-            mockCategoryRepository.Setup(x => x.AddAsync(category)).ReturnsAsync((Category)null);
+            mockCategoryRepository.Setup(x => x.AddAsync(category)).ReturnsAsync(category);
 
             var mockProductRepository = new Mock<IProductRepository>();
             var mockValidator = new Mock<IValidator<Category>>();
@@ -69,7 +69,7 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         }
 
         [Fact]
-        public void ShouldThrowArgumentNullReferenceException()
+        public void ShouldThrowArgumentNullException()
         {
             var mockCategoryRepository = new Mock<ICategoryRepository>();
             var mockProductRepository = new Mock<IProductRepository>();
