@@ -40,11 +40,6 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
 
             var mockProductRepository = new Mock<IProductRepository>();
             var mockValidator = new Mock<IValidator<Category>>();
-            //mockValidator.Setup(x => x.Validate(category)).Returns(
-            //    new FluentValidation.Results.ValidationResult( )
-            //    {
-            //        //IsValid = false
-            //    });
 
             var categoryLogic = new CategoryLogic(mockCategoryRepository.Object, mockProductRepository.Object, mockValidator.Object);
             mockValidator.SetValidationFailure("test", "test error message");
@@ -54,11 +49,6 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             //assert
             result.Should().NotBeNull();
             result.Success.Should().BeFalse();
-            //result.Errors.Should().HaveCount(1).And.Contain(new ErrorMessage()
-            //{
-            //    Message = "",//?
-            //    PropertyName = ""//?
-            //});
         }
 
         [Fact]

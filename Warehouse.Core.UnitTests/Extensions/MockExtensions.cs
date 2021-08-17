@@ -12,15 +12,15 @@ namespace Warehouse.Core.UnitTests.Extensions
     {
         public static void SetValidationSuccess<T>(this Mock<IValidator<T>> validator)
         {
-            validator.Setup(x => x.ValidateAsync(It.IsAny<T>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new ValidationResult());
+            validator.Setup(x => x.Validate(It.IsAny<T>()))
+                .Returns(new ValidationResult());
         }
 
         public static void SetValidationFailure<T>(this Mock<IValidator<T>> validator, string validatedProperty,
             string errorMessage)
         {
-            validator.Setup(x => x.ValidateAsync(It.IsAny<T>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new ValidationResult(new List<ValidationFailure>()
+            validator.Setup(x => x.Validate(It.IsAny<T>()))
+                .Returns(new ValidationResult(new List<ValidationFailure>()
                 {
                     new ValidationFailure(validatedProperty, errorMessage)
                 }));
