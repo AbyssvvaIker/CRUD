@@ -18,12 +18,29 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
     public class AddAsyncTests
     {
         [Fact]
-        public void ShouldReturnAddedCategoryAndSuccess()
+        public async Task ShouldReturnAddedCategoryAndSuccess()
         {
             //arrange
+            var category = Builder<Category>
+                .CreateNew()
+                .With(x => x.Id = Guid.NewGuid())
+                .With(x => x.Name = "testName")
+                .Build();
 
+            var mockCategoryRepository = new Mock<ICategoryRepository>();
+            mockCategoryRepository.Setup(x => x.AddAsync(category)).ReturnsAsync((Category)null);
+
+            var mockProductRepository = new Mock<IProductRepository>();
+            var mockValidator = new Mock<IValidator<Category>>();
+
+            var categoryLogic = new CategoryLogic(mockCategoryRepository.Object, mockProductRepository.Object, mockValidator.Object);
+            mockValidator.SetValidationSuccess();
             //act
+            var result = await categoryLogic.AddAsync(category);
             //assert
+            result.Should().NotBeNull();
+            result.Success.Should().BeTrue();
+            result.Value.Should().BeSameAs(category);
         }
 
         [Fact]
