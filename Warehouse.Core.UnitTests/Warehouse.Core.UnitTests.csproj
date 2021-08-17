@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Logic\Categories\" />
     <Folder Include="Logic\Products\" />
   </ItemGroup>
 
