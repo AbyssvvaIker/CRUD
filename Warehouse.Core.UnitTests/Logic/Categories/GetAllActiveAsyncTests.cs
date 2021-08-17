@@ -45,7 +45,20 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         [Fact]
         public async Task ShouldReturnEmptyList()
         {
+            var listActive = new List<Category>();
 
+            var mockCategoryRepository = new Mock<ICategoryRepository>();
+            mockCategoryRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(listActive);
+            var mockProductRepository = new Mock<IProductRepository>();
+            var mockValidator = new Mock<IValidator<Category>>();
+
+            var categoryLogic = new CategoryLogic(mockCategoryRepository.Object, mockProductRepository.Object, mockValidator.Object);
+
+            var result = await categoryLogic.GetAllActiveAsync();
+
+            result.Should().NotBeNull();
+            result.Success.Should().BeTrue();
+            result.Value.Should().BeSameAs(listActive);
         }
     }
 }
