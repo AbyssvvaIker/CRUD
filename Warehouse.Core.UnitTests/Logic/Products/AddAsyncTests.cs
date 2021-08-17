@@ -18,7 +18,7 @@ namespace Warehouse.Core.UnitTests.Logic.Products
     public class AddAsyncTests
     {
         [Fact]
-        public async Task ShouldReturnAddedCategoryAndSuccess()
+        public async Task ShouldReturnProductAndResultOk()
         {
             var product = Builder<Product>
                 .CreateNew()
@@ -40,7 +40,7 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         }
 
         [Fact]
-        public async Task ShouldReturnErrorListAndNoSuccess()
+        public async Task ShouldReturnResultFailureWithErrorList()
         {
             var product = new Product()
             {
