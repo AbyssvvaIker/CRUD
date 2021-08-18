@@ -39,18 +39,6 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         [Fact]
         public async Task Should_Return_ResultOk_With_ListOfCategories()
         {
-            //var listActive = Builder<Category>
-            //    .CreateListOfSize(3)
-            //    .All()
-            //    .With(x => x.IsActive = true)
-            //    .Build();
-
-            //var mockCategoryRepository = new Mock<ICategoryRepository>();
-            //mockCategoryRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(listActive);
-            //var mockProductRepository = new Mock<IProductRepository>();
-            //var mockValidator = new Mock<IValidator<Category>>();
-
-            //var categoryLogic = new CategoryLogic(mockCategoryRepository.Object, mockProductRepository.Object, mockValidator.Object);
             var categoryLogic = Create();
             mockCategoryRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(Categories);
             var result = await categoryLogic.GetAllActiveAsync();
@@ -66,14 +54,6 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         [Fact]
         public async Task Should_Return_ResultOk_With_EmptyList_When_NoActiveCategories()
         {
-            //var listActive = new List<Category>();
-
-            //var mockCategoryRepository = new Mock<ICategoryRepository>();
-            //mockCategoryRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(listActive);
-            //var mockProductRepository = new Mock<IProductRepository>();
-            //var mockValidator = new Mock<IValidator<Category>>();
-
-            //var categoryLogic = new CategoryLogic(mockCategoryRepository.Object, mockProductRepository.Object, mockValidator.Object);
             var categoryLogic = Create();
             mockCategoryRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(Categories);
 

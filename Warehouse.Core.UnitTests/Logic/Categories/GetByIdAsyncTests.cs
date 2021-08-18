@@ -41,19 +41,6 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         [Fact]
         public async Task Should_Return_ResultOk()
         {
-            //var id = Guid.NewGuid();
-            //var category = Builder<Category>
-            //    .CreateNew()
-            //    .With(x => x.Id = id)
-            //    .Build();
-
-            //var mockCategoryRepository = new Mock<ICategoryRepository>();
-            //mockCategoryRepository.Setup(x => x.GetByIdAsync(id)).ReturnsAsync(category);
-            //var mockProductRepository = new Mock<IProductRepository>();
-            //var mockValidator = new Mock<IValidator<Category>>();
-
-            //var categoryLogic = new CategoryLogic(mockCategoryRepository.Object, mockProductRepository.Object,
-            //    mockValidator.Object);
             var categoryLogic = Create();
             mockCategoryRepository.Setup(x => x.GetByIdAsync(Category.Id)).ReturnsAsync(Category);
             var result =await categoryLogic.GetByIdAsync(Category.Id);
@@ -69,15 +56,6 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         [Fact]
         public async Task Should_Return_ResultFailure_When_CategoryDoesNotExist()
         {
-            //var id = Guid.NewGuid();
-
-            //var mockCategoryRepository = new Mock<ICategoryRepository>();
-            //mockCategoryRepository.Setup(x => x.GetByIdAsync(id)).ReturnsAsync((Category)null);
-            //var mockProductRepository = new Mock<IProductRepository>();
-            //var mockValidator = new Mock<IValidator<Category>>();
-
-            //var categoryLogic = new CategoryLogic(mockCategoryRepository.Object, mockProductRepository.Object,
-            //    mockValidator.Object);
             var categoryLogic = Create();
             mockCategoryRepository.Setup(x => x.GetByIdAsync(Category.Id)).ReturnsAsync((Category)null);
 

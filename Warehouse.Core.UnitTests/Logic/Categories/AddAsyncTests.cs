@@ -40,18 +40,7 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         public async Task Should_Return_AddedCategory_And_ResultOk()
         {
             ////arrange
-            //var category = Builder<Category>
-            //    .CreateNew()
-            //    .Build();
-
-            //var mockCategoryRepository = new Mock<ICategoryRepository>();
-            //mockCategoryRepository.Setup(x => x.AddAsync(category)).ReturnsAsync(category);
-
-            //var mockProductRepository = new Mock<IProductRepository>();
-            //var mockValidator = new Mock<IValidator<Category>>();
-
-            //var categoryLogic = new CategoryLogic(mockCategoryRepository.Object, mockProductRepository.Object, mockValidator.Object);
-            //mockValidator.SetValidationSuccess();
+            
             var categoryLogic = Create();
             //act
             var result = await categoryLogic.AddAsync(Category);
@@ -75,17 +64,6 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         public async Task Should_Return_ResultFailure_When_Validation_Failed()
         {
             ////arrange
-            //var category = Builder<Category>
-            //    .CreateNew()
-            //    .Build();
-
-            //var mockCategoryRepository = new Mock<ICategoryRepository>();
-            //mockCategoryRepository.Setup(x => x.AddAsync(category)).ReturnsAsync((Category)null);
-
-            //var mockProductRepository = new Mock<IProductRepository>();
-            //var mockValidator = new Mock<IValidator<Category>>();
-
-            //var categoryLogic = new CategoryLogic(mockCategoryRepository.Object, mockProductRepository.Object, mockValidator.Object);
             var categoryLogic = Create();
             mockCategoryRepository.Setup(x => x.AddAsync(Category)).ReturnsAsync((Category)null);
             string validatedProperty = "test";
@@ -121,11 +99,6 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         [Fact]
         public void Should_Throw_ArgumentNullException_When_GivenCategory_Null()
         {
-            //var mockCategoryRepository = new Mock<ICategoryRepository>();
-            //var mockProductRepository = new Mock<IProductRepository>();
-            //var mockValidator = new Mock<IValidator<Category>>();
-
-            //var categoryLogic = new CategoryLogic(mockCategoryRepository.Object, mockProductRepository.Object, mockValidator.Object);
             var categoryLogic = Create();
             Func<Task> act = async () => await categoryLogic.AddAsync(null);
 
