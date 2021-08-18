@@ -25,8 +25,8 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
                 .With(x => x.IsActive = true)
                 .Build();
 
-            mockCategoryRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(Categories);
-            mockValidator.SetValidationSuccess();
+            MockCategoryRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(Categories);
+            MockValidator.SetValidationSuccess();
         }
 
         protected override CategoryLogic Create()
@@ -40,13 +40,13 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         public async Task Should_Return_ResultOk_With_ListOfCategories()
         {
             var categoryLogic = Create();
-            mockCategoryRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(Categories);
+            MockCategoryRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(Categories);
             var result = await categoryLogic.GetAllActiveAsync();
 
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
             result.Value.Should().BeSameAs(Categories);
-            mockCategoryRepository.Verify(
+            MockCategoryRepository.Verify(
                 x => x.GetAllActiveAsync(),
                 Times.Once);
 
@@ -55,7 +55,7 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         public async Task Should_Return_ResultOk_With_EmptyList_When_NoActiveCategories()
         {
             var categoryLogic = Create();
-            mockCategoryRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(Categories);
+            MockCategoryRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(Categories);
 
             var result = await categoryLogic.GetAllActiveAsync();
 
@@ -63,7 +63,7 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             result.Success.Should().BeTrue();
             result.Value.Should().BeSameAs(Categories);
 
-            mockCategoryRepository.Verify(
+            MockCategoryRepository.Verify(
                 x => x.GetAllActiveAsync(),
                 Times.Once);
         }

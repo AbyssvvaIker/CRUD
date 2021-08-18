@@ -22,8 +22,8 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
                 .CreateNew()
                 .Build();
 
-            mockCategoryRepository.Setup(x => x.GetByIdAsync(Category.Id)).ReturnsAsync(Category);
-            mockValidator.SetValidationSuccess();
+            MockCategoryRepository.Setup(x => x.GetByIdAsync(Category.Id)).ReturnsAsync(Category);
+            MockValidator.SetValidationSuccess();
         }
 
         protected override CategoryLogic Create()
@@ -42,10 +42,10 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
 
             await act.Should().ThrowAsync<ArgumentNullException>();
 
-            mockValidator.Verify(
+            MockValidator.Verify(
                 x => x.Validate(It.IsAny<Category>()),
                 Times.Never);
-            mockCategoryRepository.Verify(
+            MockCategoryRepository.Verify(
                 x => x.SaveChangesAsync(),
                 Times.Never);
         }
@@ -56,7 +56,7 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             var categoryLogic = Create();
             string validatedProperty = "test";
             string errorMessage = "test error message";
-            mockValidator.SetValidationFailure(validatedProperty, errorMessage);
+            MockValidator.SetValidationFailure(validatedProperty, errorMessage);
 
             var result = await categoryLogic.UpdateAsync(Category);
 
@@ -72,10 +72,10 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
                 });
             }
 
-            mockValidator.Verify(
+            MockValidator.Verify(
                 x => x.Validate(It.IsAny<Category>()),
                 Times.Once);
-            mockCategoryRepository.Verify(
+            MockCategoryRepository.Verify(
                 x => x.SaveChangesAsync(),
                 Times.Never);
         }
@@ -92,10 +92,10 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             result.Success.Should().BeTrue();
             result.Value.Should().BeSameAs(Category);
 
-            mockValidator.Verify(
+            MockValidator.Verify(
                 x => x.Validate(It.IsAny<Category>()),
                 Times.Once);
-            mockCategoryRepository.Verify(
+            MockCategoryRepository.Verify(
                 x => x.SaveChangesAsync(),
                 Times.Once);
         }

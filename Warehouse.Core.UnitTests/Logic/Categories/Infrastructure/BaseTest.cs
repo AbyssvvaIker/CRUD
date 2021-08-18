@@ -11,17 +11,17 @@ namespace Warehouse.Core.UnitTests.Logic.Categories.Infrastructure
 {
     public class BaseTest
     {
-        protected Mock<ICategoryRepository> mockCategoryRepository;
-        protected Mock<IProductRepository> mockProductRepository;
-        protected Mock<IValidator<Category>> mockValidator;
+        protected Mock<ICategoryRepository> MockCategoryRepository;
+        protected Mock<IProductRepository> MockProductRepository;
+        protected Mock<IValidator<Category>> MockValidator;
         
         protected virtual CategoryLogic Create()
         {
-            mockCategoryRepository = new Mock<ICategoryRepository>();
-            mockProductRepository = new Mock<IProductRepository>();
-            mockValidator = new Mock<IValidator<Category>>();
+            MockCategoryRepository = new Mock<ICategoryRepository>();
+            MockProductRepository = new Mock<IProductRepository>();
+            MockValidator = new Mock<IValidator<Category>>();
 
-            return new CategoryLogic(mockCategoryRepository.Object, mockProductRepository.Object, mockValidator.Object);
+            return new CategoryLogic(MockCategoryRepository.Object, MockProductRepository.Object, MockValidator.Object);
 
         }
     }

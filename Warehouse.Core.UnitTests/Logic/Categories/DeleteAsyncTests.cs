@@ -24,7 +24,7 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             Category = Builder<Category>
                 .CreateNew()
                 .Build();
-            mockValidator.SetValidationSuccess();
+            MockValidator.SetValidationSuccess();
         }
 
         protected override CategoryLogic Create()
@@ -43,13 +43,13 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             Func<Task> act = async () => await categoryLogic.DeleteAsync(null);
 
             await act.Should().ThrowAsync<ArgumentNullException>();
-            mockProductRepository.Verify(
+            MockProductRepository.Verify(
                 x => x.DeleteByCategoryIdAsync(It.IsAny<Guid>()),
                 Times.Never);
-            mockCategoryRepository.Verify(
+            MockCategoryRepository.Verify(
                 x => x.Delete(It.IsAny<Category>()),
                 Times.Never);
-             mockCategoryRepository.Verify(
+             MockCategoryRepository.Verify(
                 x => x.SaveChangesAsync(),
                 Times.Never);
         }
@@ -62,13 +62,13 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
 
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
-            mockProductRepository.Verify(
+            MockProductRepository.Verify(
                 x => x.DeleteByCategoryIdAsync(It.IsAny<Guid>()),
                 Times.Once);
-            mockCategoryRepository.Verify(
+            MockCategoryRepository.Verify(
                 x => x.Delete(It.IsAny<Category>()),
                 Times.Once);
-            mockCategoryRepository.Verify(
+            MockCategoryRepository.Verify(
                 x => x.SaveChangesAsync(),
                 Times.Once);
         }

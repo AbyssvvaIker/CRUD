@@ -25,8 +25,8 @@ namespace Warehouse.Core.UnitTests.Logic.Products
                 .CreateNew()
                 .Build();
 
-            mockProductRepository.Setup(x => x.GetByIdAsync(Product.Id)).ReturnsAsync(Product);
-            mockValidator.SetValidationSuccess();
+            MockProductRepository.Setup(x => x.GetByIdAsync(Product.Id)).ReturnsAsync(Product);
+            MockValidator.SetValidationSuccess();
         }
 
         protected override ProductLogic Create()
@@ -40,7 +40,7 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         public async Task Should_Return_ResultOk()
         {
             var productLogic = Create();
-            mockProductRepository.Setup(x => x.GetByIdAsync(Product.Id)).ReturnsAsync(Product);
+            MockProductRepository.Setup(x => x.GetByIdAsync(Product.Id)).ReturnsAsync(Product);
 
             var result = await productLogic.GetByIdAsync(Product.Id);
 
@@ -48,7 +48,7 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             result.Success.Should().BeTrue();
             result.Value.Should().BeSameAs(Product);
 
-            mockProductRepository.Verify(
+            MockProductRepository.Verify(
                 x => x.GetByIdAsync(It.IsAny<Guid>()),
                 Times.Once);
         }
@@ -56,7 +56,7 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         public async Task Should_Return_ResultFailure_When_ProductDoesNotExist()
         {
             var productLogic = Create();
-            mockProductRepository.Setup(x => x.GetByIdAsync(Product.Id)).ReturnsAsync((Product)null);
+            MockProductRepository.Setup(x => x.GetByIdAsync(Product.Id)).ReturnsAsync((Product)null);
 
             var result = await productLogic.GetByIdAsync(Product.Id);
 
@@ -64,7 +64,7 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             result.Success.Should().BeFalse();
             result.Value.Should().BeSameAs(null);
 
-            mockProductRepository.Verify(
+            MockProductRepository.Verify(
                 x => x.GetByIdAsync(It.IsAny<Guid>()),
                 Times.Once);
         }

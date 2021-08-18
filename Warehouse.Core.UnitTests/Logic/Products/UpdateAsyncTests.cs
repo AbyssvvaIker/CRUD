@@ -25,7 +25,7 @@ namespace Warehouse.Core.UnitTests.Logic.Products
                 .CreateNew()
                 .Build();
 
-            mockValidator.SetValidationSuccess();
+            MockValidator.SetValidationSuccess();
         }
 
         protected override ProductLogic Create()
@@ -43,10 +43,10 @@ namespace Warehouse.Core.UnitTests.Logic.Products
 
             await act.Should().ThrowAsync<ArgumentNullException>();
 
-            mockValidator.Verify(
+            MockValidator.Verify(
                 x => x.Validate(It.IsAny<Product>()),
                 Times.Never);
-            mockProductRepository.Verify(
+            MockProductRepository.Verify(
                 x => x.SaveChangesAsync(),
                 Times.Never);
 
@@ -58,7 +58,7 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             var productLogic = Create();
             string validatedProperty = "test";
             string errorMessage = "test error message";
-            mockValidator.SetValidationFailure(validatedProperty, errorMessage);
+            MockValidator.SetValidationFailure(validatedProperty, errorMessage);
 
 
             var result = await productLogic.UpdateAsync(Product);
@@ -75,10 +75,10 @@ namespace Warehouse.Core.UnitTests.Logic.Products
                 });
             }
 
-            mockValidator.Verify(
+            MockValidator.Verify(
                 x => x.Validate(It.IsAny<Product>()),
                 Times.Once);
-            mockProductRepository.Verify(
+            MockProductRepository.Verify(
                 x => x.SaveChangesAsync(),
                 Times.Never);
         }
@@ -93,10 +93,10 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             result.Success.Should().BeTrue();
             result.Value.Should().BeSameAs(Product);
 
-            mockValidator.Verify(
+            MockValidator.Verify(
                 x => x.Validate(It.IsAny<Product>()),
                 Times.Once);
-            mockProductRepository.Verify(
+            MockProductRepository.Verify(
                 x => x.SaveChangesAsync(),
                 Times.Once);
         }

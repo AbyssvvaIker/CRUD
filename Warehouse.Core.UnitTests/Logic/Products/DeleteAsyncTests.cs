@@ -25,7 +25,7 @@ namespace Warehouse.Core.UnitTests.Logic.Products
                 .CreateNew()
                 .Build();
 
-            mockValidator.SetValidationSuccess();
+            MockValidator.SetValidationSuccess();
         }
 
         protected override ProductLogic Create()
@@ -44,10 +44,10 @@ namespace Warehouse.Core.UnitTests.Logic.Products
 
             await act.Should().ThrowAsync<ArgumentNullException>();
 
-            mockProductRepository.Verify(
+            MockProductRepository.Verify(
                 x => x.Delete(It.IsAny<Product>()),
                 Times.Never);
-            mockProductRepository.Verify(
+            MockProductRepository.Verify(
                x => x.SaveChangesAsync(),
                Times.Never);
         }
@@ -62,10 +62,10 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
 
-            mockProductRepository.Verify(
+            MockProductRepository.Verify(
                 x => x.Delete(It.IsAny<Product>()),
                 Times.Once);
-            mockProductRepository.Verify(
+            MockProductRepository.Verify(
                x => x.SaveChangesAsync(),
                Times.Once);
 

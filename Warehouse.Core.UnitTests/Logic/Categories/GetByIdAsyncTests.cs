@@ -26,8 +26,8 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
                 .With(x => x.Id = Guid.NewGuid())
                 .Build();
 
-            mockCategoryRepository.Setup(x => x.GetByIdAsync(Category.Id)).ReturnsAsync(Category);
-            mockValidator.SetValidationSuccess();
+            MockCategoryRepository.Setup(x => x.GetByIdAsync(Category.Id)).ReturnsAsync(Category);
+            MockValidator.SetValidationSuccess();
         }
 
         protected override CategoryLogic Create()
@@ -42,14 +42,14 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         public async Task Should_Return_ResultOk()
         {
             var categoryLogic = Create();
-            mockCategoryRepository.Setup(x => x.GetByIdAsync(Category.Id)).ReturnsAsync(Category);
+            MockCategoryRepository.Setup(x => x.GetByIdAsync(Category.Id)).ReturnsAsync(Category);
             var result =await categoryLogic.GetByIdAsync(Category.Id);
 
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
             result.Value.Should().BeSameAs(Category);
 
-            mockCategoryRepository.Verify(
+            MockCategoryRepository.Verify(
                 x => x.GetByIdAsync(It.IsAny<Guid>()),
                 Times.Once);
         }
@@ -57,7 +57,7 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         public async Task Should_Return_ResultFailure_When_CategoryDoesNotExist()
         {
             var categoryLogic = Create();
-            mockCategoryRepository.Setup(x => x.GetByIdAsync(Category.Id)).ReturnsAsync((Category)null);
+            MockCategoryRepository.Setup(x => x.GetByIdAsync(Category.Id)).ReturnsAsync((Category)null);
 
             var result = await categoryLogic.GetByIdAsync(Category.Id);
 
@@ -65,7 +65,7 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             result.Success.Should().BeFalse();
             result.Value.Should().BeSameAs(null);
 
-            mockCategoryRepository.Verify(
+            MockCategoryRepository.Verify(
                 x => x.GetByIdAsync(It.IsAny<Guid>()),
                 Times.Once);
         }

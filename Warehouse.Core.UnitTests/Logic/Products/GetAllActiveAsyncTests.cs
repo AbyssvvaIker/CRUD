@@ -27,8 +27,8 @@ namespace Warehouse.Core.UnitTests.Logic.Products
                 .With(x => x.IsActive = true)
                 .Build();
 
-            mockProductRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(Products);
-            mockValidator.SetValidationSuccess();
+            MockProductRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(Products);
+            MockValidator.SetValidationSuccess();
         }
 
         protected override ProductLogic Create()
@@ -42,14 +42,14 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         public async Task Should_Return_ResultOk_With_ListOfProducts()
         {
             var productLogic = Create();
-            mockProductRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(Products);
+            MockProductRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(Products);
             var result = await productLogic.GetAllActiveAsync();
 
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
             result.Value.Should().BeSameAs(Products);
 
-            mockProductRepository.Verify(
+            MockProductRepository.Verify(
                 x => x.GetAllActiveAsync(),
                 Times.Once);
 
@@ -58,7 +58,7 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         public async Task Should_Return_ResultOk_With_EmptyList_When_NoActiveProducts()
         {
             var productLogic = Create();
-            mockProductRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(Products);
+            MockProductRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(Products);
 
             var result = await productLogic.GetAllActiveAsync();
 
@@ -66,7 +66,7 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             result.Success.Should().BeTrue();
             result.Value.Should().BeSameAs(Products);
 
-            mockProductRepository.Verify(
+            MockProductRepository.Verify(
                 x => x.GetAllActiveAsync(),
                 Times.Once);
         }

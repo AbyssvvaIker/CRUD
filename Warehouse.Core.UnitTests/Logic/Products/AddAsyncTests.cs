@@ -25,8 +25,8 @@ namespace Warehouse.Core.UnitTests.Logic.Products
                 .CreateNew()
                 .Build();
 
-            mockProductRepository.Setup(x => x.AddAsync(Product)).ReturnsAsync(Product);
-            mockValidator.SetValidationSuccess();
+            MockProductRepository.Setup(x => x.AddAsync(Product)).ReturnsAsync(Product);
+            MockValidator.SetValidationSuccess();
         }
 
         protected override ProductLogic Create()
@@ -40,7 +40,7 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         public async Task Should_Return_AddedProduct_And_ResultOk()
         {
             var productLogic = Create();
-            mockProductRepository.Setup(x => x.AddAsync(Product)).ReturnsAsync(Product);
+            MockProductRepository.Setup(x => x.AddAsync(Product)).ReturnsAsync(Product);
 
             var result = await productLogic.AddAsync(Product);
             
@@ -49,13 +49,13 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             result.Value.Should().BeSameAs(Product);
 
 
-            mockValidator.Verify(
+            MockValidator.Verify(
                 x => x.Validate(It.IsAny<Product>()),
                 Times.Once);
-            mockProductRepository.Verify(
+            MockProductRepository.Verify(
                 x => x.AddAsync(It.IsAny<Product>()),
                 Times.Once);
-            mockProductRepository.Verify(
+            MockProductRepository.Verify(
                 x => x.SaveChangesAsync(),
                 Times.Once);
         }
@@ -64,10 +64,10 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         public async Task Should_Return_ResultFailure_When_Validation_Failed()
         {
             var productLogic = Create();
-            mockProductRepository.Setup(x => x.AddAsync(Product)).ReturnsAsync((Product)null);
+            MockProductRepository.Setup(x => x.AddAsync(Product)).ReturnsAsync((Product)null);
             string validatedProperty = "test";
             string errorMessage = "test error message";
-            mockValidator.SetValidationFailure(validatedProperty, errorMessage);
+            MockValidator.SetValidationFailure(validatedProperty, errorMessage);
 
             var result = await productLogic.AddAsync(Product);
 
@@ -83,13 +83,13 @@ namespace Warehouse.Core.UnitTests.Logic.Products
                 });
             }
 
-            mockValidator.Verify(
+            MockValidator.Verify(
                 x => x.Validate(It.IsAny<Product>()),
                 Times.Once);
-            mockProductRepository.Verify(
+            MockProductRepository.Verify(
                 x => x.AddAsync(It.IsAny<Product>()),
                 Times.Never);
-            mockProductRepository.Verify(
+            MockProductRepository.Verify(
                 x => x.SaveChangesAsync(),
                 Times.Never);
         }
@@ -104,13 +104,13 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             act.Should().ThrowAsync<ArgumentNullException>();
 
 
-            mockValidator.Verify(
+            MockValidator.Verify(
                 x => x.Validate(It.IsAny<Product>()),
                 Times.Never);
-            mockProductRepository.Verify(
+            MockProductRepository.Verify(
                 x => x.AddAsync(It.IsAny<Product>()),
                 Times.Never);
-            mockProductRepository.Verify(
+            MockProductRepository.Verify(
                 x => x.SaveChangesAsync(),
                 Times.Never);
         }
