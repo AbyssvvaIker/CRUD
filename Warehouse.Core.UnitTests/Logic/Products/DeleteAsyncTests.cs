@@ -46,6 +46,13 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             Func<Task> act = async () => await productLogic.DeleteAsync(null);
 
             await act.Should().ThrowAsync<ArgumentNullException>();
+
+            mockProductRepository.Verify(
+                x => x.Delete(It.IsAny<Product>()),
+                Times.Never);
+            mockProductRepository.Verify(
+               x => x.SaveChangesAsync(),
+               Times.Never);
         }
 
         [Fact]
@@ -64,6 +71,14 @@ namespace Warehouse.Core.UnitTests.Logic.Products
 
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
+
+            mockProductRepository.Verify(
+                x => x.Delete(It.IsAny<Product>()),
+                Times.Once);
+            mockProductRepository.Verify(
+               x => x.SaveChangesAsync(),
+               Times.Once);
+
         }
     }
 }

@@ -60,6 +60,10 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
             result.Value.Should().BeSameAs(category);
+
+            mockCategoryRepository.Verify(
+                x => x.GetByIdAsync(It.IsAny<Guid>()),
+                Times.Once);
         }
         [Fact]
         public async Task Should_Return_ResultFailure_When_CategoryDoesNotExist()
@@ -79,6 +83,10 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             result.Should().NotBeNull();
             result.Success.Should().BeFalse();
             result.Value.Should().BeSameAs(null);
+
+            mockCategoryRepository.Verify(
+                x => x.GetByIdAsync(It.IsAny<Guid>()),
+                Times.Once);
         }
     }
 }

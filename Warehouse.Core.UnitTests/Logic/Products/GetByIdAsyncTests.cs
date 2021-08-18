@@ -56,6 +56,10 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
             result.Value.Should().BeSameAs(product);
+
+            mockProductRepository.Verify(
+                x => x.GetByIdAsync(It.IsAny<Guid>()),
+                Times.Once);
         }
         [Fact]
         public async Task Should_Return_ResultFailure_When_ProductDoesNotExist()
@@ -73,6 +77,10 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             result.Should().NotBeNull();
             result.Success.Should().BeFalse();
             result.Value.Should().BeSameAs(null);
+
+            mockProductRepository.Verify(
+                x => x.GetByIdAsync(It.IsAny<Guid>()),
+                Times.Once);
         }
     }
 }

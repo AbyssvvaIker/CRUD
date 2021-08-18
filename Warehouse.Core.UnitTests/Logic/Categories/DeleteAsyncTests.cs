@@ -48,6 +48,15 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             Func<Task> act = async () => await categoryLogic.DeleteAsync(null);
 
             await act.Should().ThrowAsync<ArgumentNullException>();
+            mockProductRepository.Verify(
+                x => x.DeleteByCategoryIdAsync(It.IsAny<Guid>()),
+                Times.Never);
+            mockCategoryRepository.Verify(
+                x => x.Delete(It.IsAny<Category>()),
+                Times.Never);
+             mockCategoryRepository.Verify(
+                x => x.SaveChangesAsync(),
+                Times.Never);
         }
 
         [Fact]
@@ -67,6 +76,15 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
 
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
+            mockProductRepository.Verify(
+                x => x.DeleteByCategoryIdAsync(It.IsAny<Guid>()),
+                Times.Once);
+            mockCategoryRepository.Verify(
+                x => x.Delete(It.IsAny<Category>()),
+                Times.Once);
+            mockCategoryRepository.Verify(
+                x => x.SaveChangesAsync(),
+                Times.Once);
         }
     }
 }

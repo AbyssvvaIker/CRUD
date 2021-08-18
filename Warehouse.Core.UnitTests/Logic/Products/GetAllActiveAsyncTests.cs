@@ -59,6 +59,10 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             result.Success.Should().BeTrue();
             result.Value.Should().BeSameAs(listActive);
 
+            mockProductRepository.Verify(
+                x => x.GetAllActiveAsync(),
+                Times.Once);
+
         }
         [Fact]
         public async Task Should_Return_ResultOk_With_EmptyList_When_NoActiveProducts()
@@ -76,6 +80,11 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
             result.Value.Should().BeSameAs(listActive);
+
+
+            mockProductRepository.Verify(
+                x => x.GetAllActiveAsync(),
+                Times.Once);
         }
     }
 }

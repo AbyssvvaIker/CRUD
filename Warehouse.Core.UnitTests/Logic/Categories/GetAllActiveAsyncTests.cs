@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xunit;
-using Moq;
+﻿using FizzWare.NBuilder;
 using FluentAssertions;
-using FizzWare.NBuilder;
-using Warehouse.Core.Interfaces.Repositories;
-using Warehouse.Core.Entities;
-using Warehouse.Core.Interfaces;
 using FluentValidation;
-using Warehouse.Core.Logic;
+using Moq;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Warehouse.Core.Entities;
+using Warehouse.Core.Interfaces.Repositories;
+using Warehouse.Core.Logic;
 using Warehouse.Core.UnitTests.Extensions;
 using Warehouse.Core.UnitTests.Logic.Categories.Infrastructure;
+using Xunit;
 
 namespace Warehouse.Core.UnitTests.Logic.Categories
 {
-    public class GetAllActiveAsyncTests :BaseTest
+    public class GetAllActiveAsyncTests : BaseTest
     {
         public IEnumerable<Category> Categories;
         public void CorrectFlow()
@@ -54,12 +52,15 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
 
             var categoryLogic = new CategoryLogic(mockCategoryRepository.Object, mockProductRepository.Object, mockValidator.Object);
 
-            var result =await categoryLogic.GetAllActiveAsync();
+            var result = await categoryLogic.GetAllActiveAsync();
 
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
             result.Value.Should().BeSameAs(listActive);
-            
+            mockCategoryRepository.Verify(
+                x => x.GetAllActiveAsync(),
+                Times.Once);
+
         }
         [Fact]
         public async Task Should_Return_ResultOk_With_EmptyList_When_NoActiveCategories()
@@ -78,6 +79,10 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
             result.Value.Should().BeSameAs(listActive);
+
+            mockCategoryRepository.Verify(
+                x => x.GetAllActiveAsync(),
+                Times.Once);
         }
     }
 }

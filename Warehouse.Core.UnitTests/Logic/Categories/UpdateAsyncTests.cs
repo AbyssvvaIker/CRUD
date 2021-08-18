@@ -47,6 +47,13 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             Func<Task> act = async () => await categoryLogic.UpdateAsync(null);
 
             await act.Should().ThrowAsync<ArgumentNullException>();
+
+            mockValidator.Verify(
+                x => x.Validate(It.IsAny<Category>()),
+                Times.Never);
+            mockCategoryRepository.Verify(
+                x => x.SaveChangesAsync(),
+                Times.Never);
         }
 
         [Fact]
@@ -79,10 +86,17 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
                     Message = errorMessage,
                 });
             }
+
+            mockValidator.Verify(
+                x => x.Validate(It.IsAny<Category>()),
+                Times.Once);
+            mockCategoryRepository.Verify(
+                x => x.SaveChangesAsync(),
+                Times.Never);
         }
 
         [Fact]
-        public async Task ShouldReturnResultOk()
+        public async Task Should_Return_ResultOk()
         {
             //arrange
             var category = Builder<Category>
@@ -101,6 +115,13 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
             result.Value.Should().BeSameAs(category);
+
+            mockValidator.Verify(
+                x => x.Validate(It.IsAny<Category>()),
+                Times.Once);
+            mockCategoryRepository.Verify(
+                x => x.SaveChangesAsync(),
+                Times.Once);
         }
     }
 }

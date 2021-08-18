@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xunit;
-using Moq;
+﻿using FizzWare.NBuilder;
 using FluentAssertions;
-using FizzWare.NBuilder;
-using Warehouse.Core.Interfaces.Repositories;
-using Warehouse.Core.Entities;
-using Warehouse.Core.Interfaces;
 using FluentValidation;
-using Warehouse.Core.Logic;
+using Moq;
+using System;
 using System.Threading.Tasks;
+using Warehouse.Core.Entities;
+using Warehouse.Core.Interfaces.Repositories;
+using Warehouse.Core.Logic;
 using Warehouse.Core.UnitTests.Extensions;
-using FluentValidation.Results;
 using Warehouse.Core.UnitTests.Logic.Categories.Infrastructure;
+using Xunit;
 
 namespace Warehouse.Core.UnitTests.Logic.Categories
 {
@@ -62,6 +58,16 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
             result.Value.Should().BeSameAs(category);
+
+            mockValidator.Verify(
+                x => x.Validate(category),
+                Times.Once);
+            mockCategoryRepository.Verify(
+                x => x.AddAsync(It.IsAny<Category>()),
+                Times.Once);
+            mockCategoryRepository.Verify(
+                x => x.SaveChangesAsync(),
+                Times.Once);
         }
 
         [Fact]
@@ -73,7 +79,7 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
                 .Build();
 
             var mockCategoryRepository = new Mock<ICategoryRepository>();
-            mockCategoryRepository.Setup(x => x.AddAsync(category) ).ReturnsAsync((Category)null);
+            mockCategoryRepository.Setup(x => x.AddAsync(category)).ReturnsAsync((Category)null);
 
             var mockProductRepository = new Mock<IProductRepository>();
             var mockValidator = new Mock<IValidator<Category>>();
@@ -89,14 +95,24 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             result.Should().NotBeNull();
             result.Success.Should().BeFalse();
             result.Errors.Should().HaveCount(1);
-            foreach(var err in result.Errors)
+            foreach (var err in result.Errors)
             {
-                err.Should().BeEquivalentTo(new ErrorMessage() 
+                err.Should().BeEquivalentTo(new ErrorMessage()
                 {
                     PropertyName = validatedProperty,
                     Message = errorMessage,
                 });
             }
+            mockValidator.Verify(
+                x => x.Validate(category),
+                Times.Once);
+            mockCategoryRepository.Verify(
+                x => x.AddAsync(It.IsAny<Category>()),
+                Times.Never);
+            mockCategoryRepository.Verify(
+                x => x.SaveChangesAsync(),
+                Times.Never);
+
         }
 
         [Fact]
@@ -111,6 +127,15 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             Func<Task> act = async () => await categoryLogic.AddAsync((Category)null);
 
             act.Should().ThrowAsync<ArgumentNullException>();
+            mockValidator.Verify(
+                x => x.Validate(Category),
+                Times.Never);
+            mockCategoryRepository.Verify(
+                x => x.AddAsync(It.IsAny<Category>()),
+                Times.Never);
+            mockCategoryRepository.Verify(
+                x => x.SaveChangesAsync(),
+                Times.Never);
         }
     }
 }

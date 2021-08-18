@@ -55,6 +55,17 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
             result.Value.Should().BeSameAs(product);
+
+
+            mockValidator.Verify(
+                x => x.Validate(It.IsAny<Product>()),
+                Times.Once);
+            mockProductRepository.Verify(
+                x => x.AddAsync(It.IsAny<Product>()),
+                Times.Once);
+            mockProductRepository.Verify(
+                x => x.SaveChangesAsync(),
+                Times.Once);
         }
 
         [Fact]
@@ -86,6 +97,16 @@ namespace Warehouse.Core.UnitTests.Logic.Products
                     Message = errorMessage,
                 });
             }
+
+            mockValidator.Verify(
+                x => x.Validate(It.IsAny<Product>()),
+                Times.Once);
+            mockProductRepository.Verify(
+                x => x.AddAsync(It.IsAny<Product>()),
+                Times.Never);
+            mockProductRepository.Verify(
+                x => x.SaveChangesAsync(),
+                Times.Never);
         }
 
         [Fact]
@@ -99,6 +120,17 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             Func<Task> act = async () => await productLogic.AddAsync(null);
 
             act.Should().ThrowAsync<ArgumentNullException>();
+
+
+            mockValidator.Verify(
+                x => x.Validate(It.IsAny<Product>()),
+                Times.Never);
+            mockProductRepository.Verify(
+                x => x.AddAsync(It.IsAny<Product>()),
+                Times.Never);
+            mockProductRepository.Verify(
+                x => x.SaveChangesAsync(),
+                Times.Never);
         }
     }
 }
