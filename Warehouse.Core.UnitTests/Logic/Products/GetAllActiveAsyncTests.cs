@@ -23,7 +23,6 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             var listActive = Builder<Product>
                 .CreateListOfSize(3)
                 .All()
-                .With(x => x.Id = Guid.NewGuid())
                 .With(x => x.IsActive = true)
                 .Build();
 

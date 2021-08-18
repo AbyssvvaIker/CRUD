@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xunit;
-using Moq;
+﻿using FizzWare.NBuilder;
 using FluentAssertions;
-using FizzWare.NBuilder;
-using Warehouse.Core.Interfaces.Repositories;
-using Warehouse.Core.Entities;
-using Warehouse.Core.Interfaces;
 using FluentValidation;
-using Warehouse.Core.Logic;
+using Moq;
+using System;
 using System.Threading.Tasks;
+using Warehouse.Core.Entities;
+using Warehouse.Core.Interfaces.Repositories;
+using Warehouse.Core.Logic;
 using Warehouse.Core.UnitTests.Extensions;
+using Xunit;
 
 namespace Warehouse.Core.UnitTests.Logic.Categories
 {
@@ -30,8 +27,6 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             Func<Task> act = async () => await categoryLogic.UpdateAsync((Category)null);
 
             await act.Should().ThrowAsync<ArgumentNullException>();
-            //errors?
-
         }
 
         [Fact]
@@ -72,8 +67,6 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             //arrange
             var category = Builder<Category>
                 .CreateNew()
-                .With(x => x.Id = Guid.NewGuid())
-                .With(x => x.Name = "testName")
                 .Build();
 
             var mockCategoryRepository = new Mock<ICategoryRepository>();

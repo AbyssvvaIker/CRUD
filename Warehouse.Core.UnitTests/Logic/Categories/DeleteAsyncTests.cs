@@ -35,8 +35,6 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         {
             var category = Builder<Category>
                  .CreateNew()
-                 .With(x => x.Id = Guid.NewGuid())
-                 .With(x => x.Name = "testName")
                  .Build();
 
             var mockCategoryRepository = new Mock<ICategoryRepository>();

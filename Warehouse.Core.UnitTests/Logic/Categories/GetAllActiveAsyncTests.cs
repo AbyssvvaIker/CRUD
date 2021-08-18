@@ -23,8 +23,6 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             var listActive = Builder<Category>
                 .CreateListOfSize(3)
                 .All()
-                .With(x => x.Id = Guid.NewGuid())
-                .With(x => x.Name = "testName")
                 .With(x => x.IsActive = true)
                 .Build();
 

@@ -35,7 +35,6 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         {
             var product = Builder<Product>
                  .CreateNew()
-                 .With(x => x.Id = Guid.NewGuid())
                  .Build();
 
             var mockProductRepository = new Mock<IProductRepository>();
