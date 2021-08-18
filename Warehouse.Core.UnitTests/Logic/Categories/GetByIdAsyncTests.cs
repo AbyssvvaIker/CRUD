@@ -42,7 +42,6 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         {
             //arrange
             var categoryLogic = Create();
-            MockCategoryRepository.Setup(x => x.GetByIdAsync(Category.Id)).ReturnsAsync(Category);
             //act
             var result =await categoryLogic.GetByIdAsync(Category.Id);
             //assert

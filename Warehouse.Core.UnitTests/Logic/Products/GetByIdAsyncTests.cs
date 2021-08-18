@@ -41,7 +41,6 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         {
             //arrage
             var productLogic = Create();
-            MockProductRepository.Setup(x => x.GetByIdAsync(Product.Id)).ReturnsAsync(Product);
             //act
             var result = await productLogic.GetByIdAsync(Product.Id);
             //assert
