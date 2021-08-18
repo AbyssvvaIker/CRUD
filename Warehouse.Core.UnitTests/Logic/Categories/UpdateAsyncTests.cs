@@ -37,13 +37,13 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         [Fact]
         public async Task Should_Throw_ArgumentNullException_When_GivenCategory_Null()
         {
-            var mockCategoryRepository = new Mock<ICategoryRepository>();
-            var mockProductRepository = new Mock<IProductRepository>();
-            var mockValidator = new Mock<IValidator<Category>>();
+            //var mockCategoryRepository = new Mock<ICategoryRepository>();
+            //var mockProductRepository = new Mock<IProductRepository>();
+            //var mockValidator = new Mock<IValidator<Category>>();
 
-            var categoryLogic = new CategoryLogic(mockCategoryRepository.Object, mockProductRepository.Object,
-                mockValidator.Object);
-
+            //var categoryLogic = new CategoryLogic(mockCategoryRepository.Object, mockProductRepository.Object,
+            //    mockValidator.Object);
+            var categoryLogic = Create();
             Func<Task> act = async () => await categoryLogic.UpdateAsync(null);
 
             await act.Should().ThrowAsync<ArgumentNullException>();
@@ -59,21 +59,25 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         [Fact]
         public async Task Should_Return_ResultFailure_When_ValidationFailed()
         {
-            var category = Builder<Category>
-                .CreateNew()
-                .Build();
+            //var category = Builder<Category>
+            //    .CreateNew()
+            //    .Build();
 
-            var mockCategoryRepository = new Mock<ICategoryRepository>();
-            var mockProductRepository = new Mock<IProductRepository>();
-            var mockValidator = new Mock<IValidator<Category>>();
+            //var mockCategoryRepository = new Mock<ICategoryRepository>();
+            //var mockProductRepository = new Mock<IProductRepository>();
+            //var mockValidator = new Mock<IValidator<Category>>();
+            //string validatedProperty = "test";
+            //string errorMessage = "test error message";
+            //mockValidator.SetValidationFailure(validatedProperty, errorMessage);
+
+            //var categoryLogic = new CategoryLogic(mockCategoryRepository.Object, mockProductRepository.Object,
+            //    mockValidator.Object);
+            var categoryLogic = Create();
             string validatedProperty = "test";
             string errorMessage = "test error message";
             mockValidator.SetValidationFailure(validatedProperty, errorMessage);
 
-            var categoryLogic = new CategoryLogic(mockCategoryRepository.Object, mockProductRepository.Object,
-                mockValidator.Object);
-
-            var result = await categoryLogic.UpdateAsync(category);
+            var result = await categoryLogic.UpdateAsync(Category);
 
             result.Should().NotBeNull();
             result.Success.Should().BeFalse();
@@ -98,23 +102,24 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         [Fact]
         public async Task Should_Return_ResultOk()
         {
-            //arrange
-            var category = Builder<Category>
-                .CreateNew()
-                .Build();
+            ////arrange
+            //var category = Builder<Category>
+            //    .CreateNew()
+            //    .Build();
 
-            var mockCategoryRepository = new Mock<ICategoryRepository>();
-            var mockProductRepository = new Mock<IProductRepository>();
-            var mockValidator = new Mock<IValidator<Category>>();
+            //var mockCategoryRepository = new Mock<ICategoryRepository>();
+            //var mockProductRepository = new Mock<IProductRepository>();
+            //var mockValidator = new Mock<IValidator<Category>>();
 
-            var categoryLogic = new CategoryLogic(mockCategoryRepository.Object, mockProductRepository.Object, mockValidator.Object);
-            mockValidator.SetValidationSuccess();
+            //var categoryLogic = new CategoryLogic(mockCategoryRepository.Object, mockProductRepository.Object, mockValidator.Object);
+            //mockValidator.SetValidationSuccess();
+            var categoryLogic = Create();
             //act
-            var result = await categoryLogic.UpdateAsync(category);
+            var result = await categoryLogic.UpdateAsync(Category);
             //assert
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
-            result.Value.Should().BeSameAs(category);
+            result.Value.Should().BeSameAs(Category);
 
             mockValidator.Verify(
                 x => x.Validate(It.IsAny<Category>()),

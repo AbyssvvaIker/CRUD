@@ -39,12 +39,12 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         [Fact]
         public async Task Should_Throw_ArgumentNullException_When_GivenCategory_Null()
         {
-            var mockCategoryRepository = new Mock<ICategoryRepository>();
-            var mockProductRepository = new Mock<IProductRepository>();
-            var mockValidator = new Mock<IValidator<Category>>();
+            //var mockCategoryRepository = new Mock<ICategoryRepository>();
+            //var mockProductRepository = new Mock<IProductRepository>();
+            //var mockValidator = new Mock<IValidator<Category>>();
 
-            var categoryLogic = new CategoryLogic(mockCategoryRepository.Object, mockProductRepository.Object, mockValidator.Object);
-
+            //var categoryLogic = new CategoryLogic(mockCategoryRepository.Object, mockProductRepository.Object, mockValidator.Object);
+            var categoryLogic = Create();
             Func<Task> act = async () => await categoryLogic.DeleteAsync(null);
 
             await act.Should().ThrowAsync<ArgumentNullException>();
@@ -62,17 +62,17 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         [Fact]
         public async Task Should_Return_ResultOk()
         {
-            var category = Builder<Category>
-                 .CreateNew()
-                 .Build();
+            //var category = Builder<Category>
+            //     .CreateNew()
+            //     .Build();
 
-            var mockCategoryRepository = new Mock<ICategoryRepository>();
-            var mockProductRepository = new Mock<IProductRepository>();
-            var mockValidator = new Mock<IValidator<Category>>();
+            //var mockCategoryRepository = new Mock<ICategoryRepository>();
+            //var mockProductRepository = new Mock<IProductRepository>();
+            //var mockValidator = new Mock<IValidator<Category>>();
 
-            var categoryLogic = new CategoryLogic(mockCategoryRepository.Object, mockProductRepository.Object, mockValidator.Object);
-
-            var result =await categoryLogic.DeleteAsync(category);
+            //var categoryLogic = new CategoryLogic(mockCategoryRepository.Object, mockProductRepository.Object, mockValidator.Object);
+            var categoryLogic = Create();
+            var result =await categoryLogic.DeleteAsync(Category);
 
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
