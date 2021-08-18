@@ -53,21 +53,6 @@ namespace Warehouse.Core.UnitTests.Logic.Products
                 Times.Once);
 
         }
-        [Fact]
-        public async Task Should_Return_ResultOk_With_EmptyList_When_NoActiveProducts()
-        {
-            //arrange
-            var productLogic = Create();
-            //act
-            var result = await productLogic.GetAllActiveAsync();
-            //assert
-            result.Should().NotBeNull();
-            result.Success.Should().BeTrue();
-            result.Value.Should().BeSameAs(Products);
-
-            MockProductRepository.Verify(
-                x => x.GetAllActiveAsync(),
-                Times.Once);
-        }
+        
     }
 }

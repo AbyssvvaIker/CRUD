@@ -51,21 +51,6 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
                 Times.Once);
 
         }
-        [Fact]
-        public async Task Should_Return_ResultOk_With_EmptyList_When_NoActiveCategories()
-        {
-            //arrange
-            var categoryLogic = Create();
-            //act
-            var result = await categoryLogic.GetAllActiveAsync();
-            //assert
-            result.Should().NotBeNull();
-            result.Success.Should().BeTrue();
-            result.Value.Should().BeSameAs(Categories);
-
-            MockCategoryRepository.Verify(
-                x => x.GetAllActiveAsync(),
-                Times.Once);
-        }
+        
     }
 }
