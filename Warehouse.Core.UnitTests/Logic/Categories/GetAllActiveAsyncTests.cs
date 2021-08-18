@@ -21,8 +21,6 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         {
             Categories = Builder<Category>
                 .CreateListOfSize(3)
-                .All()
-                .With(x => x.IsActive = true)
                 .Build();
 
             MockCategoryRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(Categories);
@@ -41,7 +39,6 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         {
             //arrange
             var categoryLogic = Create();
-            MockCategoryRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(Categories);
             
             //act
             var result = await categoryLogic.GetAllActiveAsync();
@@ -59,7 +56,6 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         {
             //arrange
             var categoryLogic = Create();
-            MockCategoryRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(Categories);
             //act
             var result = await categoryLogic.GetAllActiveAsync();
             //assert

@@ -23,8 +23,6 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         {
             Products = Builder<Product>
                 .CreateListOfSize(3)
-                .All()
-                .With(x => x.IsActive = true)
                 .Build();
 
             MockProductRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(Products);
@@ -43,7 +41,6 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         {
             //arrange
             var productLogic = Create();
-            MockProductRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(Products);
             //act
             var result = await productLogic.GetAllActiveAsync();
             //assert
@@ -61,7 +58,6 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         {
             //arrange
             var productLogic = Create();
-            MockProductRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(Products);
             //act
             var result = await productLogic.GetAllActiveAsync();
             //assert
