@@ -38,10 +38,11 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         [Fact]
         public async Task Should_Throw_ArgumentNullException_When_GivenProduct_Null()
         {
+            //arrange
             var productLogic = Create();
-
+            //act
             Func<Task> act = async () => await productLogic.DeleteAsync(null);
-
+            //assert
             await act.Should().ThrowAsync<ArgumentNullException>();
 
             MockProductRepository.Verify(
@@ -55,15 +56,16 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         [Fact]
         public async Task Should_Return_ResultOk()
         {
+            //arrange
             var productLogic = Create();
-
+            //act
             var result = await productLogic.DeleteAsync(Product);
-
+            //assert
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
 
             MockProductRepository.Verify(
-                x => x.Delete(It.IsAny<Product>()),
+                x => x.Delete(Product),
                 Times.Once);
             MockProductRepository.Verify(
                x => x.SaveChangesAsync(),

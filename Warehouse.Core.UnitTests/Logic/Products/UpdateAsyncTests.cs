@@ -38,9 +38,11 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         [Fact]
         public async Task Should_Throw_ArgumentNullException_When_GivenProduct_Null()
         {
+            //arrange
             var productLogic = Create();
+            //act
             Func<Task> act = async () => await productLogic.UpdateAsync(null);
-
+            //assert
             await act.Should().ThrowAsync<ArgumentNullException>();
 
             MockValidator.Verify(
@@ -55,14 +57,14 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         [Fact]
         public async Task Should_Return_ResultFailure_When_ValidationFailed()
         {
+            //arrange
             var productLogic = Create();
-            string validatedProperty = "test";
-            string errorMessage = "test error message";
+            var validatedProperty = "test";
+            var errorMessage = "test error message";
             MockValidator.SetValidationFailure(validatedProperty, errorMessage);
-
-
+            //act
             var result = await productLogic.UpdateAsync(Product);
-
+            //assert
             result.Should().NotBeNull();
             result.Success.Should().BeFalse();
             result.Errors.Should().HaveCount(1);
@@ -76,7 +78,7 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             }
 
             MockValidator.Verify(
-                x => x.Validate(It.IsAny<Product>()),
+                x => x.Validate(Product),
                 Times.Once);
             MockProductRepository.Verify(
                 x => x.SaveChangesAsync(),
@@ -86,15 +88,17 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         [Fact]
         public async Task ShouldReturnResultOk()
         {
+            //arrange
             var productLogic = Create();
+            //act
             var result = await productLogic.UpdateAsync(Product);
-            
+            //assert
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
             result.Value.Should().BeSameAs(Product);
 
             MockValidator.Verify(
-                x => x.Validate(It.IsAny<Product>()),
+                x => x.Validate(Product),
                 Times.Once);
             MockProductRepository.Verify(
                 x => x.SaveChangesAsync(),

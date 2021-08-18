@@ -41,10 +41,12 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         [Fact]
         public async Task Should_Return_ResultOk_With_ListOfProducts()
         {
+            //arrange
             var productLogic = Create();
             MockProductRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(Products);
+            //act
             var result = await productLogic.GetAllActiveAsync();
-
+            //assert
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
             result.Value.Should().BeSameAs(Products);
@@ -57,11 +59,12 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         [Fact]
         public async Task Should_Return_ResultOk_With_EmptyList_When_NoActiveProducts()
         {
+            //arrange
             var productLogic = Create();
             MockProductRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(Products);
-
+            //act
             var result = await productLogic.GetAllActiveAsync();
-
+            //assert
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
             result.Value.Should().BeSameAs(Products);
