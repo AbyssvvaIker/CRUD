@@ -39,9 +39,13 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         [Fact]
         public async Task Should_Throw_ArgumentNullException_When_GivenCategory_Null()
         {
+            //arrange
             var categoryLogic = Create();
+            
+            //act
             Func<Task> act = async () => await categoryLogic.DeleteAsync(null);
 
+            //assert
             await act.Should().ThrowAsync<ArgumentNullException>();
             MockProductRepository.Verify(
                 x => x.DeleteByCategoryIdAsync(It.IsAny<Guid>()),
@@ -57,16 +61,18 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         [Fact]
         public async Task Should_Return_ResultOk()
         {
+            //arrange
             var categoryLogic = Create();
+            //act
             var result =await categoryLogic.DeleteAsync(Category);
-
+            //assert
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
             MockProductRepository.Verify(
-                x => x.DeleteByCategoryIdAsync(It.IsAny<Guid>()),
+                x => x.DeleteByCategoryIdAsync(Category.Id),
                 Times.Once);
             MockCategoryRepository.Verify(
-                x => x.Delete(It.IsAny<Category>()),
+                x => x.Delete(Category),
                 Times.Once);
             MockCategoryRepository.Verify(
                 x => x.SaveChangesAsync(),

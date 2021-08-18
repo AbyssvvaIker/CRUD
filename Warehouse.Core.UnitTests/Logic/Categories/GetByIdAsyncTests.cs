@@ -41,32 +41,35 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         [Fact]
         public async Task Should_Return_ResultOk()
         {
+            //arrange
             var categoryLogic = Create();
             MockCategoryRepository.Setup(x => x.GetByIdAsync(Category.Id)).ReturnsAsync(Category);
+            //act
             var result =await categoryLogic.GetByIdAsync(Category.Id);
-
+            //assert
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
             result.Value.Should().BeSameAs(Category);
 
             MockCategoryRepository.Verify(
-                x => x.GetByIdAsync(It.IsAny<Guid>()),
+                x => x.GetByIdAsync(Category.Id),
                 Times.Once);
         }
         [Fact]
         public async Task Should_Return_ResultFailure_When_CategoryDoesNotExist()
         {
+            //arrange
             var categoryLogic = Create();
             MockCategoryRepository.Setup(x => x.GetByIdAsync(Category.Id)).ReturnsAsync((Category)null);
-
+            //act
             var result = await categoryLogic.GetByIdAsync(Category.Id);
-
+            //assert
             result.Should().NotBeNull();
             result.Success.Should().BeFalse();
             result.Value.Should().BeSameAs(null);
 
             MockCategoryRepository.Verify(
-                x => x.GetByIdAsync(It.IsAny<Guid>()),
+                x => x.GetByIdAsync(Category.Id),
                 Times.Once);
         }
     }

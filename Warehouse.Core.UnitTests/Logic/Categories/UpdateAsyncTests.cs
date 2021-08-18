@@ -37,9 +37,12 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         [Fact]
         public async Task Should_Throw_ArgumentNullException_When_GivenCategory_Null()
         {
+            //arrange
             var categoryLogic = Create();
+            
+            //act
             Func<Task> act = async () => await categoryLogic.UpdateAsync(null);
-
+            //assert
             await act.Should().ThrowAsync<ArgumentNullException>();
 
             MockValidator.Verify(
@@ -53,13 +56,14 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         [Fact]
         public async Task Should_Return_ResultFailure_When_ValidationFailed()
         {
+            //arrange
             var categoryLogic = Create();
-            string validatedProperty = "test";
-            string errorMessage = "test error message";
+            var validatedProperty = "test";
+            var errorMessage = "test error message";
             MockValidator.SetValidationFailure(validatedProperty, errorMessage);
-
+            //act
             var result = await categoryLogic.UpdateAsync(Category);
-
+            //assert
             result.Should().NotBeNull();
             result.Success.Should().BeFalse();
             result.Errors.Should().HaveCount(1);
@@ -73,7 +77,7 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             }
 
             MockValidator.Verify(
-                x => x.Validate(It.IsAny<Category>()),
+                x => x.Validate(Category),
                 Times.Once);
             MockCategoryRepository.Verify(
                 x => x.SaveChangesAsync(),
@@ -93,7 +97,7 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             result.Value.Should().BeSameAs(Category);
 
             MockValidator.Verify(
-                x => x.Validate(It.IsAny<Category>()),
+                x => x.Validate(Category),
                 Times.Once);
             MockCategoryRepository.Verify(
                 x => x.SaveChangesAsync(),

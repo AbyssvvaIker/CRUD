@@ -39,10 +39,13 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         [Fact]
         public async Task Should_Return_ResultOk_With_ListOfCategories()
         {
+            //arrange
             var categoryLogic = Create();
             MockCategoryRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(Categories);
+            
+            //act
             var result = await categoryLogic.GetAllActiveAsync();
-
+            //assert
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
             result.Value.Should().BeSameAs(Categories);
@@ -54,11 +57,12 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         [Fact]
         public async Task Should_Return_ResultOk_With_EmptyList_When_NoActiveCategories()
         {
+            //arrange
             var categoryLogic = Create();
             MockCategoryRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(Categories);
-
+            //act
             var result = await categoryLogic.GetAllActiveAsync();
-
+            //assert
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
             result.Value.Should().BeSameAs(Categories);
