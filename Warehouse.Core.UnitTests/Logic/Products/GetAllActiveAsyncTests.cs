@@ -18,15 +18,16 @@ namespace Warehouse.Core.UnitTests.Logic.Products
 {
     public class GetAllActiveAsyncTests :BaseTest
     {
+        public IEnumerable<Product> Products;
         public void CorrectFlow()
         {
-            products = Builder<Product>
+            Products = Builder<Product>
                 .CreateListOfSize(3)
                 .All()
                 .With(x => x.IsActive = true)
                 .Build();
 
-            mockProductRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(products);
+            mockProductRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(Products);
             mockValidator.SetValidationSuccess();
         }
 

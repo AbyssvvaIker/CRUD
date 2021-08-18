@@ -15,13 +15,14 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
 {
     public class UpdateAsyncTests :BaseTest
     {
+        public Category Category;
         public void CorrectFlow()
         {
-            category = Builder<Category>
+            Category = Builder<Category>
                 .CreateNew()
                 .Build();
 
-            mockCategoryRepository.Setup(x => x.GetByIdAsync(category.Id)).ReturnsAsync(category);
+            mockCategoryRepository.Setup(x => x.GetByIdAsync(Category.Id)).ReturnsAsync(Category);
             mockValidator.SetValidationSuccess();
         }
 

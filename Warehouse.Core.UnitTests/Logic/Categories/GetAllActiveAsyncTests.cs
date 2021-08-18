@@ -18,15 +18,16 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
 {
     public class GetAllActiveAsyncTests :BaseTest
     {
+        public IEnumerable<Category> Categories;
         public void CorrectFlow()
         {
-            categories = Builder<Category>
+            Categories = Builder<Category>
                 .CreateListOfSize(3)
                 .All()
                 .With(x => x.IsActive = true)
                 .Build();
 
-            mockCategoryRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(categories);
+            mockCategoryRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(Categories);
             mockValidator.SetValidationSuccess();
         }
 

@@ -18,9 +18,10 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
 {
     public class DeleteAsyncTests :BaseTest
     {
+        public Category Category;
         public void CorrectFlow()
         {
-            category = Builder<Category>
+            Category = Builder<Category>
                 .CreateNew()
                 .Build();
             mockValidator.SetValidationSuccess();

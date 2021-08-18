@@ -18,9 +18,10 @@ namespace Warehouse.Core.UnitTests.Logic.Products
 {
     public class DeleteAsyncTests : BaseTest
     {
+        public Product Product;
         public void CorrectFlow()
         {
-            product = Builder<Product>
+            Product = Builder<Product>
                 .CreateNew()
                 .Build();
 
