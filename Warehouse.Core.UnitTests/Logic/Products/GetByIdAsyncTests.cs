@@ -37,7 +37,7 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             return productLogic;
         }
         [Fact]
-        public async Task ShouldReturnResultOk()
+        public async Task Should_Return_ResultOk()
         {
             var id = Guid.NewGuid();
             var product = Builder<Product>
@@ -58,7 +58,7 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             result.Value.Should().BeSameAs(product);
         }
         [Fact]
-        public async Task ShouldReturnResultFailure()
+        public async Task Should_Return_ResultFailure_When_ProductDoesNotExist()
         {
             var id = Guid.NewGuid();
 

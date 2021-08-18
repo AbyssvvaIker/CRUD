@@ -39,7 +39,7 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             return categoryLogic;
         }
         [Fact]
-        public async Task ShouldReturnResultOk()
+        public async Task Should_Return_ResultOk()
         {
             var id = Guid.NewGuid();
             var category = Builder<Category>
@@ -62,7 +62,7 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             result.Value.Should().BeSameAs(category);
         }
         [Fact]
-        public async Task ShouldReturnResultFailure()
+        public async Task Should_Return_ResultFailure_When_CategoryDoesNotExist()
         {
             var id = Guid.NewGuid();
 

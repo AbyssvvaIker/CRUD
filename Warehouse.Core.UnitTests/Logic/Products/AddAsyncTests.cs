@@ -37,7 +37,7 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             return productLogic;
         }
         [Fact]
-        public async Task ShouldReturnProductAndResultOk()
+        public async Task Should_Return_AddedProduct_And_ResultOk()
         {
             var product = Builder<Product>
                 .CreateNew()
@@ -58,7 +58,7 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         }
 
         [Fact]
-        public async Task ShouldReturnResultFailureWithErrorList()
+        public async Task Should_Return_ResultFailure_When_Validation_Failed()
         {
             var product = Builder<Product>
                 .CreateNew()
@@ -89,7 +89,7 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         }
 
         [Fact]
-        public void ShouldThrowArgumentNullException()
+        public void Should_Throw_ArgumentNullException_When_GivenProduct_Null()
         {
             var mockProductRepository = new Mock<IProductRepository>();
             var mockValidator = new Mock<IValidator<Product>>();

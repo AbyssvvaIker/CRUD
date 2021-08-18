@@ -39,7 +39,7 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             return productLogic;
         }
         [Fact]
-        public async Task ShouldReturnListOfProducts()
+        public async Task Should_Return_ResultOk_With_ListOfProducts()
         {
             var listActive = Builder<Product>
                 .CreateListOfSize(3)
@@ -61,7 +61,7 @@ namespace Warehouse.Core.UnitTests.Logic.Products
 
         }
         [Fact]
-        public async Task ShouldReturnEmptyList()
+        public async Task Should_Return_ResultOk_With_EmptyList_When_NoActiveProducts()
         {
             var listActive = new List<Product>();
 

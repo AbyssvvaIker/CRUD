@@ -37,7 +37,7 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         }
 
         [Fact]
-        public async Task ShouldThrowArgumentNullException()
+        public async Task Should_Throw_ArgumentNullException_When_GivenCategory_Null()
         {
             var mockCategoryRepository = new Mock<ICategoryRepository>();
             var mockProductRepository = new Mock<IProductRepository>();
@@ -51,7 +51,7 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         }
 
         [Fact]
-        public async Task ShouldReturnResultOk()
+        public async Task Should_Return_ResultOk()
         {
             var category = Builder<Category>
                  .CreateNew()

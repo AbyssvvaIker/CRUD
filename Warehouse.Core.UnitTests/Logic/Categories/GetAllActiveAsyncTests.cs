@@ -39,7 +39,7 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             return categoryLogic;
         }
         [Fact]
-        public async Task ShouldReturnListOfCategories()
+        public async Task Should_Return_ResultOk_With_ListOfCategories()
         {
             var listActive = Builder<Category>
                 .CreateListOfSize(3)
@@ -62,7 +62,7 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             
         }
         [Fact]
-        public async Task ShouldReturnEmptyList()
+        public async Task Should_Return_ResultOk_With_EmptyList_When_NoActiveCategories()
         {
             var listActive = new List<Category>();
 
