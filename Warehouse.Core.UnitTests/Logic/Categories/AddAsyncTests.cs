@@ -12,6 +12,7 @@ using FluentValidation;
 using Warehouse.Core.Logic;
 using System.Threading.Tasks;
 using Warehouse.Core.UnitTests.Extensions;
+using FluentValidation.Results;
 
 namespace Warehouse.Core.UnitTests.Logic.Categories
 {
@@ -23,8 +24,6 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             //arrange
             var category = Builder<Category>
                 .CreateNew()
-                .With(x => x.Id = Guid.NewGuid())
-                .With(x => x.Name = "testName")
                 .Build();
 
             var mockCategoryRepository = new Mock<ICategoryRepository>();
@@ -47,11 +46,10 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         public async Task ShouldReturnErrorListAndNoSuccess()
         {
             //arrange
-            var category = new Category()
-            {
-                Id = Guid.NewGuid(),
-                Name = "test",
-            };
+            var category = Builder<Category>
+                .CreateNew()
+                .Build();
+
             var mockCategoryRepository = new Mock<ICategoryRepository>();
             mockCategoryRepository.Setup(x => x.AddAsync(category) ).ReturnsAsync((Category)null);
 
@@ -59,13 +57,24 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             var mockValidator = new Mock<IValidator<Category>>();
 
             var categoryLogic = new CategoryLogic(mockCategoryRepository.Object, mockProductRepository.Object, mockValidator.Object);
-            mockValidator.SetValidationFailure("test", "test error message");
+            string validatedProperty = "test";
+            string errorMessage = "test error message";
+            mockValidator.SetValidationFailure(validatedProperty, errorMessage);
 
             //act
             var result = await categoryLogic.AddAsync(category);
             //assert
             result.Should().NotBeNull();
             result.Success.Should().BeFalse();
+            result.Errors.Should().HaveCount(1);
+            foreach(var err in result.Errors)
+            {
+                err.Should().BeEquivalentTo(new ErrorMessage() 
+                {
+                    PropertyName = validatedProperty,
+                    Message = errorMessage,
+                });
+            }
         }
 
         [Fact]

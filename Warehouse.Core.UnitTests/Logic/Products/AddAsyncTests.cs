@@ -42,22 +42,32 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         [Fact]
         public async Task ShouldReturnResultFailureWithErrorList()
         {
-            var product = new Product()
-            {
-                Id = Guid.NewGuid(),
-            };
+            var product = Builder<Product>
+                .CreateNew()
+                .Build();
+
             var mockProductRepository = new Mock<IProductRepository>();
             mockProductRepository.Setup(x => x.AddAsync(product)).ReturnsAsync((Product)null);
             var mockValidator = new Mock<IValidator<Product>>();
 
             var productLogic = new ProductLogic(mockProductRepository.Object, mockValidator.Object);
-            mockValidator.SetValidationFailure("test", "test error message");
+            string validatedProperty = "test";
+            string errorMessage = "test error message";
+            mockValidator.SetValidationFailure(validatedProperty, errorMessage);
 
             var result = await productLogic.AddAsync(product);
 
             result.Should().NotBeNull();
             result.Success.Should().BeFalse();
-            //Errors?
+            result.Errors.Should().HaveCount(1);
+            foreach (var err in result.Errors)
+            {
+                err.Should().BeEquivalentTo(new ErrorMessage()
+                {
+                    PropertyName = validatedProperty,
+                    Message = errorMessage,
+                });
+            }
         }
 
         [Fact]
