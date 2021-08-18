@@ -18,8 +18,7 @@ namespace Warehouse.Core.UnitTests.Logic.Products
 {
     public class AddAsyncTests : BaseTest
     {
-        public void CorrectFlow(Mock<IProductRepository> mockProductRepository,
-        Mock<IValidator<Product>> mockValidator)
+        public void CorrectFlow()
         {
             product = Builder<Product>
                 .CreateNew()
@@ -32,7 +31,7 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         public override ProductLogic Create()
         {
             var productLogic = base.Create();
-            CorrectFlow(mockProductRepository, mockValidator);
+            CorrectFlow();
 
             return productLogic;
         }

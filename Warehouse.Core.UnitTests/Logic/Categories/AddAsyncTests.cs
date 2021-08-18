@@ -19,8 +19,7 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
 {
     public class AddAsyncTests : BaseTest
     {
-        public void CorrectFlow(Mock<ICategoryRepository> mockCategoryRepository, Mock<IProductRepository> mockProductRepository,
-            Mock<IValidator<Category>> mockValidator)
+        public void CorrectFlow()
         {
             category = Builder<Category>
                 .CreateNew()
@@ -33,7 +32,7 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         public override CategoryLogic Create()
         {
             var categoryLogic = base.Create();
-            CorrectFlow(mockCategoryRepository, mockProductRepository, mockValidator);
+            CorrectFlow();
 
 
             return categoryLogic;
@@ -41,7 +40,7 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
 
 
         [Fact]
-        public async Task ShouldReturnAddedCategoryAndSuccess()
+        public async Task Should_Return_AddedCategory_And_ResultOk()
         {
             //arrange
             var category = Builder<Category>
@@ -65,7 +64,7 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         }
 
         [Fact]
-        public async Task ShouldReturnErrorListAndNoSuccess()
+        public async Task Should_Return_ResultFailure_When_Validation_Failed()
         {
             //arrange
             var category = Builder<Category>
@@ -100,7 +99,7 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         }
 
         [Fact]
-        public void ShouldThrowArgumentNullException()
+        public void Should_Throw_ArgumentNullException_When_GivenCategory_Null()
         {
             var mockCategoryRepository = new Mock<ICategoryRepository>();
             var mockProductRepository = new Mock<IProductRepository>();
