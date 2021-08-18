@@ -39,22 +39,24 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         [Fact]
         public async Task Should_Return_AddedProduct_And_ResultOk()
         {
-            var product = Builder<Product>
-                .CreateNew()
-                .Build();
+            //var product = Builder<Product>
+            //    .CreateNew()
+            //    .Build();
 
-            var mockProductRepository = new Mock<IProductRepository>();
-            mockProductRepository.Setup(x => x.AddAsync(product)).ReturnsAsync(product);
-            var mockValidator = new Mock<IValidator<Product>>();
+            //var mockProductRepository = new Mock<IProductRepository>();
+            //mockProductRepository.Setup(x => x.AddAsync(product)).ReturnsAsync(product);
+            //var mockValidator = new Mock<IValidator<Product>>();
 
-            var productLogic = new ProductLogic(mockProductRepository.Object, mockValidator.Object);
-            mockValidator.SetValidationSuccess();
-            
-            var result = await productLogic.AddAsync(product);
+            //var productLogic = new ProductLogic(mockProductRepository.Object, mockValidator.Object);
+            //mockValidator.SetValidationSuccess();
+            var productLogic = Create();
+            mockProductRepository.Setup(x => x.AddAsync(Product)).ReturnsAsync(Product);
+
+            var result = await productLogic.AddAsync(Product);
             
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
-            result.Value.Should().BeSameAs(product);
+            result.Value.Should().BeSameAs(Product);
 
 
             mockValidator.Verify(
@@ -71,20 +73,25 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         [Fact]
         public async Task Should_Return_ResultFailure_When_Validation_Failed()
         {
-            var product = Builder<Product>
-                .CreateNew()
-                .Build();
+            //var product = Builder<Product>
+            //    .CreateNew()
+            //    .Build();
 
-            var mockProductRepository = new Mock<IProductRepository>();
-            mockProductRepository.Setup(x => x.AddAsync(product)).ReturnsAsync((Product)null);
-            var mockValidator = new Mock<IValidator<Product>>();
+            //var mockProductRepository = new Mock<IProductRepository>();
+            //mockProductRepository.Setup(x => x.AddAsync(product)).ReturnsAsync((Product)null);
+            //var mockValidator = new Mock<IValidator<Product>>();
 
-            var productLogic = new ProductLogic(mockProductRepository.Object, mockValidator.Object);
+            //var productLogic = new ProductLogic(mockProductRepository.Object, mockValidator.Object);
+            //string validatedProperty = "test";
+            //string errorMessage = "test error message";
+            //mockValidator.SetValidationFailure(validatedProperty, errorMessage);
+            var productLogic = Create();
+            mockProductRepository.Setup(x => x.AddAsync(Product)).ReturnsAsync((Product)null);
             string validatedProperty = "test";
             string errorMessage = "test error message";
             mockValidator.SetValidationFailure(validatedProperty, errorMessage);
 
-            var result = await productLogic.AddAsync(product);
+            var result = await productLogic.AddAsync(Product);
 
             result.Should().NotBeNull();
             result.Success.Should().BeFalse();
@@ -112,10 +119,11 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         [Fact]
         public void Should_Throw_ArgumentNullException_When_GivenProduct_Null()
         {
-            var mockProductRepository = new Mock<IProductRepository>();
-            var mockValidator = new Mock<IValidator<Product>>();
+            //var mockProductRepository = new Mock<IProductRepository>();
+            //var mockValidator = new Mock<IValidator<Product>>();
 
-            var productLogic = new ProductLogic(mockProductRepository.Object, mockValidator.Object);
+            //var productLogic = new ProductLogic(mockProductRepository.Object, mockValidator.Object);
+            var productLogic = Create();
 
             Func<Task> act = async () => await productLogic.AddAsync(null);
 

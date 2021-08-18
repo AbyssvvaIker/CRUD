@@ -39,23 +39,25 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         [Fact]
         public async Task Should_Return_ResultOk()
         {
-            var id = Guid.NewGuid();
-            var product = Builder<Product>
-                .CreateNew()
-                .With(x => x.Id = id)
-                .Build();
+            //var id = Guid.NewGuid();
+            //var product = Builder<Product>
+            //    .CreateNew()
+            //    .With(x => x.Id = id)
+            //    .Build();
 
-            var mockProductRepository = new Mock<IProductRepository>();
-            mockProductRepository.Setup(x => x.GetByIdAsync(id)).ReturnsAsync(product);
-            var mockValidator = new Mock<IValidator<Product>>();
+            //var mockProductRepository = new Mock<IProductRepository>();
+            //mockProductRepository.Setup(x => x.GetByIdAsync(id)).ReturnsAsync(product);
+            //var mockValidator = new Mock<IValidator<Product>>();
 
-            var productLogic = new ProductLogic(mockProductRepository.Object, mockValidator.Object);
+            //var productLogic = new ProductLogic(mockProductRepository.Object, mockValidator.Object);
+            var productLogic = Create();
+            mockProductRepository.Setup(x => x.GetByIdAsync(Product.Id)).ReturnsAsync(Product);
 
-            var result = await productLogic.GetByIdAsync(id);
+            var result = await productLogic.GetByIdAsync(Product.Id);
 
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
-            result.Value.Should().BeSameAs(product);
+            result.Value.Should().BeSameAs(Product);
 
             mockProductRepository.Verify(
                 x => x.GetByIdAsync(It.IsAny<Guid>()),
@@ -64,15 +66,17 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         [Fact]
         public async Task Should_Return_ResultFailure_When_ProductDoesNotExist()
         {
-            var id = Guid.NewGuid();
+            //var id = Guid.NewGuid();
 
-            var mockProductRepository = new Mock<IProductRepository>();
-            mockProductRepository.Setup(x => x.GetByIdAsync(id)).ReturnsAsync((Product)null);
-            var mockValidator = new Mock<IValidator<Product>>();
+            //var mockProductRepository = new Mock<IProductRepository>();
+            //mockProductRepository.Setup(x => x.GetByIdAsync(id)).ReturnsAsync((Product)null);
+            //var mockValidator = new Mock<IValidator<Product>>();
 
-            var productLogic = new ProductLogic(mockProductRepository.Object, mockValidator.Object);
+            //var productLogic = new ProductLogic(mockProductRepository.Object, mockValidator.Object);
+            var productLogic = Create();
+            mockProductRepository.Setup(x => x.GetByIdAsync(Product.Id)).ReturnsAsync((Product)null);
 
-            var result = await productLogic.GetByIdAsync(id);
+            var result = await productLogic.GetByIdAsync(Product.Id);
 
             result.Should().NotBeNull();
             result.Success.Should().BeFalse();

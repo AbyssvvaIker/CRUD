@@ -41,23 +41,24 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         [Fact]
         public async Task Should_Return_ResultOk_With_ListOfProducts()
         {
-            var listActive = Builder<Product>
-                .CreateListOfSize(3)
-                .All()
-                .With(x => x.IsActive = true)
-                .Build();
+            //var listActive = Builder<Product>
+            //    .CreateListOfSize(3)
+            //    .All()
+            //    .With(x => x.IsActive = true)
+            //    .Build();
 
-            var mockProductRepository = new Mock<IProductRepository>();
-            mockProductRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(listActive);
-            var mockValidator = new Mock<IValidator<Product>>();
+            //var mockProductRepository = new Mock<IProductRepository>();
+            //mockProductRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(listActive);
+            //var mockValidator = new Mock<IValidator<Product>>();
 
-            var productLogic = new ProductLogic(mockProductRepository.Object, mockValidator.Object);
-
+            //var productLogic = new ProductLogic(mockProductRepository.Object, mockValidator.Object);
+            var productLogic = Create();
+            mockProductRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(Products);
             var result = await productLogic.GetAllActiveAsync();
 
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
-            result.Value.Should().BeSameAs(listActive);
+            result.Value.Should().BeSameAs(Products);
 
             mockProductRepository.Verify(
                 x => x.GetAllActiveAsync(),
@@ -67,20 +68,21 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         [Fact]
         public async Task Should_Return_ResultOk_With_EmptyList_When_NoActiveProducts()
         {
-            var listActive = new List<Product>();
+            //var listActive = new List<Product>();
 
-            var mockProductRepository = new Mock<IProductRepository>();
-            mockProductRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(listActive);
-            var mockValidator = new Mock<IValidator<Product>>();
+            //var mockProductRepository = new Mock<IProductRepository>();
+            //mockProductRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(listActive);
+            //var mockValidator = new Mock<IValidator<Product>>();
 
-            var productLogic = new ProductLogic(mockProductRepository.Object, mockValidator.Object);
+            //var productLogic = new ProductLogic(mockProductRepository.Object, mockValidator.Object);
+            var productLogic = Create();
+            mockProductRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(Products);
 
             var result = await productLogic.GetAllActiveAsync();
 
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
-            result.Value.Should().BeSameAs(listActive);
-
+            result.Value.Should().BeSameAs(Products);
 
             mockProductRepository.Verify(
                 x => x.GetAllActiveAsync(),
