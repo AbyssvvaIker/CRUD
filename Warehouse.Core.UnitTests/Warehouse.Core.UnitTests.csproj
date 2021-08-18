@@ -26,4 +26,8 @@
     <ProjectReference Include="..\Warehouse.Core\Warehouse.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Logic\Products\Infrastructure\" />
+  </ItemGroup>
+
 </Project>

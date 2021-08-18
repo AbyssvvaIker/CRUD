@@ -13,11 +13,15 @@ using Warehouse.Core.Logic;
 using System.Threading.Tasks;
 using Warehouse.Core.UnitTests.Extensions;
 using FluentValidation.Results;
+using Warehouse.Core.UnitTests.Logic.Categories.Infrastructure;
 
 namespace Warehouse.Core.UnitTests.Logic.Categories
 {
-    public class AddAsyncTests
+    public class AddAsyncTests : BaseTest
     {
+
+
+
         [Fact]
         public async Task ShouldReturnAddedCategoryAndSuccess()
         {

@@ -12,9 +12,11 @@ using FluentValidation;
 using Warehouse.Core.Logic;
 using System.Threading.Tasks;
 using Warehouse.Core.UnitTests.Extensions;
+using Warehouse.Core.UnitTests.Logic.Categories.Infrastructure;
+
 namespace Warehouse.Core.UnitTests.Logic.Categories
 {
-    public class DeleteAsyncTests
+    public class DeleteAsyncTests :BaseTest
     {
         [Fact]
         public async Task ShouldThrowArgumentNullException()

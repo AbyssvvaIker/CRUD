@@ -8,11 +8,12 @@ using Warehouse.Core.Entities;
 using Warehouse.Core.Interfaces.Repositories;
 using Warehouse.Core.Logic;
 using Warehouse.Core.UnitTests.Extensions;
+using Warehouse.Core.UnitTests.Logic.Categories.Infrastructure;
 using Xunit;
 
 namespace Warehouse.Core.UnitTests.Logic.Categories
 {
-    public class UpdateAsyncTests
+    public class UpdateAsyncTests :BaseTest
     {
         [Fact]
         public async Task ShouldThrowArgumentNullException()
