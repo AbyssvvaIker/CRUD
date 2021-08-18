@@ -22,7 +22,6 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
                 .CreateNew()
                 .Build();
 
-            MockCategoryRepository.Setup(x => x.GetByIdAsync(Category.Id)).ReturnsAsync(Category);
             MockValidator.SetValidationSuccess();
         }
 
