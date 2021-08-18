@@ -31,7 +31,7 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             mockValidator.SetValidationSuccess();
         }
 
-        public override ProductLogic Create()
+        protected override ProductLogic Create()
         {
             var productLogic = base.Create();
             CorrectFlow();

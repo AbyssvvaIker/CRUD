@@ -29,7 +29,7 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             mockValidator.SetValidationSuccess();
         }
 
-        public override CategoryLogic Create()
+        protected override CategoryLogic Create()
         {
             var categoryLogic = base.Create();
             CorrectFlow();

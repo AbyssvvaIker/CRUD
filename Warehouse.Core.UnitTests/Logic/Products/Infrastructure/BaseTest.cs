@@ -11,10 +11,10 @@ namespace Warehouse.Core.UnitTests.Logic.Products.Infrastructure
 {
     public class BaseTest
     {
-        public Mock<IProductRepository> mockProductRepository;
-        public Mock<IValidator<Product>> mockValidator;
+        protected Mock<IProductRepository> mockProductRepository;
+        protected Mock<IValidator<Product>> mockValidator;
         
-        public virtual ProductLogic Create()
+        protected virtual ProductLogic Create()
         {
             mockProductRepository = new Mock<IProductRepository>();
             mockValidator = new Mock<IValidator<Product>>();
