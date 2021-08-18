@@ -11,11 +11,16 @@ namespace Warehouse.Core.UnitTests.Logic.Categories.Infrastructure
 {
     public class BaseTest
     {
+        public Mock<ICategoryRepository> mockCategoryRepository;
+        public Mock<IProductRepository> mockProductRepository;
+        public Mock<IValidator<Category>> mockValidator;
+        //public Category category;
+        //public IEnumerable<Category> categories;
         public virtual CategoryLogic Create()
         {
-            var mockCategoryRepository = new Mock<ICategoryRepository>();
-            var mockProductRepository = new Mock<IProductRepository>();
-            var mockValidator = new Mock<IValidator<Category>>();
+            mockCategoryRepository = new Mock<ICategoryRepository>();
+            mockProductRepository = new Mock<IProductRepository>();
+            mockValidator = new Mock<IValidator<Category>>();
 
             return new CategoryLogic(mockCategoryRepository.Object, mockProductRepository.Object, mockValidator.Object);
 

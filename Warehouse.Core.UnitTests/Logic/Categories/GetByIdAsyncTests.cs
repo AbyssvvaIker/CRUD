@@ -18,6 +18,27 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
 {
     public class GetByIdAsyncTests :BaseTest
     {
+        public Category CorrectFlow(Mock<ICategoryRepository> mockCategoryRepository, Mock<IProductRepository> mockProductRepository,
+    Mock<IValidator<Category>> mockValidator)
+        {
+            var category = Builder<Category>
+                .CreateNew()
+                .With(x => x.Id = Guid.NewGuid())
+                .Build();
+
+            mockCategoryRepository.Setup(x => x.GetByIdAsync(category.Id)).ReturnsAsync(category);
+            mockValidator.SetValidationSuccess();
+            return category;
+        }
+
+        public override CategoryLogic Create()
+        {
+            var categoryLogic = base.Create();
+            CorrectFlow(mockCategoryRepository, mockProductRepository, mockValidator);
+
+
+            return categoryLogic;
+        }
         [Fact]
         public async Task ShouldReturnResultOk()
         {

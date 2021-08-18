@@ -18,6 +18,28 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
 {
     public class GetAllActiveAsyncTests :BaseTest
     {
+        public IEnumerable<Category> CorrectFlow(Mock<ICategoryRepository> mockCategoryRepository, Mock<IProductRepository> mockProductRepository,
+            Mock<IValidator<Category>> mockValidator)
+        {
+            var categories = Builder<Category>
+                .CreateListOfSize(3)
+                .All()
+                .With(x => x.IsActive = true)
+                .Build();
+
+            mockCategoryRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(categories);
+            mockValidator.SetValidationSuccess();
+            return categories;
+        }
+
+        public override CategoryLogic Create()
+        {
+            var categoryLogic = base.Create();
+            CorrectFlow(mockCategoryRepository, mockProductRepository, mockValidator);
+
+
+            return categoryLogic;
+        }
         [Fact]
         public async Task ShouldReturnListOfCategories()
         {
