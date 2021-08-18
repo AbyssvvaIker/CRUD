@@ -36,30 +36,27 @@ namespace Warehouse.Core.UnitTests.Logic.Products
 
             return productLogic;
         }
+
         [Fact]
-        public async Task Should_Return_AddedProduct_And_ResultOk()
+        public void Should_Throw_ArgumentNullException_When_GivenProduct_Null()
         {
             //arrange
             var productLogic = Create();
-            MockProductRepository.Setup(x => x.AddAsync(Product)).ReturnsAsync(Product);
             //act
-            var result = await productLogic.AddAsync(Product);
+            Func<Task> act = async () => await productLogic.AddAsync(null);
             //assert
-            result.Should().NotBeNull();
-            result.Success.Should().BeTrue();
-            result.Value.Should().BeSameAs(Product);
+            act.Should().ThrowAsync<ArgumentNullException>();
 
             MockValidator.Verify(
-                x => x.Validate(Product),
-                Times.Once);
+                x => x.Validate(It.IsAny<Product>()),
+                Times.Never);
             MockProductRepository.Verify(
-                x => x.AddAsync(Product),
-                Times.Once);
+                x => x.AddAsync(It.IsAny<Product>()),
+                Times.Never);
             MockProductRepository.Verify(
                 x => x.SaveChangesAsync(),
-                Times.Once);
+                Times.Never);
         }
-
         [Fact]
         public async Task Should_Return_ResultFailure_When_Validation_Failed()
         {
@@ -94,25 +91,29 @@ namespace Warehouse.Core.UnitTests.Logic.Products
                 Times.Never);
         }
 
+       
         [Fact]
-        public void Should_Throw_ArgumentNullException_When_GivenProduct_Null()
+        public async Task Should_Return_AddedProduct_And_ResultOk()
         {
             //arrange
             var productLogic = Create();
+            MockProductRepository.Setup(x => x.AddAsync(Product)).ReturnsAsync(Product);
             //act
-            Func<Task> act = async () => await productLogic.AddAsync(null);
+            var result = await productLogic.AddAsync(Product);
             //assert
-            act.Should().ThrowAsync<ArgumentNullException>();
+            result.Should().NotBeNull();
+            result.Success.Should().BeTrue();
+            result.Value.Should().BeSameAs(Product);
 
             MockValidator.Verify(
-                x => x.Validate(It.IsAny<Product>()),
-                Times.Never);
+                x => x.Validate(Product),
+                Times.Once);
             MockProductRepository.Verify(
-                x => x.AddAsync(It.IsAny<Product>()),
-                Times.Never);
+                x => x.AddAsync(Product),
+                Times.Once);
             MockProductRepository.Verify(
                 x => x.SaveChangesAsync(),
-                Times.Never);
+                Times.Once);
         }
     }
 }

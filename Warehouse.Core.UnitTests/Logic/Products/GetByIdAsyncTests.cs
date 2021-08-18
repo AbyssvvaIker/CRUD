@@ -36,22 +36,7 @@ namespace Warehouse.Core.UnitTests.Logic.Products
 
             return productLogic;
         }
-        [Fact]
-        public async Task Should_Return_ResultOk()
-        {
-            //arrage
-            var productLogic = Create();
-            //act
-            var result = await productLogic.GetByIdAsync(Product.Id);
-            //assert
-            result.Should().NotBeNull();
-            result.Success.Should().BeTrue();
-            result.Value.Should().BeSameAs(Product);
-
-            MockProductRepository.Verify(
-                x => x.GetByIdAsync(Product.Id),
-                Times.Once);
-        }
+       
         [Fact]
         public async Task Should_Return_ResultFailure_When_ProductDoesNotExist()
         {
@@ -64,6 +49,22 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             result.Should().NotBeNull();
             result.Success.Should().BeFalse();
             result.Value.Should().BeSameAs(null);
+
+            MockProductRepository.Verify(
+                x => x.GetByIdAsync(Product.Id),
+                Times.Once);
+        }
+        [Fact]
+        public async Task Should_Return_ResultOk()
+        {
+            //arrage
+            var productLogic = Create();
+            //act
+            var result = await productLogic.GetByIdAsync(Product.Id);
+            //assert
+            result.Should().NotBeNull();
+            result.Success.Should().BeTrue();
+            result.Value.Should().BeSameAs(Product);
 
             MockProductRepository.Verify(
                 x => x.GetByIdAsync(Product.Id),

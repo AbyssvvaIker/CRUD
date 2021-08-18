@@ -37,27 +37,23 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
 
 
         [Fact]
-        public async Task Should_Return_AddedCategory_And_ResultOk()
+        public void Should_Throw_ArgumentNullException_When_GivenCategory_Null()
         {
-            ////arrange
-            
+            //arrange
             var categoryLogic = Create();
             //act
-            var result = await categoryLogic.AddAsync(Category);
+            Func<Task> act = async () => await categoryLogic.AddAsync(null);
             //assert
-            result.Should().NotBeNull();
-            result.Success.Should().BeTrue();
-            result.Value.Should().BeSameAs(Category);
-
+            act.Should().ThrowAsync<ArgumentNullException>();
             MockValidator.Verify(
-                x => x.Validate(Category),
-                Times.Once);
+                x => x.Validate(It.IsAny<Category>()),
+                Times.Never);
             MockCategoryRepository.Verify(
-                x => x.AddAsync(Category),
-                Times.Once);
+                x => x.AddAsync(It.IsAny<Category>()),
+                Times.Never);
             MockCategoryRepository.Verify(
                 x => x.SaveChangesAsync(),
-                Times.Once);
+                Times.Never);
         }
 
         [Fact]
@@ -95,24 +91,30 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
 
         }
 
+       
         [Fact]
-        public void Should_Throw_ArgumentNullException_When_GivenCategory_Null()
+        public async Task Should_Return_AddedCategory_And_ResultOk()
         {
-            //arrange
+            ////arrange
+
             var categoryLogic = Create();
             //act
-            Func<Task> act = async () => await categoryLogic.AddAsync(null);
+            var result = await categoryLogic.AddAsync(Category);
             //assert
-            act.Should().ThrowAsync<ArgumentNullException>();
+            result.Should().NotBeNull();
+            result.Success.Should().BeTrue();
+            result.Value.Should().BeSameAs(Category);
+
             MockValidator.Verify(
-                x => x.Validate(It.IsAny<Category>()),
-                Times.Never);
+                x => x.Validate(Category),
+                Times.Once);
             MockCategoryRepository.Verify(
-                x => x.AddAsync(It.IsAny<Category>()),
-                Times.Never);
+                x => x.AddAsync(Category),
+                Times.Once);
             MockCategoryRepository.Verify(
                 x => x.SaveChangesAsync(),
-                Times.Never);
+                Times.Once);
         }
+
     }
 }
