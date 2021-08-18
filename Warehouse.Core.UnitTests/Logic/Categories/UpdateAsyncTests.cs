@@ -15,7 +15,7 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
 {
     public class UpdateAsyncTests :BaseTest
     {
-        public Category CorrectFlow(Mock<ICategoryRepository> mockCategoryRepository, Mock<IProductRepository> mockProductRepository,
+        public void CorrectFlow(Mock<ICategoryRepository> mockCategoryRepository, Mock<IProductRepository> mockProductRepository,
             Mock<IValidator<Category>> mockValidator)
         {
             var category = Builder<Category>
@@ -24,7 +24,6 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
 
             mockCategoryRepository.Setup(x => x.GetByIdAsync(category.Id)).ReturnsAsync(category);
             mockValidator.SetValidationSuccess();
-            return category;
         }
 
         public override CategoryLogic Create()

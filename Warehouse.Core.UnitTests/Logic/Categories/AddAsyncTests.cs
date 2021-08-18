@@ -19,16 +19,15 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
 {
     public class AddAsyncTests : BaseTest
     {
-        public Category CorrectFlow(Mock<ICategoryRepository> mockCategoryRepository, Mock<IProductRepository> mockProductRepository,
+        public void CorrectFlow(Mock<ICategoryRepository> mockCategoryRepository, Mock<IProductRepository> mockProductRepository,
             Mock<IValidator<Category>> mockValidator)
         {
-            var category = Builder<Category>
+            category = Builder<Category>
                 .CreateNew()
                 .Build();
 
             mockCategoryRepository.Setup(x => x.AddAsync(category)).ReturnsAsync(category);
             mockValidator.SetValidationSuccess();
-            return category;
         }
 
         public override CategoryLogic Create()

@@ -18,14 +18,13 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
 {
     public class DeleteAsyncTests :BaseTest
     {
-        public Category CorrectFlow(Mock<ICategoryRepository> mockCategoryRepository, Mock<IProductRepository> mockProductRepository,
+        public void CorrectFlow(Mock<ICategoryRepository> mockCategoryRepository, Mock<IProductRepository> mockProductRepository,
            Mock<IValidator<Category>> mockValidator)
         {
-            var category = Builder<Category>
+            category = Builder<Category>
                 .CreateNew()
                 .Build();
             mockValidator.SetValidationSuccess();
-            return category;
         }
 
         public override CategoryLogic Create()
