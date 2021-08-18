@@ -96,7 +96,6 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         public async Task Should_Return_AddedCategory_And_ResultOk()
         {
             ////arrange
-
             var categoryLogic = Create();
             //act
             var result = await categoryLogic.AddAsync(Category);

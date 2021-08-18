@@ -1,12 +1,9 @@
 ﻿using FizzWare.NBuilder;
 using FluentAssertions;
-using FluentValidation;
 using Moq;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Warehouse.Core.Entities;
-using Warehouse.Core.Interfaces.Repositories;
 using Warehouse.Core.Logic;
 using Warehouse.Core.UnitTests.Extensions;
 using Warehouse.Core.UnitTests.Logic.Categories.Infrastructure;
@@ -39,7 +36,6 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         {
             //arrange
             var categoryLogic = Create();
-            
             //act
             var result = await categoryLogic.GetAllActiveAsync();
             //assert
@@ -49,8 +45,7 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             MockCategoryRepository.Verify(
                 x => x.GetAllActiveAsync(),
                 Times.Once);
-
         }
-        
+
     }
 }

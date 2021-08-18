@@ -51,7 +51,6 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             MockProductRepository.Verify(
                 x => x.GetAllActiveAsync(),
                 Times.Once);
-
         }
         
     }

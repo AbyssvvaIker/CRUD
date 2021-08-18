@@ -70,7 +70,6 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             MockProductRepository.Verify(
                x => x.SaveChangesAsync(),
                Times.Once);
-
         }
     }
 }
