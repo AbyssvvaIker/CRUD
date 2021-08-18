@@ -12,10 +12,11 @@ using FluentValidation;
 using Warehouse.Core.Logic;
 using System.Threading.Tasks;
 using Warehouse.Core.UnitTests.Extensions;
+using Warehouse.Core.UnitTests.Logic.Products.Infrastructure;
 
 namespace Warehouse.Core.UnitTests.Logic.Products
 {
-    public class GetAllActiveAsyncTests
+    public class GetAllActiveAsyncTests :BaseTest
     {
         [Fact]
         public async Task ShouldReturnListOfProducts()
