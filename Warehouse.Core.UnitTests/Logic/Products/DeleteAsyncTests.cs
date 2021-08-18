@@ -38,10 +38,6 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         [Fact]
         public async Task Should_Throw_ArgumentNullException_When_GivenProduct_Null()
         {
-            //var mockProductRepository = new Mock<IProductRepository>();
-            //var mockValidator = new Mock<IValidator<Product>>();
-
-            //var productLogic = new ProductLogic(mockProductRepository.Object, mockValidator.Object);
             var productLogic = Create();
 
             Func<Task> act = async () => await productLogic.DeleteAsync(null);
@@ -59,14 +55,6 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         [Fact]
         public async Task Should_Return_ResultOk()
         {
-            //var product = Builder<Product>
-            //     .CreateNew()
-            //     .Build();
-
-            //var mockProductRepository = new Mock<IProductRepository>();
-            //var mockValidator = new Mock<IValidator<Product>>();
-
-            //var productLogic = new ProductLogic(mockProductRepository.Object, mockValidator.Object);
             var productLogic = Create();
 
             var result = await productLogic.DeleteAsync(Product);

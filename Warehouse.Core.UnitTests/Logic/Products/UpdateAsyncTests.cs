@@ -38,10 +38,6 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         [Fact]
         public async Task Should_Throw_ArgumentNullException_When_GivenProduct_Null()
         {
-            //var mockProductRepository = new Mock<IProductRepository>();
-            //var mockValidator = new Mock<IValidator<Product>>();
-
-            //var productLogic = new ProductLogic(mockProductRepository.Object, mockValidator.Object);
             var productLogic = Create();
             Func<Task> act = async () => await productLogic.UpdateAsync(null);
 
@@ -59,17 +55,6 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         [Fact]
         public async Task Should_Return_ResultFailure_When_ValidationFailed()
         {
-            //var product = Builder<Product>
-            //    .CreateNew()
-            //    .Build();
-
-            //var mockProductRepository = new Mock<IProductRepository>();
-            //var mockValidator = new Mock<IValidator<Product>>();
-            //string validatedProperty = "test";
-            //string errorMessage = "test error message";
-            //mockValidator.SetValidationFailure(validatedProperty, errorMessage);
-
-            //var productLogic = new ProductLogic(mockProductRepository.Object, mockValidator.Object);
             var productLogic = Create();
             string validatedProperty = "test";
             string errorMessage = "test error message";
@@ -101,14 +86,6 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         [Fact]
         public async Task ShouldReturnResultOk()
         {
-            //var product = Builder<Product>
-            //    .CreateNew()
-            //    .Build();
-
-            //var mockProductRepository = new Mock<IProductRepository>();
-            //var mockValidator = new Mock<IValidator<Product>>();
-            //var productLogic = new ProductLogic(mockProductRepository.Object, mockValidator.Object);
-            //mockValidator.SetValidationSuccess();
             var productLogic = Create();
             var result = await productLogic.UpdateAsync(Product);
             

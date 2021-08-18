@@ -39,17 +39,6 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         [Fact]
         public async Task Should_Return_ResultOk()
         {
-            //var id = Guid.NewGuid();
-            //var product = Builder<Product>
-            //    .CreateNew()
-            //    .With(x => x.Id = id)
-            //    .Build();
-
-            //var mockProductRepository = new Mock<IProductRepository>();
-            //mockProductRepository.Setup(x => x.GetByIdAsync(id)).ReturnsAsync(product);
-            //var mockValidator = new Mock<IValidator<Product>>();
-
-            //var productLogic = new ProductLogic(mockProductRepository.Object, mockValidator.Object);
             var productLogic = Create();
             mockProductRepository.Setup(x => x.GetByIdAsync(Product.Id)).ReturnsAsync(Product);
 
@@ -66,13 +55,6 @@ namespace Warehouse.Core.UnitTests.Logic.Products
         [Fact]
         public async Task Should_Return_ResultFailure_When_ProductDoesNotExist()
         {
-            //var id = Guid.NewGuid();
-
-            //var mockProductRepository = new Mock<IProductRepository>();
-            //mockProductRepository.Setup(x => x.GetByIdAsync(id)).ReturnsAsync((Product)null);
-            //var mockValidator = new Mock<IValidator<Product>>();
-
-            //var productLogic = new ProductLogic(mockProductRepository.Object, mockValidator.Object);
             var productLogic = Create();
             mockProductRepository.Setup(x => x.GetByIdAsync(Product.Id)).ReturnsAsync((Product)null);
 
