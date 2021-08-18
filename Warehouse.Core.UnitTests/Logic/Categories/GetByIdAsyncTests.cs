@@ -23,7 +23,6 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         {
             Category = Builder<Category>
                 .CreateNew()
-                .With(x => x.Id = Guid.NewGuid())
                 .Build();
 
             MockCategoryRepository.Setup(x => x.GetByIdAsync(Category.Id)).ReturnsAsync(Category);
