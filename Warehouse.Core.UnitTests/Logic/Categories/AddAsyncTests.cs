@@ -84,7 +84,7 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
                 });
             }
             MockValidator.Verify(
-                x => x.Validate(It.IsAny<Category>()),
+                x => x.Validate(Category),
                 Times.Once);
             MockCategoryRepository.Verify(
                 x => x.AddAsync(It.IsAny<Category>()),
