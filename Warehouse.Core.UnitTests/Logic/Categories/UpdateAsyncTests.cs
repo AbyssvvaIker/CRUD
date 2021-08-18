@@ -18,7 +18,7 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
         public void CorrectFlow(Mock<ICategoryRepository> mockCategoryRepository, Mock<IProductRepository> mockProductRepository,
             Mock<IValidator<Category>> mockValidator)
         {
-            var category = Builder<Category>
+            category = Builder<Category>
                 .CreateNew()
                 .Build();
 
