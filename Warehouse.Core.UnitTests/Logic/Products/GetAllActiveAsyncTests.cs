@@ -18,10 +18,10 @@ namespace Warehouse.Core.UnitTests.Logic.Products
 {
     public class GetAllActiveAsyncTests :BaseTest
     {
-        public IEnumerable<Product> CorrectFlow(Mock<IProductRepository> mockProductRepository,
+        public void CorrectFlow(Mock<IProductRepository> mockProductRepository,
         Mock<IValidator<Product>> mockValidator)
         {
-            var products = Builder<Product>
+            products = Builder<Product>
                 .CreateListOfSize(3)
                 .All()
                 .With(x => x.IsActive = true)
@@ -29,7 +29,6 @@ namespace Warehouse.Core.UnitTests.Logic.Products
 
             mockProductRepository.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(products);
             mockValidator.SetValidationSuccess();
-            return products;
         }
 
         public override ProductLogic Create()

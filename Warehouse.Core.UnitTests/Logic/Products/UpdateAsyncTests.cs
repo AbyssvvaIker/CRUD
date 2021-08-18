@@ -18,15 +18,14 @@ namespace Warehouse.Core.UnitTests.Logic.Products
 {
     public class UpdateAsyncTests : BaseTest
     {
-        public Product CorrectFlow(Mock<IProductRepository> mockProductRepository,
+        public void CorrectFlow(Mock<IProductRepository> mockProductRepository,
             Mock<IValidator<Product>> mockValidator)
         {
-            var product = Builder<Product>
+            product = Builder<Product>
                 .CreateNew()
                 .Build();
 
             mockValidator.SetValidationSuccess();
-            return product;
         }
 
         public override ProductLogic Create()

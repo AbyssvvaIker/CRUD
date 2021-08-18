@@ -13,6 +13,8 @@ namespace Warehouse.Core.UnitTests.Logic.Products.Infrastructure
     {
         public Mock<IProductRepository> mockProductRepository;
         public Mock<IValidator<Product>> mockValidator;
+        public Product product;
+        public IEnumerable<Product> products;
         public virtual ProductLogic Create()
         {
             mockProductRepository = new Mock<IProductRepository>();
