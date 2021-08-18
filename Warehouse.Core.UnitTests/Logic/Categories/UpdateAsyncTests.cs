@@ -24,7 +24,7 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             var categoryLogic = new CategoryLogic(mockCategoryRepository.Object, mockProductRepository.Object,
                 mockValidator.Object);
 
-            Func<Task> act = async () => await categoryLogic.UpdateAsync((Category)null);
+            Func<Task> act = async () => await categoryLogic.UpdateAsync(null);
 
             await act.Should().ThrowAsync<ArgumentNullException>();
         }
