@@ -10,6 +10,7 @@ using Warehouse.Core.Logic;
 using Warehouse.Core.UnitTests.Extensions;
 using Warehouse.Core.UnitTests.Logic.Categories.Infrastructure;
 using Xunit;
+using Warehouse.Core.UnitTests.CustomAssertions;
 
 namespace Warehouse.Core.UnitTests.Logic.Categories
 {
@@ -63,17 +64,19 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             //act
             var result = await categoryLogic.UpdateAsync(Category);
             //assert
-            result.Should().NotBeNull();
-            result.Success.Should().BeFalse();
-            result.Errors.Should().HaveCount(1);
-            foreach (var err in result.Errors)
-            {
-                err.Should().BeEquivalentTo(new ErrorMessage()
-                {
-                    PropertyName = validatedProperty,
-                    Message = errorMessage,
-                });
-            }
+            //result.Should().NotBeNull();
+            //result.Success.Should().BeFalse();
+            //result.Errors.Should().HaveCount(1);
+            result.Should().BeFailure(validatedProperty, errorMessage);
+
+            //foreach (var err in result.Errors)
+            //{
+            //    err.Should().BeEquivalentTo(new ErrorMessage()
+            //    {
+            //        PropertyName = validatedProperty,
+            //        Message = errorMessage,
+            //    });
+            //}
 
             MockValidator.Verify(
                 x => x.Validate(Category),
@@ -91,9 +94,10 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             //act
             var result = await categoryLogic.UpdateAsync(Category);
             //assert
-            result.Should().NotBeNull();
-            result.Success.Should().BeTrue();
-            result.Value.Should().BeSameAs(Category);
+            //result.Should().NotBeNull();
+            //result.Success.Should().BeTrue();
+            //result.Value.Should().BeSameAs(Category);
+            result.Should().BeSuccess(Category);
 
             MockValidator.Verify(
                 x => x.Validate(Category),

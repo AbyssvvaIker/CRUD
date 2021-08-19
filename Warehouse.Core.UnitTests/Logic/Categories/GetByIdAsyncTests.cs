@@ -14,6 +14,8 @@ using System.Threading.Tasks;
 using Warehouse.Core.UnitTests.Extensions;
 using Warehouse.Core.UnitTests.Logic.Categories.Infrastructure;
 
+using Warehouse.Core.UnitTests.CustomAssertions;
+
 namespace Warehouse.Core.UnitTests.Logic.Categories
 {
     public class GetByIdAsyncTests :BaseTest
@@ -47,9 +49,10 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             //act
             var result = await categoryLogic.GetByIdAsync(Category.Id);
             //assert
-            result.Should().NotBeNull();
-            result.Success.Should().BeFalse();
-            result.Value.Should().BeSameAs(null);
+            //result.Should().NotBeNull();
+            //result.Success.Should().BeFalse();
+            //result.Value.Should().BeSameAs(null);
+            result.Should().BeFailure("", $"Category {Category.Id} does not exist");
 
             MockCategoryRepository.Verify(
                 x => x.GetByIdAsync(Category.Id),
@@ -63,9 +66,10 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             //act
             var result = await categoryLogic.GetByIdAsync(Category.Id);
             //assert
-            result.Should().NotBeNull();
-            result.Success.Should().BeTrue();
-            result.Value.Should().BeSameAs(Category);
+            //result.Should().NotBeNull();
+            //result.Success.Should().BeTrue();
+            //result.Value.Should().BeSameAs(Category);
+            result.Should().BeSuccess(Category);
 
             MockCategoryRepository.Verify(
                 x => x.GetByIdAsync(Category.Id),

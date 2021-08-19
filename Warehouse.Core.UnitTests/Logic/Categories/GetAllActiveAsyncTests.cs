@@ -8,6 +8,7 @@ using Warehouse.Core.Logic;
 using Warehouse.Core.UnitTests.Extensions;
 using Warehouse.Core.UnitTests.Logic.Categories.Infrastructure;
 using Xunit;
+using Warehouse.Core.UnitTests.CustomAssertions;
 
 namespace Warehouse.Core.UnitTests.Logic.Categories
 {
@@ -39,9 +40,10 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             //act
             var result = await categoryLogic.GetAllActiveAsync();
             //assert
-            result.Should().NotBeNull();
-            result.Success.Should().BeTrue();
-            result.Value.Should().BeSameAs(Categories);
+            //result.Should().NotBeNull();
+            //result.Success.Should().BeTrue();
+            //result.Value.Should().BeSameAs(Categories);
+            result.Should().BeSuccess(Categories);
             MockCategoryRepository.Verify(
                 x => x.GetAllActiveAsync(),
                 Times.Once);
