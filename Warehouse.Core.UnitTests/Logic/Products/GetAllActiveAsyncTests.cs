@@ -13,6 +13,7 @@ using Warehouse.Core.Logic;
 using System.Threading.Tasks;
 using Warehouse.Core.UnitTests.Extensions;
 using Warehouse.Core.UnitTests.Logic.Products.Infrastructure;
+using Warehouse.Core.UnitTests.CustomAssertions;
 
 namespace Warehouse.Core.UnitTests.Logic.Products
 {
@@ -44,9 +45,10 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             //act
             var result = await productLogic.GetAllActiveAsync();
             //assert
-            result.Should().NotBeNull();
-            result.Success.Should().BeTrue();
-            result.Value.Should().BeSameAs(Products);
+            //result.Should().NotBeNull();
+            //result.Success.Should().BeTrue();
+            //result.Value.Should().BeSameAs(Products);
+            result.Should().BeSuccess(Products);
 
             MockProductRepository.Verify(
                 x => x.GetAllActiveAsync(),

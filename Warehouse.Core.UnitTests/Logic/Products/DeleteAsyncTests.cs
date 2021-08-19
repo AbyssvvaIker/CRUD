@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xunit;
-using Moq;
+﻿using FizzWare.NBuilder;
 using FluentAssertions;
-using FizzWare.NBuilder;
-using Warehouse.Core.Interfaces.Repositories;
-using Warehouse.Core.Entities;
-using Warehouse.Core.Interfaces;
-using FluentValidation;
-using Warehouse.Core.Logic;
+using Moq;
+using System;
 using System.Threading.Tasks;
+using Warehouse.Core.Entities;
+using Warehouse.Core.Logic;
+using Warehouse.Core.UnitTests.CustomAssertions;
 using Warehouse.Core.UnitTests.Extensions;
 using Warehouse.Core.UnitTests.Logic.Products.Infrastructure;
+using Xunit;
 
 namespace Warehouse.Core.UnitTests.Logic.Products
 {
@@ -61,8 +57,9 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             //act
             var result = await productLogic.DeleteAsync(Product);
             //assert
-            result.Should().NotBeNull();
-            result.Success.Should().BeTrue();
+            //result.Should().NotBeNull();
+            //result.Success.Should().BeTrue();
+            result.Should().BeSuccess();
 
             MockProductRepository.Verify(
                 x => x.Delete(Product),

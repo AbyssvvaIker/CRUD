@@ -13,6 +13,7 @@ using Warehouse.Core.Logic;
 using System.Threading.Tasks;
 using Warehouse.Core.UnitTests.Extensions;
 using Warehouse.Core.UnitTests.Logic.Products.Infrastructure;
+using Warehouse.Core.UnitTests.CustomAssertions;
 
 namespace Warehouse.Core.UnitTests.Logic.Products
 {
@@ -64,17 +65,18 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             //act
             var result = await productLogic.UpdateAsync(Product);
             //assert
-            result.Should().NotBeNull();
-            result.Success.Should().BeFalse();
-            result.Errors.Should().HaveCount(1);
-            foreach (var err in result.Errors)
-            {
-                err.Should().BeEquivalentTo(new ErrorMessage()
-                {
-                    PropertyName = validatedProperty,
-                    Message = errorMessage,
-                });
-            }
+            //result.Should().NotBeNull();
+            //result.Success.Should().BeFalse();
+            //result.Errors.Should().HaveCount(1);
+            //foreach (var err in result.Errors)
+            //{
+            //    err.Should().BeEquivalentTo(new ErrorMessage()
+            //    {
+            //        PropertyName = validatedProperty,
+            //        Message = errorMessage,
+            //    });
+            //}
+            result.Should().BeFailure(validatedProperty, errorMessage);
 
             MockValidator.Verify(
                 x => x.Validate(Product),
@@ -92,9 +94,10 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             //act
             var result = await productLogic.UpdateAsync(Product);
             //assert
-            result.Should().NotBeNull();
-            result.Success.Should().BeTrue();
-            result.Value.Should().BeSameAs(Product);
+            //result.Should().NotBeNull();
+            //result.Success.Should().BeTrue();
+            //result.Value.Should().BeSameAs(Product);
+            result.Should().BeSuccess(Product);
 
             MockValidator.Verify(
                 x => x.Validate(Product),
