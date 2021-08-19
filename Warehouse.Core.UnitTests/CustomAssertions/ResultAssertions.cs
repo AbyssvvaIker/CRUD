@@ -7,11 +7,6 @@ namespace Warehouse.Core.UnitTests.CustomAssertions
     public class ResultAssertions<T> : ReferenceTypeAssertions<Result<T>, ResultAssertions<T>>
     {
         protected override string Identifier => "result";
-        //public ResultAssertions(Result<T> result)
-        //    : base(result)
-        //{
-        //    //Subject = result;
-        //}
 
         public ResultAssertions(Result<T> result) : base(result)
         {
@@ -83,16 +78,6 @@ namespace Warehouse.Core.UnitTests.CustomAssertions
 
             return this;
         }
-
-        //public ResultAssertions<T> BeFailure(string message,
-        //        string because = "",
-        //        params object[] becauseArgs)
-        //{
-        //    BeFailure(string.Empty, message, because, becauseArgs);
-
-        //    return this;
-        //}
-
     }
 
     public static class ResultExtensions
