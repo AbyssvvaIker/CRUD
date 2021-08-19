@@ -24,6 +24,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Warehouse.Core\Warehouse.Core.csproj" />
+    <ProjectReference Include="..\Warehouse.Web\Warehouse.Web.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\Categories\Infrastructure\" />
+    <Folder Include="Controllers\Products\Infrastructure\" />
   </ItemGroup>
 
 </Project>
