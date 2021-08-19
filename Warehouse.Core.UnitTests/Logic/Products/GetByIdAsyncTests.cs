@@ -47,9 +47,6 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             //act
             var result = await productLogic.GetByIdAsync(Product.Id);
             //assert
-            //result.Should().NotBeNull();
-            //result.Success.Should().BeFalse();
-            //result.Value.Should().BeSameAs(null);
             result.Should().BeFailure(String.Empty ,$"product {Product.Id} does not exist");
 
             MockProductRepository.Verify(
@@ -64,9 +61,6 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             //act
             var result = await productLogic.GetByIdAsync(Product.Id);
             //assert
-            //result.Should().NotBeNull();
-            //result.Success.Should().BeTrue();
-            //result.Value.Should().BeSameAs(Product);
             result.Should().BeSuccess(Product);
 
             MockProductRepository.Verify(

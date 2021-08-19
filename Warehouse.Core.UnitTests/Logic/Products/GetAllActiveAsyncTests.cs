@@ -45,9 +45,6 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             //act
             var result = await productLogic.GetAllActiveAsync();
             //assert
-            //result.Should().NotBeNull();
-            //result.Success.Should().BeTrue();
-            //result.Value.Should().BeSameAs(Products);
             result.Should().BeSuccess(Products);
 
             MockProductRepository.Verify(

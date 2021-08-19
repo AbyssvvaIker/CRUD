@@ -49,9 +49,6 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             //act
             var result = await categoryLogic.GetByIdAsync(Category.Id);
             //assert
-            //result.Should().NotBeNull();
-            //result.Success.Should().BeFalse();
-            //result.Value.Should().BeSameAs(null);
             result.Should().BeFailure("", $"Category {Category.Id} does not exist");
 
             MockCategoryRepository.Verify(
@@ -66,9 +63,6 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             //act
             var result = await categoryLogic.GetByIdAsync(Category.Id);
             //assert
-            //result.Should().NotBeNull();
-            //result.Success.Should().BeTrue();
-            //result.Value.Should().BeSameAs(Category);
             result.Should().BeSuccess(Category);
 
             MockCategoryRepository.Verify(

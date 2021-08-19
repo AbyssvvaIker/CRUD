@@ -57,8 +57,6 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             //act
             var result = await productLogic.DeleteAsync(Product);
             //assert
-            //result.Should().NotBeNull();
-            //result.Success.Should().BeTrue();
             result.Should().BeSuccess();
 
             MockProductRepository.Verify(

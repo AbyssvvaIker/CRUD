@@ -69,19 +69,7 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             //act
             var result = await productLogic.AddAsync(Product);
             //assert
-            //result.Should().NotBeNull();
-            //result.Success.Should().BeFalse();
-            //result.Errors.Should().HaveCount(1);
             result.Should().BeFailure(validatedProperty, errorMessage);
-
-            //foreach (var err in result.Errors)
-            //{
-            //    err.Should().BeEquivalentTo(new ErrorMessage()
-            //    {
-            //        PropertyName = validatedProperty,
-            //        Message = errorMessage,
-            //    });
-            //}
 
             MockValidator.Verify(
                 x => x.Validate(Product),
@@ -104,9 +92,6 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             //act
             var result = await productLogic.AddAsync(Product);
             //assert
-            //result.Should().NotBeNull();
-            //result.Success.Should().BeTrue();
-            //result.Value.Should().BeSameAs(Product);
             result.Should().BeSuccess(Product);
             MockValidator.Verify(
                 x => x.Validate(Product),

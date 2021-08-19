@@ -40,9 +40,6 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             //act
             var result = await categoryLogic.GetAllActiveAsync();
             //assert
-            //result.Should().NotBeNull();
-            //result.Success.Should().BeTrue();
-            //result.Value.Should().BeSameAs(Categories);
             result.Should().BeSuccess(Categories);
             MockCategoryRepository.Verify(
                 x => x.GetAllActiveAsync(),

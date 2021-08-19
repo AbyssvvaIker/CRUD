@@ -64,19 +64,7 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             //act
             var result = await categoryLogic.UpdateAsync(Category);
             //assert
-            //result.Should().NotBeNull();
-            //result.Success.Should().BeFalse();
-            //result.Errors.Should().HaveCount(1);
             result.Should().BeFailure(validatedProperty, errorMessage);
-
-            //foreach (var err in result.Errors)
-            //{
-            //    err.Should().BeEquivalentTo(new ErrorMessage()
-            //    {
-            //        PropertyName = validatedProperty,
-            //        Message = errorMessage,
-            //    });
-            //}
 
             MockValidator.Verify(
                 x => x.Validate(Category),
@@ -94,9 +82,6 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             //act
             var result = await categoryLogic.UpdateAsync(Category);
             //assert
-            //result.Should().NotBeNull();
-            //result.Success.Should().BeTrue();
-            //result.Value.Should().BeSameAs(Category);
             result.Should().BeSuccess(Category);
 
             MockValidator.Verify(

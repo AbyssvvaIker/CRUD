@@ -67,8 +67,6 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             //act
             var result =await categoryLogic.DeleteAsync(Category);
             //assert
-            //result.Should().NotBeNull();
-            //result.Success.Should().BeTrue();
             result.Should().BeSuccess();
 
             MockProductRepository.Verify(
