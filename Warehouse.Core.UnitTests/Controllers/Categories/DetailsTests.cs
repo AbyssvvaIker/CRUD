@@ -1,5 +1,5 @@
 ﻿using FizzWare.NBuilder;
-using FluentAssertions;
+
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,8 @@ using Warehouse.Web.Controllers;
 using Warehouse.Web.ViewModels.Category;
 using Xunit;
 using FluentAssertions.AspNetCore.Mvc;
+using FluentAssertions;
+using System.Threading.Tasks;
 
 namespace Warehouse.Core.UnitTests.Controllers.Categories
 {
@@ -38,26 +40,38 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
             return controller;
         }
         [Fact]
-        public void Should_RedirectTo_Index_When_ResultIs_Failure()
+        public async Task Should_Be_NotFound_When_Id_IsNull()
+        {
+            var controller = Create();
+            var result =await controller.Details(null);
+            result.Should()
+                .BeNotFoundResult();
+        }
+        [Fact]
+        public async Task Should_Be_NotFound_When_ResultIs_Failure()
         {
             var controller = Create();
             CategoryResult = Result.Failure<Category>("Property", "Error");
-            var result = controller.Details(ViewModel.Id);
+            var result = await controller.Details(ViewModel.Id);
+
             result.Should()
-            .BeRedirectToRouteResult()
-            .WithAction("Index");
+                .BeNotFoundResult();
         }
         [Fact]
-        public void Should_Return_View_With_Data_When_ResultIs_Failure()
+        public async Task Should_Return_View_With_ViewModel_When_ResultIs_Ok()
         {
             var controller = Create();
-            var result = controller.Details(ViewModel.Id);
+
+            MockCategoryLogic.Setup(x => x.GetByIdAsync(Category.Id)).ReturnsAsync(() => CategoryResult);
+            MockMapper.Setup(x => x.Map<CategoryViewModel>(Category));
+
+            var result = await controller.Details(ViewModel.Id);
+
             result.Should()
-            .BeViewResult()
-            .WithDefaultViewName()
-            .Model
-            .Should()
-            .BeEquivalentTo(ViewModel);
+                .BeViewResult()
+                .Model
+                .Should()
+                .BeEquivalentTo(ViewModel);
         }
     }
 }
