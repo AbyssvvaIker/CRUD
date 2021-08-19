@@ -35,7 +35,7 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
             CategoryResult = Result.Ok(Category);
             
             MockCategoryLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(() => CategoryResult);
-            MockMapper.Setup(x => x.Map<CategoryViewModel>(It.IsAny<Category>()));
+            MockMapper.Setup(x => x.Map<CategoryViewModel>(It.IsAny<Category>())).Returns(ViewModel);
 
             return controller;
         }
@@ -63,12 +63,12 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
             var controller = Create();
 
             MockCategoryLogic.Setup(x => x.GetByIdAsync(Category.Id)).ReturnsAsync(() => CategoryResult);
-            MockMapper.Setup(x => x.Map<CategoryViewModel>(Category));
-
+            
             var result = await controller.Details(ViewModel.Id);
 
             result.Should()
                 .BeViewResult()
+                .WithDefaultViewName()
                 .Model
                 .Should()
                 .BeEquivalentTo(ViewModel);
