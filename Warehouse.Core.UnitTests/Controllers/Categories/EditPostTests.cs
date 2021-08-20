@@ -37,6 +37,25 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
 
             return controller;
         }
+        [Fact]
+        public async Task Should_return_View_With_ViewModel_When_Validation_Failed()
+        {
+            var controller = Create();
+            var errorProperty = "property";
+            var errorMessage = "error message";
+            controller.ModelState.AddModelError(errorProperty, errorMessage);
+
+            var result = await controller.Create(ViewModel);
+
+            result.Should()
+                .BeViewResult()
+                .WithDefaultViewName()
+                .Model
+                .Should()
+                .BeEquivalentTo(ViewModel);
+            //errors?
+        }
+
 
         [Fact]
         public async Task Should_Return_View_With_ViewModel_When_GetResultIs_Failure()
