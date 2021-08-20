@@ -9,6 +9,7 @@ using Warehouse.Core.UnitTests.Controllers.Categories.Infrastructure;
 using Warehouse.Web.Controllers;
 using Warehouse.Web.ViewModels.Category;
 using Xunit;
+using Warehouse.Core.UnitTests.CustomAssertions;
 
 namespace Warehouse.Core.UnitTests.Controllers.Categories
 {
@@ -51,7 +52,9 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
             result.Should()
                 .BeRedirectToActionResult()
                 .WithActionName(nameof(Index));
-            //errors?
+            controller.Should()
+                .HasError(errorProperty, errorMessage);
+            
         }
         [Fact]
         public async Task Should_RedirectToAction_Index_When_GetResultIs_Ok()

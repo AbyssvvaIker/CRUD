@@ -11,6 +11,7 @@ using Warehouse.Core.UnitTests.Controllers.Categories.Infrastructure;
 using Warehouse.Web.Controllers;
 using Warehouse.Web.ViewModels.Category;
 using Xunit;
+using Warehouse.Core.UnitTests.CustomAssertions;
 
 namespace Warehouse.Core.UnitTests.Controllers.Categories
 {
@@ -56,7 +57,10 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
                 .Model
                 .Should()
                 .BeEquivalentTo(ViewModel);
-            //errors?
+            controller.Should()
+                .HasError(errorProperty, errorMessage);
+
+
 
         }
 
@@ -79,8 +83,9 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
                 .Model
                 .Should()
                 .BeEquivalentTo(ViewModel);
-                
-            //errors?
+            controller.Should()
+                .HasError(errorProperty, errorMessage);
+
         }
 
         [Fact]
