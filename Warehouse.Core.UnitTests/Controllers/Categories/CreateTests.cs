@@ -60,5 +60,16 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
             //errors?
         }
 
+        [Fact]
+        public async Task Should_Redirect_ToIndex_When_ResultIs_Ok()
+        {
+            var controller = Create();
+
+            var result =await controller.Create(ViewModel);
+
+            result.Should()
+                .BeRedirectToActionResult()
+                .WithActionName(nameof(Index));
+        }
     }
 }
