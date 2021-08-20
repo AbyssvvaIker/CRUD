@@ -33,7 +33,7 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
             CategoriesResult = Builder<Result<IEnumerable<Category>>>
             .CreateNew()
             .Build();
-            //MockCategoryLogic.Setup( x =>x.GetAllActiveAsync()).ReturnsAsync(() => CategoriesResult);
+
             MockCategoryLogic.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(CategoriesResult);
             MockMapper.Setup(x => x.Map<IList<IndexItemViewModel>>(CategoriesResult.Value)).Returns(Categories);
 
