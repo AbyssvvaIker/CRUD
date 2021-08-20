@@ -1,10 +1,67 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using FizzWare.NBuilder;
+using FluentAssertions.AspNetCore.Mvc;
+using FluentAssertions;
+using Moq;
+using System;
+using System.Threading.Tasks;
+using Warehouse.Core.Entities;
+using Warehouse.Core.UnitTests.Controllers.Categories.Infrastructure;
+using Warehouse.Web.Controllers;
+using Warehouse.Web.ViewModels.Category;
+using Xunit;
 
 namespace Warehouse.Core.UnitTests.Controllers.Categories
 {
-    class DeleteConfirmed
+    public class DeletePostTests : BaseTest
     {
+        protected Category Category { get; set; }
+        protected CategoryViewModel ViewModel { get; set; }
+        protected Result<Category> CategoryResult { get; set; }
+
+        protected override CategoryController Create()
+        {
+            var controller = base.Create();
+            Category = Builder<Category>
+                .CreateNew()
+                .Build();
+
+            ViewModel = Builder<CategoryViewModel>
+                .CreateNew()
+                .Build();
+
+            CategoryResult = Result.Ok(Category);
+
+            MockCategoryLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(() => CategoryResult);
+            MockMapper.Setup(x => x.Map(It.IsAny<CategoryViewModel>(), It.IsAny<Category>())).Returns(Category);
+
+            return controller;
+        }
+
+        [Fact]
+        public async Task Should_RedirectToAction_Index_When_GetResultIs_Failure()
+        {
+            var controller = Create();
+            var errorProperty = "property";
+            var errorMessage = "error message";
+            CategoryResult = Result.Failure<Category>(errorProperty, errorMessage);
+
+            var result =await controller.DeleteConfirmed(Category.Id);
+
+            result.Should()
+                .BeRedirectToActionResult()
+                .WithActionName(nameof(Index));
+            //errors?
+        }
+        [Fact]
+        public async Task Should_RedirectToAction_Index_When_GetResultIs_Ok()
+        {
+            var controller = Create();
+
+            var result =await controller.DeleteConfirmed(Category.Id);
+
+            result.Should()
+                .BeRedirectToActionResult()
+                .WithActionName(nameof(Index));
+        }
     }
 }
