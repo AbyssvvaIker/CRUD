@@ -146,6 +146,7 @@ namespace Warehouse.Web.Controllers
             var result = await _categoryLogic.GetByIdAsync((Guid)id);
             if (result.Success == false)
             {
+                result.AddErrorToModelState(ModelState);
                 return RedirectToAction(nameof(Index));
             }
             await _categoryLogic.DeleteAsync(result.Value);
