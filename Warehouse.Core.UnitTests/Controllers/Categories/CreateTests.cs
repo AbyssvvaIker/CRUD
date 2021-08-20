@@ -47,7 +47,7 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
             CategoryResult = Result.Failure<Category>(errorProperty, errorMessage);
             MockMapper.Setup(x => x.Map<Category>(ViewModel)).Returns(Category);
 
-            var result = controller.Create();
+            var result =await controller.Create(ViewModel);
 
 
             result.Should()
@@ -57,7 +57,8 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
                 .Should()
                 .BeEquivalentTo(ViewModel);
                 
-
+            //errors?
         }
+
     }
 }
