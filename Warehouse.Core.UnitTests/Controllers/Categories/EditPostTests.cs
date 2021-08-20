@@ -40,13 +40,14 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
         [Fact]
         public async Task Should_return_View_With_ViewModel_When_Validation_Failed()
         {
+            //arrange
             var controller = Create();
             var errorProperty = "property";
             var errorMessage = "error message";
             controller.ModelState.AddModelError(errorProperty, errorMessage);
-
+            //act
             var result = await controller.Create(ViewModel);
-
+            //assert
             result.Should()
                 .BeViewResult()
                 .WithDefaultViewName()
@@ -60,13 +61,14 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
         [Fact]
         public async Task Should_Return_View_With_ViewModel_When_GetResultIs_Failure()
         {
+            //arrange
             var controller = Create();
             var errorProperty = "property";
             var errorMessage = "error message";
             CategoryResult = Result.Failure<Category>(errorProperty,errorMessage);
-
+            //act
             var result = await controller.Edit(ViewModel);
-
+            //assert
             result.Should()
                 .BeViewResult()
                 .WithDefaultViewName()
@@ -79,14 +81,15 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
         [Fact]
         public async Task Should_Return_View_With_ViewModel_When_UpdateResultIs_Failure()
         {
+            //arrange
             var controller = Create();
             var errorProperty = "property";
             var errorMessage = "error message";
             CategoryResult = Result.Failure<Category>(errorProperty, errorMessage);
             MockCategoryLogic.Setup(x => x.UpdateAsync(It.IsAny<Category>())).ReturnsAsync(CategoryResult);
-
+            //act
             var result = await controller.Edit(ViewModel);
-
+            //assert
             result.Should()
                 .BeViewResult()
                 .WithDefaultViewName()
@@ -99,11 +102,12 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
         [Fact]
         public async Task Should_RedirectToAction_When_GetResult_And_UpdateResult_Are_Ok()
         {
+            //arrange
             var controller = Create();
             MockCategoryLogic.Setup(x => x.UpdateAsync(It.IsAny<Category>())).ReturnsAsync(CategoryResult);
-
+            //act
             var result =await controller.Edit(ViewModel);
-
+            //assert
             result.Should()
                 .BeRedirectToActionResult()
                 .WithActionName(nameof(Index));

@@ -40,13 +40,14 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
         [Fact]
         public async Task Should_RedirectToAction_Index_When_GetResultIs_Failure()
         {
+            //arrange
             var controller = Create();
             var errorProperty = "property";
             var errorMessage = "error message";
             CategoryResult = Result.Failure<Category>(errorProperty, errorMessage);
-
+            //act
             var result =await controller.DeleteConfirmed(Category.Id);
-
+            //assert
             result.Should()
                 .BeRedirectToActionResult()
                 .WithActionName(nameof(Index));
@@ -55,10 +56,11 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
         [Fact]
         public async Task Should_RedirectToAction_Index_When_GetResultIs_Ok()
         {
+            //arrange
             var controller = Create();
-
+            //act
             var result =await controller.DeleteConfirmed(Category.Id);
-
+            //assert
             result.Should()
                 .BeRedirectToActionResult()
                 .WithActionName(nameof(Index));

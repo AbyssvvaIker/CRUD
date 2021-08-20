@@ -41,23 +41,25 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
         [Fact]
         public async Task Should_Be_NotFound_When_GivenIdIs_Null()
         {
+            //arrange
             var controller = Create();
-
+            //act
             var result = await controller.Edit((Guid?)null);
-
+            //assert
             result.Should()
                 .BeNotFoundResult();
         }
         [Fact]
         public async Task Should_Be_NotFound_When_ResultIs_Failure()
         {
+            //arrange
             var controller = Create();
             var errorProperty = "property";
             var errorMessage = "error message";
             CategoryResult = Result.Failure<Category>(errorProperty, errorMessage);
-
+            //act
             var result = await controller.Edit(Category.Id);
-
+            //assert
             result.Should()
                 .BeNotFoundResult();
         }
@@ -65,10 +67,11 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
         [Fact]
         public async Task Should_Return_View_With_ViewModel_When_ResultIs_Ok()
         {
+            //arrange
             var controller = Create();
-
+            //act
             var result = await controller.Edit(Category.Id);
-
+            //assert
             result.Should()
                 .BeViewResult()
                 .WithDefaultViewName()

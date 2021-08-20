@@ -43,10 +43,11 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
         [Fact]
         public async Task Should_Return_View_With_ListOf_IndexViewModel()
         {
+            //arrange
             var controller = Create();
-
+            //act
             var result =await controller.Index();
-
+            //assert
             result.Should()
                 .BeViewResult()
                 .WithDefaultViewName()

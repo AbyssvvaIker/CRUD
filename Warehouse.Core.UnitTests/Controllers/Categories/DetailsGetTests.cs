@@ -42,30 +42,35 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
         [Fact]
         public async Task Should_Be_NotFound_When_Id_IsNull()
         {
+            //arrange
             var controller = Create();
+            //act
             var result =await controller.Details(null);
+            //assert
             result.Should()
                 .BeNotFoundResult();
         }
         [Fact]
         public async Task Should_Be_NotFound_When_ResultIs_Failure()
         {
+            //arrange
             var controller = Create();
             CategoryResult = Result.Failure<Category>("Property", "Error");
+            //act
             var result = await controller.Details(ViewModel.Id);
-
+            //assert
             result.Should()
                 .BeNotFoundResult();
         }
         [Fact]
         public async Task Should_Return_View_With_ViewModel_When_ResultIs_Ok()
         {
+            //arrange
             var controller = Create();
-
             MockCategoryLogic.Setup(x => x.GetByIdAsync(Category.Id)).ReturnsAsync(() => CategoryResult);
-            
+            //act
             var result = await controller.Details(ViewModel.Id);
-
+            //assert
             result.Should()
                 .BeViewResult()
                 .WithDefaultViewName()

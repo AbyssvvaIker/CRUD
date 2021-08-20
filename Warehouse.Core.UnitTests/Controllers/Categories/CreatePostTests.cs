@@ -42,13 +42,14 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
         [Fact]
         public async Task Should_Return_View_With_ViewModel_When_ValidationFailed()
         {
+            //arrange
             var controller = Create();
             var errorProperty = "property";
             var errorMessage = "error message";
             controller.ModelState.AddModelError(errorProperty, errorMessage);
-
+            //act
             var result =await controller.Create(ViewModel);
-
+            //assert
             result.Should()
                 .BeViewResult()
                 .WithDefaultViewName()
@@ -62,15 +63,16 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
         [Fact]
         public async Task Should_Return_View_With_Errors_When_ResultIs_Failure()
         {
+            //arrange
             var controller = Create();
             var errorProperty = "property";
             var errorMessage = "message";
             CategoryResult = Result.Failure<Category>(errorProperty, errorMessage);
             MockMapper.Setup(x => x.Map<Category>(ViewModel)).Returns(Category);
-
+            //act
             var result =await controller.Create(ViewModel);
 
-
+            //assert
             result.Should()
                 .BeViewResult()
                 .WithDefaultViewName()
@@ -84,10 +86,11 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
         [Fact]
         public async Task Should_Redirect_ToIndex_When_ResultIs_Ok()
         {
+            //arrange
             var controller = Create();
-
+            //act
             var result =await controller.Create(ViewModel);
-
+            //assert
             result.Should()
                 .BeRedirectToActionResult()
                 .WithActionName(nameof(Index));
