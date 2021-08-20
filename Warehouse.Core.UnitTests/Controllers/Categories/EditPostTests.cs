@@ -19,7 +19,8 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
     {
         protected Category Category { get; set; }
         protected CategoryViewModel ViewModel { get; set; }
-        protected Result<Category> CategoryResult { get; set; }
+        protected Result<Category> CategoryGetResult { get; set; }
+        protected Result<Category> CategoryUpdateResult { get; set; }
 
         protected override CategoryController Create()
         {
@@ -32,9 +33,10 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
                 .CreateNew()
                 .Build();
 
-            CategoryResult = Result.Ok(Category);
+            CategoryGetResult = Result.Ok(Category);
+            CategoryUpdateResult = Result.Ok(CategoryGetResult.Value);
 
-            MockCategoryLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(() => CategoryResult);
+            MockCategoryLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(() => CategoryGetResult);
             MockMapper.Setup(x => x.Map(It.IsAny<CategoryViewModel>(), It.IsAny<Category>())).Returns(Category);
 
             return controller;
@@ -58,6 +60,16 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
                 .BeEquivalentTo(ViewModel);
             controller.Should()
                 .HasError(errorProperty, errorMessage);
+
+            MockCategoryLogic.Verify(
+                x => x.GetByIdAsync(It.IsAny<Guid>()),
+                Times.Never);
+            MockMapper.Verify(
+                x => x.Map(It.IsAny<CategoryViewModel>(), It.IsAny<Category>()),
+                Times.Never);
+            MockCategoryLogic.Verify(
+                x => x.UpdateAsync(It.IsAny<Category>()),
+                Times.Never);
         }
 
 
@@ -68,7 +80,7 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
             var controller = Create();
             var errorProperty = "property";
             var errorMessage = "error message";
-            CategoryResult = Result.Failure<Category>(errorProperty,errorMessage);
+            CategoryGetResult = Result.Failure<Category>(errorProperty,errorMessage);
             //act
             var result = await controller.Edit(ViewModel);
             //assert
@@ -80,6 +92,15 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
                 .BeEquivalentTo(ViewModel);
             controller.Should()
                 .HasError(errorProperty, errorMessage);
+            MockCategoryLogic.Verify(
+                x => x.GetByIdAsync(ViewModel.Id),
+                Times.Once);
+            MockMapper.Verify(
+                x => x.Map(It.IsAny<CategoryViewModel>(), It.IsAny<Category>()),
+                Times.Never);
+            MockCategoryLogic.Verify(
+                x => x.UpdateAsync(It.IsAny<Category>()),
+                Times.Never);
         }
 
         [Fact]
@@ -89,8 +110,8 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
             var controller = Create();
             var errorProperty = "property";
             var errorMessage = "error message";
-            CategoryResult = Result.Failure<Category>(errorProperty, errorMessage);
-            MockCategoryLogic.Setup(x => x.UpdateAsync(It.IsAny<Category>())).ReturnsAsync(CategoryResult);
+            CategoryUpdateResult = Result.Failure<Category>(errorProperty, errorMessage);
+            MockCategoryLogic.Setup(x => x.UpdateAsync(It.IsAny<Category>())).ReturnsAsync(CategoryUpdateResult);
             //act
             var result = await controller.Edit(ViewModel);
             //assert
@@ -102,7 +123,16 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
                 .BeEquivalentTo(ViewModel);
             controller.Should()
                 .HasError(errorProperty, errorMessage);
-            
+
+            MockCategoryLogic.Verify(
+                x => x.GetByIdAsync(ViewModel.Id),
+                Times.Once);
+            MockMapper.Verify(
+                x => x.Map(ViewModel, CategoryGetResult.Value),
+                Times.Once);
+            MockCategoryLogic.Verify(
+                x => x.UpdateAsync(CategoryGetResult.Value),
+                Times.Once);
         }
 
         [Fact]
@@ -110,13 +140,23 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
         {
             //arrange
             var controller = Create();
-            MockCategoryLogic.Setup(x => x.UpdateAsync(It.IsAny<Category>())).ReturnsAsync(CategoryResult);
+            MockCategoryLogic.Setup(x => x.UpdateAsync(It.IsAny<Category>())).ReturnsAsync(CategoryUpdateResult);
             //act
             var result =await controller.Edit(ViewModel);
             //assert
             result.Should()
                 .BeRedirectToActionResult()
                 .WithActionName(nameof(Index));
+
+            MockCategoryLogic.Verify(
+                x => x.GetByIdAsync(ViewModel.Id),
+                Times.Once);
+            MockMapper.Verify(
+                x => x.Map(ViewModel, CategoryGetResult.Value),
+                Times.Once);
+            MockCategoryLogic.Verify(
+                x => x.UpdateAsync(CategoryGetResult.Value),
+                Times.Once);
         }
 
     }

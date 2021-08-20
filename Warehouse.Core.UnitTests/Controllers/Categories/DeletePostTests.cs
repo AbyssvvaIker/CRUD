@@ -33,7 +33,7 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
             CategoryResult = Result.Ok(Category);
 
             MockCategoryLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(() => CategoryResult);
-            MockMapper.Setup(x => x.Map(It.IsAny<CategoryViewModel>(), It.IsAny<Category>())).Returns(Category);
+            //MockMapper.Setup(x => x.Map(It.IsAny<CategoryViewModel>(), It.IsAny<Category>())).Returns(Category);
 
             return controller;
         }
@@ -54,7 +54,15 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
                 .WithActionName(nameof(Index));
             controller.Should()
                 .HasError(errorProperty, errorMessage);
-            
+
+
+            MockCategoryLogic.Verify(
+                x => x.GetByIdAsync(Category.Id),
+                Times.Once);
+            MockCategoryLogic.Verify(
+                x => x.DeleteAsync(It.IsAny<Category>()),
+                Times.Never);
+
         }
         [Fact]
         public async Task Should_RedirectToAction_Index_When_GetResultIs_Ok()
@@ -67,6 +75,13 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
             result.Should()
                 .BeRedirectToActionResult()
                 .WithActionName(nameof(Index));
+
+            MockCategoryLogic.Verify(
+                x => x.GetByIdAsync(Category.Id),
+                Times.Once);
+            MockCategoryLogic.Verify(
+                x => x.DeleteAsync(CategoryResult.Value),
+                Times.Once);
         }
     }
 }

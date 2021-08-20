@@ -54,6 +54,13 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
                 .Model
                 .Should()
                 .BeEquivalentTo(ViewModel);
+
+            MockCategoryLogic.Verify(
+                x => x.GetAllActiveAsync(),
+                Times.Once);
+            MockMapper.Verify(
+                x => x.Map<IList<IndexItemViewModel>>(CategoriesResult.Value),
+                Times.Once);
         }
     }
 }

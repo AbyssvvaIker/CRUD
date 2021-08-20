@@ -49,6 +49,13 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
             //assert
             result.Should()
                 .BeNotFoundResult();
+
+            MockCategoryLogic.Verify(
+                x => x.GetByIdAsync(It.IsAny<Guid>()),
+                Times.Never);
+            MockMapper.Verify(
+                x => x.Map<CategoryViewModel>(It.IsAny<Category>()),
+                Times.Never);
         }
         [Fact]
         public async Task Should_Be_NotFound_When_ResultIs_Failure()
@@ -61,6 +68,13 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
             //assert
             result.Should()
                 .BeNotFoundResult();
+
+            MockCategoryLogic.Verify(
+                x => x.GetByIdAsync(ViewModel.Id),
+                Times.Once);
+            MockMapper.Verify(
+                x => x.Map<CategoryViewModel>(It.IsAny<Category>()),
+                Times.Never);
         }
         [Fact]
         public async Task Should_Return_View_With_ViewModel_When_ResultIs_Ok()
@@ -77,6 +91,14 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
                 .Model
                 .Should()
                 .BeEquivalentTo(ViewModel);
+
+            MockCategoryLogic.Verify(
+                x => x.GetByIdAsync(ViewModel.Id),
+                Times.Once);
+            MockMapper.Verify(
+                x => x.Map<CategoryViewModel>(CategoryResult.Value),
+                Times.Once);
+
         }
     }
 }
