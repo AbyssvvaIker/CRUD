@@ -39,6 +39,8 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
                 .Model
                 .Should()
                 .BeOfType(typeof(CategoryViewModel));
+
+            //no mock is used here
         }
     }
 }

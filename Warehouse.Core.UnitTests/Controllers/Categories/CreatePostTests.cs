@@ -1,17 +1,15 @@
 ﻿using FizzWare.NBuilder;
-using FluentAssertions.AspNetCore.Mvc;
 using FluentAssertions;
+using FluentAssertions.AspNetCore.Mvc;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Warehouse.Core.Entities;
 using Warehouse.Core.UnitTests.Controllers.Categories.Infrastructure;
+using Warehouse.Core.UnitTests.CustomAssertions;
 using Warehouse.Web.Controllers;
 using Warehouse.Web.ViewModels.Category;
 using Xunit;
-using Warehouse.Core.UnitTests.CustomAssertions;
 
 namespace Warehouse.Core.UnitTests.Controllers.Categories
 {
@@ -49,7 +47,7 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
             var errorMessage = "error message";
             controller.ModelState.AddModelError(errorProperty, errorMessage);
             //act
-            var result =await controller.Create(ViewModel);
+            var result = await controller.Create(ViewModel);
             //assert
             result.Should()
                 .BeViewResult()
@@ -60,8 +58,13 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
             controller.Should()
                 .HasError(errorProperty, errorMessage);
 
-
-
+            MockMapper.Verify(
+                x => x.Map<Category>(It.IsAny<CategoryViewModel>()),
+                Times.Never
+                );
+            MockCategoryLogic.Verify(
+                x => x.AddAsync(It.IsAny<Category>()),
+                Times.Never);
         }
 
         [Fact]
@@ -74,7 +77,7 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
             CategoryResult = Result.Failure<Category>(errorProperty, errorMessage);
             MockMapper.Setup(x => x.Map<Category>(ViewModel)).Returns(Category);
             //act
-            var result =await controller.Create(ViewModel);
+            var result = await controller.Create(ViewModel);
 
             //assert
             result.Should()
@@ -86,6 +89,13 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
             controller.Should()
                 .HasError(errorProperty, errorMessage);
 
+            MockMapper.Verify(
+                x => x.Map<Category>(ViewModel),
+                Times.Once
+                );
+            MockCategoryLogic.Verify(
+                x => x.AddAsync(Category),
+                Times.Once);
         }
 
         [Fact]
@@ -94,11 +104,17 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
             //arrange
             var controller = Create();
             //act
-            var result =await controller.Create(ViewModel);
+            var result = await controller.Create(ViewModel);
             //assert
             result.Should()
                 .BeRedirectToActionResult()
                 .WithActionName(nameof(Index));
+            MockMapper.Verify(
+                x => x.Map<Category>(ViewModel),
+                Times.Once);
+            MockCategoryLogic.Verify(
+                x => x.AddAsync(Category),
+                Times.Once);
         }
     }
 }
