@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Warehouse.Core.UnitTests.Controllers.Categories
 {
-    class EditTests
+    class IndexTests
     {
     }
 }

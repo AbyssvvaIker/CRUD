@@ -14,7 +14,7 @@ using Xunit;
 
 namespace Warehouse.Core.UnitTests.Controllers.Categories
 {
-    public class CreateTests : BaseTest
+    public class CreatePostTests : BaseTest
     {
         protected Category Category { get; set; }
         protected CategoryViewModel ViewModel { get; set; }
