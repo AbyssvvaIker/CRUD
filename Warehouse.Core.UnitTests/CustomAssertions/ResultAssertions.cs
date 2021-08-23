@@ -78,6 +78,12 @@ namespace Warehouse.Core.UnitTests.CustomAssertions
 
             return this;
         }
+
+        public ResultAssertions<T> BeFailure(string message, string because = "", params object[] becauseArgs)
+        {
+            BeFailure(string.Empty, message, because, becauseArgs);
+            return this;
+        }
     }
 
     public static class ResultExtensions
