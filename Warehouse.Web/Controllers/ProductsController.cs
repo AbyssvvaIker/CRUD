@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Warehouse.Core.Entities;
 using Warehouse.Core.Interfaces;
-using Warehouse.Infrastructure.DataAccess;
 using Warehouse.Web.Infrastructure.ExtensionMethods;
 using Warehouse.Web.ViewModels;
 using Warehouse.Web.ViewModels.Product;
@@ -31,7 +28,7 @@ namespace Warehouse.Web.Controllers
         public async Task<IActionResult> Index()
         {
             var result = await _productLogic.GetAllActiveAsync();
-            if(result.Success == false)
+            if (result.Success == false)
             {
                 return NotFound();
             }
@@ -53,6 +50,7 @@ namespace Warehouse.Web.Controllers
             var result = await _productLogic.GetByIdAsync((Guid)id);
             if (result.Success == false)
             {
+                result.AddErrorToModelState(ModelState);
                 return NotFound();
             }
             var productViewModel = _mapper.Map<ProductViewModel>(result.Value);
@@ -78,7 +76,7 @@ namespace Warehouse.Web.Controllers
             }
             var product = _mapper.Map<Product>(productViewModel);
             var result = await _productLogic.AddAsync(product);
-            if(result.Success == false)
+            if (result.Success == false)
             {
                 result.AddErrorToModelState(ModelState);
                 await GetCategoriesFromDb(productViewModel);
@@ -117,7 +115,7 @@ namespace Warehouse.Web.Controllers
             }
 
             var getResult = await _productLogic.GetByIdAsync(productViewModel.Id);
-            if(getResult.Success == false)
+            if (getResult.Success == false)
             {
                 getResult.AddErrorToModelState(ModelState);
                 return View(productViewModel);
@@ -170,7 +168,7 @@ namespace Warehouse.Web.Controllers
             var result = await _categoryLogic.GetAllActiveAsync();
             var categories = _mapper.Map<IList<SelectItemViewModel>>(result.Value);
             viewModel.AvailableCategories = categories;
-            return; 
+            return;
         }
     }
 }
