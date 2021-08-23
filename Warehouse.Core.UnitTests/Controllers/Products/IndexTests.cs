@@ -15,14 +15,14 @@ namespace Warehouse.Core.UnitTests.Controllers.Products
 {
     public class IndexTests : BaseTest
     {
-        protected IList<IndexItemViewModel> Categories { get; set; }
+        protected IList<IndexItemViewModel> Products { get; set; }
         protected IList<IndexItemViewModel> ViewModel { get; set; }
-        protected Result<IEnumerable<Category>> CategoriesResult { get; set; }
+        protected Result<IEnumerable<Product>> ProductsResult { get; set; }
 
         protected override ProductsController Create()
         {
             var controller = base.Create();
-            Categories = Builder<IndexItemViewModel>
+            Products = Builder<IndexItemViewModel>
                 .CreateListOfSize(5)
                 .Build();
 
@@ -30,12 +30,12 @@ namespace Warehouse.Core.UnitTests.Controllers.Products
                 .CreateListOfSize(5)
                 .Build();
 
-            CategoriesResult = Builder<Result<IEnumerable<Category>>>
+            ProductsResult = Builder<Result<IEnumerable<Product>>>
             .CreateNew()
             .Build();
 
-            MockCategoryLogic.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(CategoriesResult);
-            MockMapper.Setup(x => x.Map<IList<IndexItemViewModel>>(CategoriesResult.Value)).Returns(Categories);
+            MockProductLogic.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(ProductsResult);
+            MockMapper.Setup(x => x.Map<IList<IndexItemViewModel>>(ProductsResult.Value)).Returns(Products);
 
             return controller;
         }
@@ -55,11 +55,11 @@ namespace Warehouse.Core.UnitTests.Controllers.Products
                 .Should()
                 .BeEquivalentTo(ViewModel);
 
-            MockCategoryLogic.Verify(
+            MockProductLogic.Verify(
                 x => x.GetAllActiveAsync(),
                 Times.Once);
             MockMapper.Verify(
-                x => x.Map<IList<IndexItemViewModel>>(CategoriesResult.Value),
+                x => x.Map<IList<IndexItemViewModel>>(ProductsResult.Value),
                 Times.Once);
         }
     }

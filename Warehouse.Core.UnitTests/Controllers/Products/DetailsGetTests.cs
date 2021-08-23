@@ -12,19 +12,20 @@ using Xunit;
 using FluentAssertions.AspNetCore.Mvc;
 using FluentAssertions;
 using System.Threading.Tasks;
+using Warehouse.Core.UnitTests.CustomAssertions;
 
 namespace Warehouse.Core.UnitTests.Controllers.Products
 {
     public class DetailsGetTests : BaseTest
     {
-        protected Category Category { get; set; }
+        protected Product Product { get; set; }
         protected ProductViewModel ViewModel { get; set; }
-        protected Result<Category> CategoryResult { get; set; }
+        protected Result<Product> ProductResult { get; set; }
 
         protected override ProductsController Create()
         {
             var controller = base.Create();
-            Category = Builder<Category>
+            Product = Builder<Product>
                 .CreateNew()
                 .Build();
 
@@ -32,10 +33,10 @@ namespace Warehouse.Core.UnitTests.Controllers.Products
                 .CreateNew()
                 .Build();
 
-            CategoryResult = Result.Ok(Category);
-            
-            MockCategoryLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(() => CategoryResult);
-            MockMapper.Setup(x => x.Map<ProductViewModel>(It.IsAny<Category>())).Returns(ViewModel);
+            ProductResult = Result.Ok(Product);
+
+            MockProductLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(() => ProductResult);
+            MockMapper.Setup(x => x.Map<ProductViewModel>(It.IsAny<Product>())).Returns(ViewModel);
 
             return controller;
         }
@@ -50,11 +51,11 @@ namespace Warehouse.Core.UnitTests.Controllers.Products
             result.Should()
                 .BeNotFoundResult();
 
-            MockCategoryLogic.Verify(
+            MockProductLogic.Verify(
                 x => x.GetByIdAsync(It.IsAny<Guid>()),
                 Times.Never);
             MockMapper.Verify(
-                x => x.Map<ProductViewModel>(It.IsAny<Category>()),
+                x => x.Map<ProductViewModel>(It.IsAny<Product>()),
                 Times.Never);
         }
         [Fact]
@@ -62,18 +63,22 @@ namespace Warehouse.Core.UnitTests.Controllers.Products
         {
             //arrange
             var controller = Create();
-            CategoryResult = Result.Failure<Category>("Property", "Error");
+            var errProperty = "Property";
+            var errMessage = "Error";
+            ProductResult = Result.Failure<Product>(errProperty,errMessage);
             //act
             var result = await controller.Details(ViewModel.Id);
             //assert
             result.Should()
                 .BeNotFoundResult();
+            controller.Should()
+                .HasError(errProperty,errMessage);
 
-            MockCategoryLogic.Verify(
+            MockProductLogic.Verify(
                 x => x.GetByIdAsync(ViewModel.Id),
                 Times.Once);
             MockMapper.Verify(
-                x => x.Map<ProductViewModel>(It.IsAny<Category>()),
+                x => x.Map<ProductViewModel>(It.IsAny<Product>()),
                 Times.Never);
         }
         [Fact]
@@ -81,7 +86,7 @@ namespace Warehouse.Core.UnitTests.Controllers.Products
         {
             //arrange
             var controller = Create();
-            MockCategoryLogic.Setup(x => x.GetByIdAsync(Category.Id)).ReturnsAsync(() => CategoryResult);
+            MockProductLogic.Setup(x => x.GetByIdAsync(Product.Id)).ReturnsAsync(() => ProductResult);
             //act
             var result = await controller.Details(ViewModel.Id);
             //assert
@@ -92,11 +97,11 @@ namespace Warehouse.Core.UnitTests.Controllers.Products
                 .Should()
                 .BeEquivalentTo(ViewModel);
 
-            MockCategoryLogic.Verify(
+            MockProductLogic.Verify(
                 x => x.GetByIdAsync(ViewModel.Id),
                 Times.Once);
             MockMapper.Verify(
-                x => x.Map<ProductViewModel>(CategoryResult.Value),
+                x => x.Map<ProductViewModel>(ProductResult.Value),
                 Times.Once);
 
         }
