@@ -14,6 +14,7 @@ namespace Warehouse.Core.UnitTests.Controllers.Products.Infrastructure
         protected virtual ProductsController Create()
         {
             MockCategoryLogic = new Mock<ICategoryLogic>();
+            MockProductLogic = new Mock<IProductLogic>();
             MockMapper = new Mock<IMapper>();
 
             return new ProductsController(MockProductLogic.Object, MockCategoryLogic.Object, MockMapper.Object);
