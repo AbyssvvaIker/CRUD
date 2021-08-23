@@ -157,6 +157,8 @@ namespace Warehouse.Web.Controllers
             var result = await _productLogic.GetByIdAsync((Guid)id);
             if (result.Success == false)
             {
+
+                result.AddErrorToModelState(ModelState);
                 return RedirectToAction(nameof(Index));
             }
             await _productLogic.DeleteAsync(result.Value);
