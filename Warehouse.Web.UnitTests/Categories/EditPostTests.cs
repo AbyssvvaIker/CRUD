@@ -7,13 +7,14 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Warehouse.Core.Entities;
-using Warehouse.Core.UnitTests.Controllers.Categories.Infrastructure;
+using Warehouse.Web.UnitTests.Categories.Infrastructure;
 using Warehouse.Web.Controllers;
 using Warehouse.Web.ViewModels.Category;
 using Xunit;
-using Warehouse.Core.UnitTests.CustomAssertions;
+using Warehouse.Web.UnitTests.CustomAssertions;
+using Warehouse.Core;
 
-namespace Warehouse.Core.UnitTests.Controllers.Categories
+namespace Warehouse.Web.UnitTests.Categories
 {
     public class EditPostTests : BaseTest
     {

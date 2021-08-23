@@ -5,35 +5,36 @@ using Moq;
 using System;
 using System.Threading.Tasks;
 using Warehouse.Core.Entities;
-using Warehouse.Core.UnitTests.Controllers.Products.Infrastructure;
+using Warehouse.Web.UnitTests.Categories.Infrastructure;
 using Warehouse.Web.Controllers;
-using Warehouse.Web.ViewModels.Product;
+using Warehouse.Web.ViewModels.Category;
 using Xunit;
-using Warehouse.Core.UnitTests.CustomAssertions;
+using Warehouse.Web.UnitTests.CustomAssertions;
+using Warehouse.Core;
 
-namespace Warehouse.Core.UnitTests.Controllers.Products
+namespace Warehouse.Web.UnitTests.Categories
 {
     public class DeletePostTests : BaseTest
     {
-        protected Product Product { get; set; }
-        protected ProductViewModel ViewModel { get; set; }
-        protected Result<Product> ProductResult { get; set; }
+        protected Category Category { get; set; }
+        protected CategoryViewModel ViewModel { get; set; }
+        protected Result<Category> CategoryResult { get; set; }
 
-        protected override ProductsController Create()
+        protected override CategoryController Create()
         {
             var controller = base.Create();
-            Product = Builder<Product>
+            Category = Builder<Category>
                 .CreateNew()
                 .Build();
 
-            ViewModel = Builder<ProductViewModel>
+            ViewModel = Builder<CategoryViewModel>
                 .CreateNew()
                 .Build();
 
-            ProductResult = Result.Ok(Product);
+            CategoryResult = Result.Ok(Category);
 
-            MockProductLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(() => ProductResult);
-            
+            MockCategoryLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(() => CategoryResult);
+            //MockMapper.Setup(x => x.Map(It.IsAny<CategoryViewModel>(), It.IsAny<Category>())).Returns(Category);
 
             return controller;
         }
@@ -45,9 +46,9 @@ namespace Warehouse.Core.UnitTests.Controllers.Products
             var controller = Create();
             var errorProperty = "property";
             var errorMessage = "error message";
-            ProductResult = Result.Failure<Product>(errorProperty, errorMessage);
+            CategoryResult = Result.Failure<Category>(errorProperty, errorMessage);
             //act
-            var result =await controller.DeleteConfirmed(Product.Id);
+            var result =await controller.DeleteConfirmed(Category.Id);
             //assert
             result.Should()
                 .BeRedirectToActionResult()
@@ -56,11 +57,11 @@ namespace Warehouse.Core.UnitTests.Controllers.Products
                 .HasError(errorProperty, errorMessage);
 
 
-            MockProductLogic.Verify(
-                x => x.GetByIdAsync(Product.Id),
+            MockCategoryLogic.Verify(
+                x => x.GetByIdAsync(Category.Id),
                 Times.Once);
-            MockProductLogic.Verify(
-                x => x.DeleteAsync(It.IsAny<Product>()),
+            MockCategoryLogic.Verify(
+                x => x.DeleteAsync(It.IsAny<Category>()),
                 Times.Never);
 
         }
@@ -70,17 +71,17 @@ namespace Warehouse.Core.UnitTests.Controllers.Products
             //arrange
             var controller = Create();
             //act
-            var result =await controller.DeleteConfirmed(Product.Id);
+            var result =await controller.DeleteConfirmed(Category.Id);
             //assert
             result.Should()
                 .BeRedirectToActionResult()
                 .WithActionName(nameof(Index));
 
-            MockProductLogic.Verify(
-                x => x.GetByIdAsync(Product.Id),
+            MockCategoryLogic.Verify(
+                x => x.GetByIdAsync(Category.Id),
                 Times.Once);
-            MockProductLogic.Verify(
-                x => x.DeleteAsync(ProductResult.Value),
+            MockCategoryLogic.Verify(
+                x => x.DeleteAsync(CategoryResult.Value),
                 Times.Once);
         }
     }

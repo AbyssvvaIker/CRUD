@@ -28,4 +28,8 @@
     <ProjectReference Include="..\Warehouse.Web\Warehouse.Web.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 </Project>

@@ -7,34 +7,35 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Warehouse.Core.Entities;
-using Warehouse.Core.UnitTests.Controllers.Products.Infrastructure;
+using Warehouse.Web.UnitTests.Categories.Infrastructure;
 using Warehouse.Web.Controllers;
-using Warehouse.Web.ViewModels.Product;
+using Warehouse.Web.ViewModels.Category;
 using Xunit;
+using Warehouse.Core;
 
-namespace Warehouse.Core.UnitTests.Controllers.Products
+namespace Warehouse.Web.UnitTests.Categories
 {
     public class DeleteGetTests : BaseTest
     {
-        protected Product Product { get; set; }
-        protected ProductViewModel ViewModel { get; set; }
-        protected Result<Product> ProductResult { get; set; }
+        protected Category Category { get; set; }
+        protected CategoryViewModel ViewModel { get; set; }
+        protected Result<Category> CategoryResult { get; set; }
 
-        protected override ProductsController Create()
+        protected override CategoryController Create()
         {
             var controller = base.Create();
-            Product = Builder<Product>
+            Category = Builder<Category>
                 .CreateNew()
                 .Build();
 
-            ViewModel = Builder<ProductViewModel>
+            ViewModel = Builder<CategoryViewModel>
                 .CreateNew()
                 .Build();
 
-            ProductResult = Result.Ok(Product);
+            CategoryResult = Result.Ok(Category);
 
-            MockProductLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(() => ProductResult);
-            MockMapper.Setup(x => x.Map<ProductViewModel>(It.IsAny<Product>())).Returns(ViewModel);
+            MockCategoryLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(() => CategoryResult);
+            MockMapper.Setup(x => x.Map<CategoryViewModel>(It.IsAny<Category>())).Returns(ViewModel);
 
             return controller;
         }
@@ -54,7 +55,7 @@ namespace Warehouse.Core.UnitTests.Controllers.Products
                 x => x.GetByIdAsync(It.IsAny<Guid>()),
                 Times.Never);
             MockMapper.Verify(
-                x => x.Map<ProductViewModel>(It.IsAny<Product>()),
+                x => x.Map<CategoryViewModel>(It.IsAny<Category>()),
                 Times.Never);
         }
 
@@ -65,18 +66,18 @@ namespace Warehouse.Core.UnitTests.Controllers.Products
             var controller = Create();
             var errorProperty = "property";
             var errorMessage = "error message";
-            ProductResult = Result.Failure<Product>(errorProperty, errorMessage);
+            CategoryResult = Result.Failure<Category>(errorProperty, errorMessage);
             //act
-            var result =await controller.Delete(Product.Id);
+            var result =await controller.Delete(Category.Id);
             //assert
             result.Should()
                 .BeNotFoundResult();
 
-            MockProductLogic.Verify(
-                x => x.GetByIdAsync(Product.Id),
+            MockCategoryLogic.Verify(
+                x => x.GetByIdAsync(Category.Id),
                 Times.Once);
             MockMapper.Verify(
-                x => x.Map<ProductViewModel>(It.IsAny<Product>()),
+                x => x.Map<CategoryViewModel>(It.IsAny<Category>()),
                 Times.Never);
         }
         [Fact]
@@ -85,7 +86,7 @@ namespace Warehouse.Core.UnitTests.Controllers.Products
             //arrange
             var controller = Create();
             //act
-            var result = await controller.Delete(Product.Id);
+            var result = await controller.Delete(Category.Id);
             //assert
             result.Should()
                 .BeViewResult()
@@ -94,11 +95,11 @@ namespace Warehouse.Core.UnitTests.Controllers.Products
                 .Should()
                 .BeEquivalentTo(ViewModel);
 
-            MockProductLogic.Verify(
-                x => x.GetByIdAsync(Product.Id),
+            MockCategoryLogic.Verify(
+                x => x.GetByIdAsync(Category.Id),
                 Times.Once);
             MockMapper.Verify(
-                x => x.Map<ProductViewModel>(ProductResult.Value),
+                x => x.Map<CategoryViewModel>(CategoryResult.Value),
                 Times.Once);
         }
 

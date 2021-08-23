@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using Warehouse.Web.Controllers;
 
-namespace Warehouse.Core.UnitTests.CustomAssertions
+namespace Warehouse.Web.UnitTests.CustomAssertions
 {
     public class ControllerAssertions : ReferenceTypeAssertions<Controller, ControllerAssertions>
     {

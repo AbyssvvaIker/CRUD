@@ -3,37 +3,48 @@ using FluentAssertions;
 using FluentAssertions.AspNetCore.Mvc;
 using Moq;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Warehouse.Core.Entities;
-using Warehouse.Core.UnitTests.Controllers.Categories.Infrastructure;
-using Warehouse.Core.UnitTests.CustomAssertions;
+using Warehouse.Web.UnitTests.Products.Infrastructure;
+using Warehouse.Web.UnitTests.CustomAssertions;
 using Warehouse.Web.Controllers;
-using Warehouse.Web.ViewModels.Category;
+using Warehouse.Web.ViewModels;
+using Warehouse.Web.ViewModels.Product;
 using Xunit;
+using Warehouse.Core;
 
-namespace Warehouse.Core.UnitTests.Controllers.Categories
+namespace Warehouse.Web.UnitTests.Products
 {
     public class CreatePostTests : BaseTest
     {
-        protected Category Category { get; set; }
-        protected CategoryViewModel ViewModel { get; set; }
-        protected Result<Category> CategoryResult { get; set; }
+        protected Product Product { get; set; }
+        protected ProductViewModel ViewModel { get; set; }
+        protected Result<Product> ProductResult { get; set; }
+        protected Result<IEnumerable<Category>> CategoriesResult { get; set; }
 
-        protected override CategoryController Create()
+        protected override ProductsController Create()
         {
             var controller = base.Create();
-            Category = Builder<Category>
+            Product = Builder<Product>
                 .CreateNew()
                 .Build();
 
-            ViewModel = Builder<CategoryViewModel>
+            ViewModel = Builder<ProductViewModel>
                 .CreateNew()
                 .Build();
 
-            CategoryResult = Result.Ok(Category);
+            ProductResult = Result.Ok(Product);
 
-            MockCategoryLogic.Setup(x => x.AddAsync(It.IsAny<Category>())).ReturnsAsync(() => CategoryResult);
-            MockMapper.Setup(x => x.Map<Category>(It.IsAny<CategoryViewModel>())).Returns(Category);
+            CategoriesResult = Builder<Result<IEnumerable<Category>>>
+            .CreateNew()
+            .Build();
+
+            MockProductLogic.Setup(x => x.AddAsync(It.IsAny<Product>())).ReturnsAsync(() => ProductResult);
+            MockMapper.Setup(x => x.Map<Product>(It.IsAny<ProductViewModel>())).Returns(Product);
+
+            MockCategoryLogic.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(CategoriesResult);
+            MockMapper.Setup(x => x.Map<IList<SelectItemViewModel>>(CategoriesResult.Value));
 
             return controller;
         }
@@ -59,12 +70,19 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
                 .HasError(errorProperty, errorMessage);
 
             MockMapper.Verify(
-                x => x.Map<Category>(It.IsAny<CategoryViewModel>()),
+                x => x.Map<Product>(It.IsAny<ProductViewModel>()),
                 Times.Never
                 );
-            MockCategoryLogic.Verify(
-                x => x.AddAsync(It.IsAny<Category>()),
+            MockProductLogic.Verify(
+                x => x.AddAsync(It.IsAny<Product>()),
                 Times.Never);
+
+            MockCategoryLogic.Verify(
+                x => x.GetAllActiveAsync(),
+                Times.Once);
+            MockMapper.Verify(
+                x => x.Map<IList<SelectItemViewModel>>(CategoriesResult.Value),
+                Times.Once);
         }
 
         [Fact]
@@ -74,8 +92,9 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
             var controller = Create();
             var errorProperty = "property";
             var errorMessage = "message";
-            CategoryResult = Result.Failure<Category>(errorProperty, errorMessage);
-            MockMapper.Setup(x => x.Map<Category>(ViewModel)).Returns(Category);
+            ProductResult = Result.Failure<Product>(errorProperty, errorMessage);
+            MockMapper.Setup(x => x.Map<Product>(ViewModel)).Returns(Product);
+            
             //act
             var result = await controller.Create(ViewModel);
 
@@ -90,11 +109,18 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
                 .HasError(errorProperty, errorMessage);
 
             MockMapper.Verify(
-                x => x.Map<Category>(ViewModel),
+                x => x.Map<Product>(ViewModel),
                 Times.Once
                 );
+            MockProductLogic.Verify(
+                x => x.AddAsync(Product),
+                Times.Once);
+
             MockCategoryLogic.Verify(
-                x => x.AddAsync(Category),
+                x => x.GetAllActiveAsync(),
+                Times.Once);
+            MockMapper.Verify(
+                x => x.Map<IList<SelectItemViewModel>>(CategoriesResult.Value),
                 Times.Once);
         }
 
@@ -110,11 +136,19 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
                 .BeRedirectToActionResult()
                 .WithActionName(nameof(Index));
             MockMapper.Verify(
-                x => x.Map<Category>(ViewModel),
+                x => x.Map<Product>(ViewModel),
                 Times.Once);
+            MockProductLogic.Verify(
+                x => x.AddAsync(Product),
+                Times.Once);
+
+
             MockCategoryLogic.Verify(
-                x => x.AddAsync(Category),
-                Times.Once);
+                x => x.GetAllActiveAsync(),
+                Times.Never);
+            MockMapper.Verify(
+                x => x.Map<IList<SelectItemViewModel>>(It.IsAny<Result<IEnumerable<Category>>>()),
+                Times.Never);
         }
     }
 }

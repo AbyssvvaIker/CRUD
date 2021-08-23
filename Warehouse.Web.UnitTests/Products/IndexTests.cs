@@ -5,13 +5,14 @@ using Moq;
 using System;
 using System.Threading.Tasks;
 using Warehouse.Core.Entities;
-using Warehouse.Core.UnitTests.Controllers.Products.Infrastructure;
+using Warehouse.Web.UnitTests.Products.Infrastructure;
 using Warehouse.Web.Controllers;
 using Warehouse.Web.ViewModels.Product;
 using Xunit;
 using System.Collections.Generic;
+using Warehouse.Core;
 
-namespace Warehouse.Core.UnitTests.Controllers.Products
+namespace Warehouse.Web.UnitTests.Products
 {
     public class IndexTests : BaseTest
     {
