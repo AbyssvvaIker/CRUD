@@ -9,7 +9,7 @@ using Warehouse.Core.Interfaces.Repositories;
 
 namespace Warehouse.Core.Logic
 {
-    class CategoryLogic : ICategoryLogic
+    public class CategoryLogic : ICategoryLogic
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IProductRepository _productRepository;
