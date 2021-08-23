@@ -93,7 +93,6 @@ namespace Warehouse.Web.UnitTests.Products
             var errorProperty = "property";
             var errorMessage = "message";
             ProductResult = Result.Failure<Product>(errorProperty, errorMessage);
-            MockMapper.Setup(x => x.Map<Product>(ViewModel)).Returns(Product);
             
             //act
             var result = await controller.Create(ViewModel);

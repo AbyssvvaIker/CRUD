@@ -76,10 +76,8 @@ namespace Warehouse.Web.UnitTests.Categories
             var errorProperty = "property";
             var errorMessage = "message";
             CategoryResult = Result.Failure<Category>(errorProperty, errorMessage);
-            MockMapper.Setup(x => x.Map<Category>(ViewModel)).Returns(Category);
             //act
             var result = await controller.Create(ViewModel);
-
             //assert
             result.Should()
                 .BeViewResult()
