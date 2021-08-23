@@ -65,7 +65,7 @@ namespace Warehouse.Core.UnitTests.Logic.Products
             //act
             var result = await productLogic.UpdateAsync(Product);
             //assert
-            result.Should().BeFailure(validatedProperty, errorMessage);
+            result.Should().BeFailure(validatedProperty, errorMessage,string.Empty);
 
             MockValidator.Verify(
                 x => x.Validate(Product),

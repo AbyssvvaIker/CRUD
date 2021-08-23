@@ -69,7 +69,7 @@ namespace Warehouse.Core.UnitTests.Logic.Categories
             //act
             var result = await categoryLogic.AddAsync(Category);
             //assert
-            result.Should().BeFailure(validatedProperty,errorMessage);
+            result.Should().BeFailure(validatedProperty,errorMessage,string.Empty);
             MockValidator.Verify(
                 x => x.Validate(Category),
                 Times.Once);
