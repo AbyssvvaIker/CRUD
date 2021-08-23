@@ -50,7 +50,7 @@ namespace Warehouse.Core.UnitTests.Controllers.Categories
             var errorMessage = "error message";
             controller.ModelState.AddModelError(errorProperty, errorMessage);
             //act
-            var result = await controller.Create(ViewModel);
+            var result = await controller.Edit(ViewModel);
             //assert
             result.Should()
                 .BeViewResult()
