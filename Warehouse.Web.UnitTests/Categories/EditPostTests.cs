@@ -39,6 +39,7 @@ namespace Warehouse.Web.UnitTests.Categories
 
             MockCategoryLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(() => CategoryGetResult);
             MockMapper.Setup(x => x.Map(It.IsAny<CategoryViewModel>(), It.IsAny<Category>())).Returns(Category);
+            MockCategoryLogic.Setup(x => x.UpdateAsync(It.IsAny<Category>())).ReturnsAsync(CategoryUpdateResult);
 
             return controller;
         }
@@ -112,7 +113,6 @@ namespace Warehouse.Web.UnitTests.Categories
             var errorProperty = "property";
             var errorMessage = "error message";
             CategoryUpdateResult = Result.Failure<Category>(errorProperty, errorMessage);
-            MockCategoryLogic.Setup(x => x.UpdateAsync(It.IsAny<Category>())).ReturnsAsync(CategoryUpdateResult);
             //act
             var result = await controller.Edit(ViewModel);
             //assert
@@ -141,7 +141,6 @@ namespace Warehouse.Web.UnitTests.Categories
         {
             //arrange
             var controller = Create();
-            MockCategoryLogic.Setup(x => x.UpdateAsync(It.IsAny<Category>())).ReturnsAsync(CategoryUpdateResult);
             //act
             var result =await controller.Edit(ViewModel);
             //assert
