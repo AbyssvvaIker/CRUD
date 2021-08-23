@@ -1,14 +1,14 @@
 ﻿using FizzWare.NBuilder;
-using FluentAssertions.AspNetCore.Mvc;
 using FluentAssertions;
+using FluentAssertions.AspNetCore.Mvc;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Warehouse.Core.Entities;
 using Warehouse.Core.UnitTests.Controllers.Products.Infrastructure;
 using Warehouse.Web.Controllers;
+using Warehouse.Web.ViewModels;
 using Warehouse.Web.ViewModels.Product;
 using Xunit;
 
@@ -19,6 +19,8 @@ namespace Warehouse.Core.UnitTests.Controllers.Products
         protected Product Product { get; set; }
         protected ProductViewModel ViewModel { get; set; }
         protected Result<Product> ProductResult { get; set; }
+        protected Result<IEnumerable<Category>> CategoriesResult { get; set; }
+
         protected override ProductsController Create()
         {
             var controller = base.Create();
@@ -32,8 +34,15 @@ namespace Warehouse.Core.UnitTests.Controllers.Products
 
             ProductResult = Result.Ok(Product);
 
+            CategoriesResult = Builder<Result<IEnumerable<Category>>>
+            .CreateNew()
+            .Build();
+
             MockProductLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(() => ProductResult);
             MockMapper.Setup(x => x.Map<ProductViewModel>(It.IsAny<Product>())).Returns(ViewModel);
+
+            MockCategoryLogic.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(CategoriesResult);
+            MockMapper.Setup(x => x.Map<IList<SelectItemViewModel>>(CategoriesResult.Value));
 
             return controller;
         }

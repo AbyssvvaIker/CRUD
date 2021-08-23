@@ -3,11 +3,13 @@ using FluentAssertions;
 using FluentAssertions.AspNetCore.Mvc;
 using Moq;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Warehouse.Core.Entities;
 using Warehouse.Core.UnitTests.Controllers.Products.Infrastructure;
 using Warehouse.Core.UnitTests.CustomAssertions;
 using Warehouse.Web.Controllers;
+using Warehouse.Web.ViewModels;
 using Warehouse.Web.ViewModels.Product;
 using Xunit;
 
@@ -18,6 +20,7 @@ namespace Warehouse.Core.UnitTests.Controllers.Products
         protected Product Product { get; set; }
         protected ProductViewModel ViewModel { get; set; }
         protected Result<Product> ProductResult { get; set; }
+        protected Result<IEnumerable<Category>> CategoriesResult { get; set; }
 
         protected override ProductsController Create()
         {
@@ -32,10 +35,15 @@ namespace Warehouse.Core.UnitTests.Controllers.Products
 
             ProductResult = Result.Ok(Product);
 
+            CategoriesResult = Builder<Result<IEnumerable<Category>>>
+            .CreateNew()
+            .Build();
+
             MockProductLogic.Setup(x => x.AddAsync(It.IsAny<Product>())).ReturnsAsync(() => ProductResult);
             MockMapper.Setup(x => x.Map<Product>(It.IsAny<ProductViewModel>())).Returns(Product);
 
-            //MockProductLogic.Setup(x=>x.GetAllActiveAsync())
+            MockCategoryLogic.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(CategoriesResult);
+            MockMapper.Setup(x => x.Map<IList<SelectItemViewModel>>(CategoriesResult.Value));
 
             return controller;
         }
@@ -67,6 +75,13 @@ namespace Warehouse.Core.UnitTests.Controllers.Products
             MockProductLogic.Verify(
                 x => x.AddAsync(It.IsAny<Product>()),
                 Times.Never);
+
+            MockCategoryLogic.Verify(
+                x => x.GetAllActiveAsync(),
+                Times.Once);
+            MockMapper.Verify(
+                x => x.Map<IList<SelectItemViewModel>>(CategoriesResult.Value),
+                Times.Once);
         }
 
         [Fact]
@@ -99,6 +114,13 @@ namespace Warehouse.Core.UnitTests.Controllers.Products
             MockProductLogic.Verify(
                 x => x.AddAsync(Product),
                 Times.Once);
+
+            MockCategoryLogic.Verify(
+                x => x.GetAllActiveAsync(),
+                Times.Once);
+            MockMapper.Verify(
+                x => x.Map<IList<SelectItemViewModel>>(CategoriesResult.Value),
+                Times.Once);
         }
 
         [Fact]
@@ -118,6 +140,14 @@ namespace Warehouse.Core.UnitTests.Controllers.Products
             MockProductLogic.Verify(
                 x => x.AddAsync(Product),
                 Times.Once);
+
+
+            MockCategoryLogic.Verify(
+                x => x.GetAllActiveAsync(),
+                Times.Never);
+            MockMapper.Verify(
+                x => x.Map<IList<SelectItemViewModel>>(It.IsAny<Result<IEnumerable<Category>>>()),
+                Times.Never);
         }
     }
 }

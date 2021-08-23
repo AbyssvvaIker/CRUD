@@ -33,11 +33,35 @@ namespace Warehouse.Core.UnitTests.Controllers.Products
             ProductsResult = Builder<Result<IEnumerable<Product>>>
             .CreateNew()
             .Build();
+            ProductsResult.Value = Builder<Product> //builder builds null object with success = false by default
+                .CreateListOfSize(5)
+                .Build();
+            ProductsResult.Success = true;
 
             MockProductLogic.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(ProductsResult);
             MockMapper.Setup(x => x.Map<IList<IndexItemViewModel>>(ProductsResult.Value)).Returns(Products);
 
             return controller;
+        }
+
+        [Fact]
+        public async Task Should_Be_NotFound_When_ResultIs_Failure()
+        {
+            //arrange
+            var controller = Create();
+            ProductsResult.Success = false;
+            //act
+            var result = await controller.Index();
+            //assert
+            result.Should()
+                .BeNotFoundResult();
+
+            MockProductLogic.Verify(
+                x => x.GetAllActiveAsync(),
+                Times.Once);
+            MockMapper.Verify(
+                x => x.Map<IList<IndexItemViewModel>>(It.IsAny<Result<IEnumerable<Product>>>()),
+                Times.Never);
         }
 
         [Fact]

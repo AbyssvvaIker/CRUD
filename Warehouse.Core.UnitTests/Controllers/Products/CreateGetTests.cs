@@ -11,16 +11,25 @@ using Warehouse.Core.UnitTests.Controllers.Products.Infrastructure;
 using Warehouse.Web.Controllers;
 using Warehouse.Web.ViewModels.Product;
 using Xunit;
+using Warehouse.Web.ViewModels;
 
 namespace Warehouse.Core.UnitTests.Controllers.Products
 {
     public class CreateGetTests : BaseTest
     {
         protected ProductViewModel ViewModel { get; set; }
+        protected Result<IEnumerable<Category>> CategoriesResult { get; set; }
 
         protected override ProductsController Create()
         {
             var controller = base.Create();;
+
+            CategoriesResult = Builder<Result<IEnumerable<Category>>>
+            .CreateNew()
+            .Build();
+
+            MockCategoryLogic.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(CategoriesResult);
+            MockMapper.Setup(x => x.Map<IList<SelectItemViewModel>>(CategoriesResult.Value));
 
             return controller;
         }
@@ -40,7 +49,12 @@ namespace Warehouse.Core.UnitTests.Controllers.Products
                 .Should()
                 .BeOfType(typeof(ProductViewModel));
 
-            //no mock is used here
+            MockCategoryLogic.Verify(
+                x => x.GetAllActiveAsync(),
+                Times.Once);
+            MockMapper.Verify(
+                x => x.Map<IList<SelectItemViewModel>>(CategoriesResult.Value),
+                Times.Once);
         }
     }
 }
