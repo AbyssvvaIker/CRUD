@@ -17,7 +17,7 @@ namespace Warehouse.Web.UnitTests.Products
     public class IndexTests : BaseTest
     {
         protected IList<IndexItemViewModel> Products { get; set; }
-        protected IList<IndexItemViewModel> ViewModel { get; set; }
+        //protected IList<IndexItemViewModel> ViewModel { get; set; }
         protected Result<IEnumerable<Product>> ProductsResult { get; set; }
 
         protected override ProductsController Create()
@@ -27,14 +27,14 @@ namespace Warehouse.Web.UnitTests.Products
                 .CreateListOfSize(5)
                 .Build();
 
-            ViewModel = Builder<IndexItemViewModel>
-                .CreateListOfSize(5)
-                .Build();
+            //ViewModel = Builder<IndexItemViewModel>
+            //    .CreateListOfSize(5)
+            //    .Build();
 
             ProductsResult = Builder<Result<IEnumerable<Product>>>
             .CreateNew()
             .Build();
-            ProductsResult.Value = Builder<Product> //builder builds null object with success = false by default
+            ProductsResult.Value = Builder<Product>
                 .CreateListOfSize(5)
                 .Build();
             ProductsResult.Success = true;
@@ -78,7 +78,7 @@ namespace Warehouse.Web.UnitTests.Products
                 .WithDefaultViewName()
                 .Model
                 .Should()
-                .BeEquivalentTo(ViewModel);
+                .BeEquivalentTo(Products);
 
             MockProductLogic.Verify(
                 x => x.GetAllActiveAsync(),

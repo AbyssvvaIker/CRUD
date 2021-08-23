@@ -17,17 +17,12 @@ namespace Warehouse.Web.UnitTests.Categories
     public class IndexTests : BaseTest
     {
         protected IList<IndexItemViewModel> Categories { get; set; }
-        protected IList<IndexItemViewModel> ViewModel { get; set; }
         protected Result<IEnumerable<Category>> CategoriesResult { get; set; }
 
         protected override CategoryController Create()
         {
             var controller = base.Create();
             Categories = Builder<IndexItemViewModel>
-                .CreateListOfSize(5)
-                .Build();
-
-            ViewModel = Builder<IndexItemViewModel>
                 .CreateListOfSize(5)
                 .Build();
 
@@ -54,7 +49,7 @@ namespace Warehouse.Web.UnitTests.Categories
                 .WithDefaultViewName()
                 .Model
                 .Should()
-                .BeEquivalentTo(ViewModel);
+                .BeEquivalentTo(Categories);
 
             MockCategoryLogic.Verify(
                 x => x.GetAllActiveAsync(),
