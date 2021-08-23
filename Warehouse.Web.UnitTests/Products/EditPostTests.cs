@@ -1,19 +1,18 @@
 ﻿using FizzWare.NBuilder;
-using FluentAssertions.AspNetCore.Mvc;
 using FluentAssertions;
+using FluentAssertions.AspNetCore.Mvc;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
+using Warehouse.Core;
 using Warehouse.Core.Entities;
-using Warehouse.Web.UnitTests.Products.Infrastructure;
 using Warehouse.Web.Controllers;
+using Warehouse.Web.UnitTests.CustomAssertions;
+using Warehouse.Web.UnitTests.Products.Infrastructure;
+using Warehouse.Web.ViewModels;
 using Warehouse.Web.ViewModels.Product;
 using Xunit;
-using Warehouse.Web.UnitTests.CustomAssertions;
-using Warehouse.Web.ViewModels;
-using Warehouse.Core;
 
 namespace Warehouse.Web.UnitTests.Products
 {
@@ -44,6 +43,7 @@ namespace Warehouse.Web.UnitTests.Products
             .Build();
 
             MockProductLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(() => ProductGetResult);
+            MockProductLogic.Setup(x => x.UpdateAsync(It.IsAny<Product>())).ReturnsAsync(ProductUpdateResult);
             MockMapper.Setup(x => x.Map(It.IsAny<ProductViewModel>(), It.IsAny<Product>())).Returns(Product);
 
             MockCategoryLogic.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(CategoriesResult);
@@ -98,7 +98,7 @@ namespace Warehouse.Web.UnitTests.Products
             var controller = Create();
             var errorProperty = "property";
             var errorMessage = "error message";
-            ProductGetResult = Result.Failure<Product>(errorProperty,errorMessage);
+            ProductGetResult = Result.Failure<Product>(errorProperty, errorMessage);
             //act
             var result = await controller.Edit(ViewModel);
             //assert
@@ -136,7 +136,6 @@ namespace Warehouse.Web.UnitTests.Products
             var errorProperty = "property";
             var errorMessage = "error message";
             ProductUpdateResult = Result.Failure<Product>(errorProperty, errorMessage);
-            MockProductLogic.Setup(x => x.UpdateAsync(It.IsAny<Product>())).ReturnsAsync(ProductUpdateResult);
             //act
             var result = await controller.Edit(ViewModel);
             //assert
@@ -172,9 +171,8 @@ namespace Warehouse.Web.UnitTests.Products
         {
             //arrange
             var controller = Create();
-            MockProductLogic.Setup(x => x.UpdateAsync(It.IsAny<Product>())).ReturnsAsync(ProductUpdateResult);
             //act
-            var result =await controller.Edit(ViewModel);
+            var result = await controller.Edit(ViewModel);
             //assert
             result.Should()
                 .BeRedirectToActionResult()
