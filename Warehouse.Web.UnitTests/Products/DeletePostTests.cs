@@ -34,8 +34,6 @@ namespace Warehouse.Web.UnitTests.Products
             ProductResult = Result.Ok(Product);
 
             MockProductLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(() => ProductResult);
-            
-
             return controller;
         }
 

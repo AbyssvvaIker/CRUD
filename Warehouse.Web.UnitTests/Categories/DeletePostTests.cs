@@ -34,8 +34,6 @@ namespace Warehouse.Web.UnitTests.Categories
             CategoryResult = Result.Ok(Category);
 
             MockCategoryLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(() => CategoryResult);
-            //MockMapper.Setup(x => x.Map(It.IsAny<CategoryViewModel>(), It.IsAny<Category>())).Returns(Category);
-
             return controller;
         }
 
