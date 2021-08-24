@@ -34,7 +34,7 @@ namespace Warehouse.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(Result<ProductDto>))]
         [ProducesResponseType(404)]
         public async Task<IActionResult> GetById(Guid id)
@@ -62,7 +62,7 @@ namespace Warehouse.Api.Controllers
             var result = await _productLogic.GetAllActiveAsync();
             if (result.Success == false)
             {
-                return NotFound();
+                return BadRequest(result);
             }
 
             var dto = _mapper.Map<ProductDto>(result.Value);
