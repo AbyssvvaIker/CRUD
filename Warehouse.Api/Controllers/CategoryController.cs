@@ -5,11 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Warehouse.Core.Entities;
 using Warehouse.Infrastructure.DataAccess;
-using Warehouse.Api.DTOs;
+using Warehouse.Api.DTOs.Category;
 using Warehouse.Core.Interfaces;
 using Warehouse.Web.Infrastructure.ExtensionMethods;
 using AutoMapper;
 using System.Collections.Generic;
+using Warehouse.Core;
 
 namespace Warehouse.Web.Controllers
 {
@@ -27,130 +28,96 @@ namespace Warehouse.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        [ProducesResponseType(200, Type = typeof(Result<CategoryDto>))]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> GetById(Guid id)
         {
-            var result = await _categoryLogic.GetAllActiveAsync();
-
-            var viewModel = new IndexViewModel()
-            {
-                Categories = _mapper.Map<IList<IndexItemViewModel>>(result.Value)
-            };
-            return View(viewModel.Categories);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Details(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var result = await _categoryLogic.GetByIdAsync((Guid)id);
-
-            if (result.Success == false)
-            {
-                return NotFound();
-            }
-            var categoryViewModel = _mapper.Map<CategoryViewModel>(result.Value);
-            return View(categoryViewModel);
-        }
-
-        [HttpGet]
-        public IActionResult Create()
-        {
-            var categoryViewModel = new CategoryViewModel();
-            return View(categoryViewModel);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CategoryViewModel categoryViewModel)
-        {
-            if (ModelState.IsValid == false)
-            {
-                return View(categoryViewModel);
-            }
-            var category = _mapper.Map<Category>(categoryViewModel);
-            var result = await _categoryLogic.AddAsync(category);
+            var result = await _categoryLogic.GetByIdAsync(id);
             if(result.Success == false)
             {
-                result.AddErrorToModelState(ModelState);
-                return View(categoryViewModel);
+                return NotFound();
             }
-            return RedirectToAction(nameof(Index));
+
+            var dto = _mapper.Map<CategoryDto>(result.Value);
+            var resultDto = Result.Ok(dto);
+
+            return Ok(resultDto);
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(Guid? id)
+        [ProducesResponseType(200, Type = typeof(Result<IEnumerable<CategoryDto>>))]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> GetAllActive()
         {
-            if (id == null)
+            var result = await _categoryLogic.GetAllActiveAsync();
+            if(result.Success== false)
             {
                 return NotFound();
             }
-            var result = await _categoryLogic.GetByIdAsync((Guid)id);
 
-            if (result.Success == false)
-            {
-                return NotFound();
-            }
-            var categoryViewModel = _mapper.Map<CategoryViewModel>(result.Value);
-            return View(categoryViewModel);
+            var dto = _mapper.Map<CategoryDto>(result.Value);
+            var resultDto = Result.Ok(dto);
+
+            return Ok(resultDto);
         }
-
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(CategoryViewModel categoryViewModel)
+        [ProducesResponseType(201, Type = typeof(Result<Category>))]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> Add(CategoryDto dto)
         {
-            if (ModelState.IsValid == false)
+            if(dto == null)
             {
-                return View(categoryViewModel);
+                return BadRequest();
             }
-            var getResult = await _categoryLogic.GetByIdAsync(categoryViewModel.Id);
-            
-            if(getResult.Success == false)
+            var category = _mapper.Map<Category>(dto);
+            var result =await _categoryLogic.AddAsync(category);
+            if(result.Success == false)
             {
-                getResult.AddErrorToModelState(ModelState);
-                return View(categoryViewModel);
+                return BadRequest();
             }
-            getResult.Value = _mapper.Map(categoryViewModel, getResult.Value);
-
-            var updateResult = await _categoryLogic.UpdateAsync(getResult.Value);
-            if (updateResult.Success == false)
-            {
-                updateResult.AddErrorToModelState(ModelState);
-                return View(categoryViewModel);
-            }
-            return RedirectToAction(nameof(Index));
+            return Ok(Result.Ok(result.Value));
         }
-        [HttpGet]
+
+        [HttpPost]
+        [ProducesResponseType(201, Type = typeof(Result<Category>))]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> Update(CategoryDto dto)
+        {
+            if(dto == null)
+            {
+                return BadRequest();
+            }
+            var categoryGetResult = await _categoryLogic.GetByIdAsync(dto.Id);
+            if(categoryGetResult.Success == false)
+            {
+                return BadRequest();
+            }
+            categoryGetResult.Value = _mapper.Map(dto, categoryGetResult.Value);
+            var categoryUpdateResult =await _categoryLogic.UpdateAsync(categoryGetResult.Value);
+            if(categoryUpdateResult.Success == false)
+            {
+                return BadRequest();
+            }
+            return Ok(Result.Ok(categoryUpdateResult.Value));
+        }
+
+        [HttpPost]
+        [ProducesResponseType(200, Type = typeof(Result))]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> Delete(Guid? id)
         {
-            if (id == null)
+            if(id == null)
             {
                 return NotFound();
             }
-            var result = await _categoryLogic.GetByIdAsync((Guid)id);
-            if (result.Success == false)
+            var category = _mapper.Map<Category>(id);
+            var result = await _categoryLogic.DeleteAsync(category);
+            if(result.Success == false)
             {
                 return NotFound();
             }
-            var categoryViewModel = _mapper.Map<CategoryViewModel>(result.Value);
-            return View(categoryViewModel);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
-        {
-            var result = await _categoryLogic.GetByIdAsync((Guid)id);
-            if (result.Success == false)
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            await _categoryLogic.DeleteAsync(result.Value);
-
-            return RedirectToAction(nameof(Index));
+            return Ok(Result.Ok());
         }
 
     }
