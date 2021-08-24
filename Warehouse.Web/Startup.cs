@@ -82,7 +82,7 @@ namespace Warehouse.Web
             });
             app.UseSwagger();
             app.UseSwaggerUI(x =>
-            x.SwaggerEndpoint("/swagger/swagger.json", "API V1"));
+            x.SwaggerEndpoint("../swagger/v1/swagger.json", "API V1"));
 
         }
         public void ConfigureContainer(ContainerBuilder builder)
