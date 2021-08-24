@@ -115,7 +115,8 @@ namespace Warehouse.Api.Controllers
             {
                 return BadRequest(productUpdateResult);
             }
-            return Ok(Result.Ok(productUpdateResult.Value));
+            var resultDto = _mapper.Map<ProductDto>(productUpdateResult.Value);
+            return Ok(Result.Ok(resultDto));
         }
         /// <summary>
         /// delete product

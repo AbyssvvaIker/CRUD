@@ -117,7 +117,9 @@ namespace Warehouse.Web.Controllers
             {
                 return BadRequest(categoryUpdateResult);
             }
-            return Ok(Result.Ok(categoryUpdateResult.Value));
+
+            var resultDto = _mapper.Map<CategoryDto>(categoryUpdateResult.Value);
+            return Ok(Result.Ok(resultDto));
         }
         /// <summary>
         /// Delete category
