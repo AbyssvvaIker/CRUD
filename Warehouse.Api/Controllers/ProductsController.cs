@@ -29,7 +29,11 @@ namespace Warehouse.Api.Controllers
             _categoryLogic = categoryLogic;
             _mapper = mapper;
         }
-
+        /// <summary>
+        /// Get Product By Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(Result<ProductDto>))]
         [ProducesResponseType(404)]
@@ -46,7 +50,10 @@ namespace Warehouse.Api.Controllers
 
             return Ok(resultDto);
         }
-
+        /// <summary>
+        /// Get All Active Products
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(Result<IEnumerable<ProductDto>>))]
         [ProducesResponseType(404)]
@@ -63,7 +70,11 @@ namespace Warehouse.Api.Controllers
 
             return Ok(resultDto);
         }
-
+        /// <summary>
+        /// Add new Product
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(201, Type = typeof(Result<Product>))]
         [ProducesResponseType(400)]
@@ -81,7 +92,11 @@ namespace Warehouse.Api.Controllers
             }
             return Ok(Result.Ok(result.Value));
         }
-
+        /// <summary>
+        /// Update existing product
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(201, Type = typeof(Result<Product>))]
         [ProducesResponseType(400)]
@@ -104,7 +119,11 @@ namespace Warehouse.Api.Controllers
             }
             return Ok(Result.Ok(productUpdateResult.Value));
         }
-
+        /// <summary>
+        /// delete product
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(Result))]
         [ProducesResponseType(404)]

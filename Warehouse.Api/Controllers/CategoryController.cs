@@ -29,7 +29,11 @@ namespace Warehouse.Web.Controllers
             _mapper = mapper;
 
         }
-
+        /// <summary>
+        /// Get Category By Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(Result<CategoryDto>))]
         [ProducesResponseType(404)]
@@ -46,7 +50,10 @@ namespace Warehouse.Web.Controllers
 
             return Ok(resultDto);
         }
-
+        /// <summary>
+        /// Get All Active Categories
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(Result<IEnumerable<CategoryDto>>))]
         [ProducesResponseType(404)]
@@ -63,7 +70,11 @@ namespace Warehouse.Web.Controllers
 
             return Ok(resultDto);
         }
-
+        /// <summary>
+        /// Add new Category
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(201, Type = typeof(Result<Category>))]
         [ProducesResponseType(400)]
@@ -81,7 +92,11 @@ namespace Warehouse.Web.Controllers
             }
             return Ok(Result.Ok(result.Value));
         }
-
+        /// <summary>
+        /// Update existing category
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(201, Type = typeof(Result<Category>))]
         [ProducesResponseType(400)]
@@ -104,7 +119,11 @@ namespace Warehouse.Web.Controllers
             }
             return Ok(Result.Ok(categoryUpdateResult.Value));
         }
-
+        /// <summary>
+        /// Delete category
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(Result))]
         [ProducesResponseType(404)]
