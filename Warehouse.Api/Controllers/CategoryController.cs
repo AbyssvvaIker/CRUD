@@ -123,8 +123,12 @@ namespace Warehouse.Web.Controllers
         [ProducesResponseType(404)]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var category = _mapper.Map<Category>(id);
-            var result = await _categoryLogic.DeleteAsync(category);
+            var categoryResult =await _categoryLogic.GetByIdAsync(id);
+            if(categoryResult.Success == false)
+            {
+                return NotFound(categoryResult);
+            }
+            var result = await _categoryLogic.DeleteAsync(categoryResult.Value);
             if(result.Success == false)
             {
                 return NotFound();
