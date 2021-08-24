@@ -1,3 +1,4 @@
+using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -60,6 +61,11 @@ namespace Warehouse.Api
             app.UseSwaggerUI(x =>
             x.SwaggerEndpoint("../swagger/v1/swagger.json", "API V1"));
         }
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterAssemblyModules(typeof(Startup).Assembly);
+        }
+
         private void AddSwagger(ref IServiceCollection services)
         {
             services.AddSwaggerGen(x =>
