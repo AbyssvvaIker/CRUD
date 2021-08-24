@@ -80,10 +80,6 @@ namespace Warehouse.Api.Controllers
         [ProducesResponseType(400)]
         public async Task<IActionResult> Add(ProductDto dto)
         {
-            if (dto == null)
-            {
-                return BadRequest();
-            }
             var product = _mapper.Map<Product>(dto);
             var result = await _productLogic.AddAsync(product);
             if (result.Success == false)
@@ -102,10 +98,6 @@ namespace Warehouse.Api.Controllers
         [ProducesResponseType(400)]
         public async Task<IActionResult> Update(ProductDto dto)
         {
-            if (dto == null)
-            {
-                return BadRequest();
-            }
             var productGetResult = await _productLogic.GetByIdAsync(dto.Id);
             if (productGetResult.Success == false)
             {

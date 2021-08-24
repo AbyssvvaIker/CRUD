@@ -80,10 +80,6 @@ namespace Warehouse.Web.Controllers
         [ProducesResponseType(400)]
         public async Task<IActionResult> Add(CategoryDto dto)
         {
-            if(dto == null)
-            {
-                return BadRequest();
-            }
             var category = _mapper.Map<Category>(dto);
             var result =await _categoryLogic.AddAsync(category);
             if(result.Success == false)
@@ -102,10 +98,6 @@ namespace Warehouse.Web.Controllers
         [ProducesResponseType(400)]
         public async Task<IActionResult> Update(CategoryDto dto)
         {
-            if(dto == null)
-            {
-                return BadRequest();
-            }
             var categoryGetResult = await _categoryLogic.GetByIdAsync(dto.Id);
             if(categoryGetResult.Success == false)
             {
