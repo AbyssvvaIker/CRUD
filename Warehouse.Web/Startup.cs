@@ -15,10 +15,6 @@ using FluentValidation.AspNetCore;
 using FluentValidation;
 using Warehouse.Core.Entities;
 using Warehouse.Core.Validators;
-using Microsoft.OpenApi.Models;
-using Autofac;
-using System.Reflection;
-using System.IO;
 
 namespace Warehouse.Web
 {
