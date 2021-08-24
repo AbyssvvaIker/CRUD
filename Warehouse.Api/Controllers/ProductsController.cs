@@ -14,6 +14,9 @@ using Warehouse.Web.Infrastructure.ExtensionMethods;
 
 namespace Warehouse.Api.Controllers
 {
+    [Route("api/Product")]
+    [ApiController]
+    [Produces("application/json")]
     public class ProductsController : Controller
     {
         private readonly IProductLogic _productLogic;

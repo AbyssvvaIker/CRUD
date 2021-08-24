@@ -14,6 +14,9 @@ using Warehouse.Core;
 
 namespace Warehouse.Web.Controllers
 {
+    [Route("api/Category")]
+    [ApiController]
+    [Produces("application/json")]
     public class CategoryController : Controller
     {
         private readonly ICategoryLogic _categoryLogic;
