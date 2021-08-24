@@ -11,6 +11,6 @@ namespace Warehouse.Api.DTOs.Product
         public string Name { get; set; }
         public string Description { get; set; }
         public string Price { get; set; }
-        public Guid CategoryId { get; set; }
+        public Guid Category { get; set; }
     }
 }
