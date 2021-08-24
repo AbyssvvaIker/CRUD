@@ -84,7 +84,7 @@ namespace Warehouse.Web.Controllers
             var result =await _categoryLogic.AddAsync(category);
             if(result.Success == false)
             {
-                return BadRequest();
+                return BadRequest(result);
             }
             return Ok(Result.Ok(result.Value));
         }

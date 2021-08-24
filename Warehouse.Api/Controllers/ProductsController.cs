@@ -84,7 +84,7 @@ namespace Warehouse.Api.Controllers
             var result = await _productLogic.AddAsync(product);
             if (result.Success == false)
             {
-                return BadRequest();
+                return BadRequest(result);
             }
             return Ok(Result.Ok(result.Value));
         }
