@@ -94,7 +94,7 @@ namespace Warehouse.Api.Controllers
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost]
-        [ProducesResponseType(200, Type = typeof(Result<Product>))]
+        [ProducesResponseType(200, Type = typeof(Result<ProductDto>))]
         [ProducesResponseType(400)]
         public async Task<IActionResult> Update(ProductDto dto)
         {
