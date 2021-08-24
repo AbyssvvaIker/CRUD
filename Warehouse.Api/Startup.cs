@@ -30,6 +30,7 @@ namespace Warehouse.Api
             services.AddControllers();
             services.AddDbContext<DataContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddSwaggerGen();
 
         }
 
@@ -51,6 +52,10 @@ namespace Warehouse.Api
             {
                 endpoints.MapControllers();
             });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(x =>
+            x.SwaggerEndpoint("/swagger/swagger.json", "API V1"));
         }
     }
 }
