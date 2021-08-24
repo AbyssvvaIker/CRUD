@@ -86,7 +86,11 @@ namespace Warehouse.Api.Controllers
             {
                 return BadRequest(result);
             }
-            return Ok(Result.Ok(result.Value));
+            var resultDto = _mapper.Map<ProductDto>(result.Value);
+
+            return CreatedAtAction(nameof(GetById),
+                new { id = resultDto.Id },
+                resultDto);
         }
         /// <summary>
         /// Update existing product

@@ -86,8 +86,14 @@ namespace Warehouse.Web.Controllers
             {
                 return BadRequest(result);
             }
-            return Ok(Result.Ok(result.Value));
+
+            var resultDto = _mapper.Map<CategoryDto>(result.Value);
+
+            return CreatedAtAction(nameof(GetById),
+                new { id = resultDto.Id },
+                resultDto);
         }
+
         /// <summary>
         /// Update existing category
         /// </summary>
