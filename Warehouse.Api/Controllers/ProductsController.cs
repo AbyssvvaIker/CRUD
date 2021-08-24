@@ -56,7 +56,7 @@ namespace Warehouse.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(Result<IEnumerable<ProductDto>>))]
-        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
         public async Task<IActionResult> GetAllActive()
         {
             var result = await _productLogic.GetAllActiveAsync();

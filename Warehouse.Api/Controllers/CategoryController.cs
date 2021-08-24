@@ -56,7 +56,7 @@ namespace Warehouse.Web.Controllers
         /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(Result<IEnumerable<CategoryDto>>))]
-        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
         public async Task<IActionResult> GetAllActive()
         {
             var result = await _categoryLogic.GetAllActiveAsync();
