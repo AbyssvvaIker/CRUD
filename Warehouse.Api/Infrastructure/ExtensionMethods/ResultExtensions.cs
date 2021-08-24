@@ -6,7 +6,7 @@ using Warehouse.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Warehouse.Web.Infrastructure.ExtensionMethods
+namespace Warehouse.Api.Infrastructure.ExtensionMethods
 {
     public static class ResultExtensions
     {

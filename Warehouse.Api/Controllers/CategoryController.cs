@@ -7,7 +7,7 @@ using Warehouse.Core.Entities;
 using Warehouse.Infrastructure.DataAccess;
 using Warehouse.Api.DTOs.Category;
 using Warehouse.Core.Interfaces;
-using Warehouse.Web.Infrastructure.ExtensionMethods;
+using Warehouse.Api.Infrastructure.ExtensionMethods;
 using AutoMapper;
 using System.Collections.Generic;
 using Warehouse.Core;

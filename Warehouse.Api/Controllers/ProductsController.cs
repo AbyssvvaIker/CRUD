@@ -10,7 +10,7 @@ using Warehouse.Core;
 using Warehouse.Core.Entities;
 using Warehouse.Core.Interfaces;
 using Warehouse.Infrastructure.DataAccess;
-using Warehouse.Web.Infrastructure.ExtensionMethods;
+using Warehouse.Api.Infrastructure.ExtensionMethods;
 
 namespace Warehouse.Api.Controllers
 {
@@ -86,10 +86,10 @@ namespace Warehouse.Api.Controllers
             {
                 return BadRequest(result);
             }
-            var resultDto = _mapper.Map<ProductDto>(result.Value);
 
+            var resultDto = Result.Ok(_mapper.Map<ProductDto>(result.Value));
             return CreatedAtAction(nameof(GetById),
-                new { id = resultDto.Id },
+                new { id = resultDto.Value.Id },
                 resultDto);
         }
         /// <summary>
