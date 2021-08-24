@@ -134,7 +134,7 @@ namespace Warehouse.Api.Controllers
             {
                 return BadRequest(result);
             }
-            return Ok(Result.Ok());
+            return NoContent();
         }
 
         //private async Task GetCategoriesFromDb(ProductViewModel viewModel)
