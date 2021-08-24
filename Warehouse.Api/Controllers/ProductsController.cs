@@ -121,12 +121,8 @@ namespace Warehouse.Api.Controllers
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(Result))]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
             var product = _mapper.Map<Product>(id);
             var result = await _productLogic.DeleteAsync(product);
             if (result.Success == false)
