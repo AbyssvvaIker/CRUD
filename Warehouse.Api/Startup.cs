@@ -7,9 +7,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Warehouse.Infrastructure.DataAccess;
 
@@ -30,7 +33,21 @@ namespace Warehouse.Api
             services.AddControllers();
             services.AddDbContext<DataContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(x =>
+            {
+                x.SwaggerDoc("name",
+                    new OpenApiInfo
+                    {
+                        Title = "Warehouse.Api",
+                        Version = "v1"
+                    });
+                x.CustomSchemaIds((type) => type.FullName);
+
+                var xmlFile = $"{Assembly.GetEntryAssembly()?.GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                x.IncludeXmlComments(xmlPath);
+                x.DescribeAllParametersInCamelCase();
+            });
 
         }
 
@@ -55,7 +72,7 @@ namespace Warehouse.Api
 
             app.UseSwagger();
             app.UseSwaggerUI(x =>
-            x.SwaggerEndpoint("/swagger/swagger.json", "API V1"));
+            x.SwaggerEndpoint("../swagger/v1/swagger.json", "API V1"));
         }
     }
 }
