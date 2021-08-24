@@ -56,10 +56,7 @@ namespace Warehouse.Api
             {
                 endpoints.MapControllers();
             });
-
-            app.UseSwagger();
-            app.UseSwaggerUI(x =>
-            x.SwaggerEndpoint("../swagger/v1/swagger.json", "API V1"));
+            UseSwagger(ref app);
         }
         public void ConfigureContainer(ContainerBuilder builder)
         {
@@ -83,6 +80,12 @@ namespace Warehouse.Api
                 x.IncludeXmlComments(xmlPath);
                 x.DescribeAllParametersInCamelCase();
             });
+        }
+        private void UseSwagger(ref IApplicationBuilder app)
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI(x =>
+            x.SwaggerEndpoint("../swagger/v1/swagger.json", "API V1"));
         }
     }
 }
