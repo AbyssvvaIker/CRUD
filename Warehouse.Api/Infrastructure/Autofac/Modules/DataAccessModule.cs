@@ -7,7 +7,7 @@ using Warehouse.Core.Interfaces;
 using Warehouse.Core.Interfaces.Repositories;
 using Warehouse.Infrastructure.DataAccess.Repositories;
 
-namespace Warehouse.Web.Infrastructure.Autofac.Modules
+namespace Warehouse.Api.Infrastructure.Autofac.Modules
 {
     public class DataAccessModule : Module
     {

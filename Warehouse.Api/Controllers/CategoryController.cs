@@ -76,7 +76,7 @@ namespace Warehouse.Web.Controllers
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost]
-        [ProducesResponseType(201, Type = typeof(Result<Category>))]
+        [ProducesResponseType(201, Type = typeof(Result<CategoryDto>))]
         [ProducesResponseType(400)]
         public async Task<IActionResult> Add(CategoryDto dto)
         {

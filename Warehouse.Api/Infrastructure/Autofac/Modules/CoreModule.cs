@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Warehouse.Core.Interfaces;
 
-namespace Warehouse.Web.Infrastructure.Autofac.Modules
+namespace Warehouse.Api.Infrastructure.Autofac.Modules
 {
     public class CoreModule : Module
     {

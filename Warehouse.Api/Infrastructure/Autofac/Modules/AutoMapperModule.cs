@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Warehouse.Web.Infrastructure.Autofac.Modules
+namespace Warehouse.Api.Infrastructure.Autofac.Modules
 {
     public class AutoMapperModule : Module
     {
