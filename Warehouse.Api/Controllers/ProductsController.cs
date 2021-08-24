@@ -121,6 +121,7 @@ namespace Warehouse.Api.Controllers
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(Result))]
         [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
         public async Task<IActionResult> Delete(Guid id)
         {
             var productResult = await _productLogic.GetByIdAsync(id);
@@ -131,7 +132,7 @@ namespace Warehouse.Api.Controllers
             var result = await _productLogic.DeleteAsync(productResult.Value);
             if (result.Success == false)
             {
-                return NotFound();
+                return BadRequest(result);
             }
             return Ok(Result.Ok());
         }
