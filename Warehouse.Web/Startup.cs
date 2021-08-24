@@ -66,9 +66,6 @@ namespace Warehouse.Web
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-            app.UseSwagger();
-            app.UseSwaggerUI(x =>
-            x.SwaggerEndpoint("../swagger/v1/swagger.json", "API V1"));
 
         }
         public void ConfigureContainer(ContainerBuilder builder)

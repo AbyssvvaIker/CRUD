@@ -35,7 +35,7 @@ namespace Warehouse.Api
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddSwaggerGen(x =>
             {
-                x.SwaggerDoc("name",
+                x.SwaggerDoc("v1",
                     new OpenApiInfo
                     {
                         Title = "Warehouse.Api",
