@@ -96,18 +96,19 @@ namespace Warehouse.Web.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(200, Type = typeof(Result<CategoryDto>))]
         [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> Update(CategoryDto dto)
         {
             var categoryGetResult = await _categoryLogic.GetByIdAsync(dto.Id);
             if(categoryGetResult.Success == false)
             {
-                return BadRequest();
+                return NotFound(categoryGetResult);
             }
             categoryGetResult.Value = _mapper.Map(dto, categoryGetResult.Value);
             var categoryUpdateResult =await _categoryLogic.UpdateAsync(categoryGetResult.Value);
             if(categoryUpdateResult.Success == false)
             {
-                return BadRequest();
+                return BadRequest(categoryUpdateResult);
             }
             return Ok(Result.Ok(categoryUpdateResult.Value));
         }
