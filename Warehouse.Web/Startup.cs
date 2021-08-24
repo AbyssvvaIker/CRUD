@@ -33,6 +33,7 @@ namespace Warehouse.Web
             services.AddControllersWithViews();
             services.AddDbContext<DataContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddSwaggerGen();
 
         }
 
@@ -62,6 +63,10 @@ namespace Warehouse.Web
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+            app.UseSwagger();
+            app.UseSwaggerUI(x =>
+            x.SwaggerEndpoint("/swagger/swagger.json", "API V1"));
+
         }
         public void ConfigureContainer(ContainerBuilder builder)
         {
