@@ -106,19 +106,19 @@ namespace Warehouse.Web.Controllers
         [ProducesResponseType(404)]
         public async Task<IActionResult> Update(Guid id, [FromBody] CategoryDto dto)
         {
-            var categoryGetResult = await _categoryLogic.GetByIdAsync(id);
-            if(categoryGetResult.Success == false)
+            var getResult = await _categoryLogic.GetByIdAsync(id);
+            if(getResult.Success == false)
             {
-                return NotFound(categoryGetResult);
+                return NotFound(getResult);
             }
-            categoryGetResult.Value = _mapper.Map(dto, categoryGetResult.Value);
-            var categoryUpdateResult =await _categoryLogic.UpdateAsync(categoryGetResult.Value);
-            if(categoryUpdateResult.Success == false)
+            getResult.Value = _mapper.Map(dto, getResult.Value);
+            var updateResult =await _categoryLogic.UpdateAsync(getResult.Value);
+            if(updateResult.Success == false)
             {
-                return BadRequest(categoryUpdateResult);
+                return BadRequest(updateResult);
             }
 
-            var resultDto = _mapper.Map<CategoryDto>(categoryUpdateResult.Value);
+            var resultDto = _mapper.Map<CategoryDto>(updateResult.Value);
             return Ok(Result.Ok(resultDto));
         }
         /// <summary>

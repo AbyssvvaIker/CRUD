@@ -104,18 +104,18 @@ namespace Warehouse.Api.Controllers
         [ProducesResponseType(404)]
         public async Task<IActionResult> Update(Guid id, [FromBody] ProductDto dto)
         {
-            var productGetResult = await _productLogic.GetByIdAsync(id);
-            if (productGetResult.Success == false)
+            var getResult = await _productLogic.GetByIdAsync(id);
+            if (getResult.Success == false)
             {
-                return NotFound(productGetResult);
+                return NotFound(getResult);
             }
-            productGetResult.Value = _mapper.Map(dto, productGetResult.Value);
-            var productUpdateResult = await _productLogic.UpdateAsync(productGetResult.Value);
-            if (productUpdateResult.Success == false)
+            getResult.Value = _mapper.Map(dto, getResult.Value);
+            var updateResult = await _productLogic.UpdateAsync(getResult.Value);
+            if (updateResult.Success == false)
             {
-                return BadRequest(productUpdateResult);
+                return BadRequest(updateResult);
             }
-            var resultDto = _mapper.Map<ProductDto>(productUpdateResult.Value);
+            var resultDto = _mapper.Map<ProductDto>(updateResult.Value);
             return Ok(Result.Ok(resultDto));
         }
         /// <summary>
