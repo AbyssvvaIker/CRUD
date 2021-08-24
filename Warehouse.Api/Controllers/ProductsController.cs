@@ -137,12 +137,5 @@ namespace Warehouse.Api.Controllers
             return NoContent();
         }
 
-        //private async Task GetCategoriesFromDb(ProductViewModel viewModel)
-        //{
-        //    var result = await _categoryLogic.GetAllActiveAsync();
-        //    var categories = _mapper.Map<IList<SelectItemViewModel>>(result.Value);
-        //    viewModel.AvailableCategories = categories;
-        //    return; 
-        //}
     }
 }
