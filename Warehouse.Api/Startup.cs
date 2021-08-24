@@ -33,21 +33,7 @@ namespace Warehouse.Api
             services.AddControllers();
             services.AddDbContext<DataContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddSwaggerGen(x =>
-            {
-                x.SwaggerDoc("v1",
-                    new OpenApiInfo
-                    {
-                        Title = "Warehouse.Api",
-                        Version = "v1"
-                    });
-                x.CustomSchemaIds((type) => type.FullName);
-
-                var xmlFile = $"{Assembly.GetEntryAssembly()?.GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                x.IncludeXmlComments(xmlPath);
-                x.DescribeAllParametersInCamelCase();
-            });
+            AddSwagger(ref services);
 
         }
 
@@ -73,6 +59,24 @@ namespace Warehouse.Api
             app.UseSwagger();
             app.UseSwaggerUI(x =>
             x.SwaggerEndpoint("../swagger/v1/swagger.json", "API V1"));
+        }
+        private void AddSwagger(ref IServiceCollection services)
+        {
+            services.AddSwaggerGen(x =>
+            {
+                x.SwaggerDoc("v1",
+                    new OpenApiInfo
+                    {
+                        Title = "Warehouse.Api",
+                        Version = "v1"
+                    });
+                x.CustomSchemaIds((type) => type.FullName);
+
+                var xmlFile = $"{Assembly.GetEntryAssembly()?.GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                x.IncludeXmlComments(xmlPath);
+                x.DescribeAllParametersInCamelCase();
+            });
         }
     }
 }
