@@ -42,7 +42,7 @@ namespace Warehouse.Web.Controllers
             var result = await _categoryLogic.GetByIdAsync(id);
             if(result.Success == false)
             {
-                return NotFound();
+                return NotFound(result);
             }
 
             var dto = _mapper.Map<CategoryDto>(result.Value);

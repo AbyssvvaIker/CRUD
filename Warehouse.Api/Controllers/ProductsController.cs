@@ -42,7 +42,7 @@ namespace Warehouse.Api.Controllers
             var result = await _productLogic.GetByIdAsync(id);
             if (result.Success == false)
             {
-                return NotFound();
+                return NotFound(result);
             }
 
             var dto = _mapper.Map<ProductDto>(result.Value);
