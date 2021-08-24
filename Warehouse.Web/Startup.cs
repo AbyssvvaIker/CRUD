@@ -62,7 +62,6 @@ namespace Warehouse.Web
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-
         }
         public void ConfigureContainer(ContainerBuilder builder)
         {
