@@ -118,7 +118,7 @@ namespace Warehouse.Web.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpDelete]
         [ProducesResponseType(200, Type = typeof(Result))]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
