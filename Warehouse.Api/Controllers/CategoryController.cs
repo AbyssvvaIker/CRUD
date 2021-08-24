@@ -91,15 +91,16 @@ namespace Warehouse.Web.Controllers
         /// <summary>
         /// Update existing category
         /// </summary>
+        /// <param name="id"></param>
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
         [ProducesResponseType(200, Type = typeof(Result<CategoryDto>))]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> Update(CategoryDto dto)
+        public async Task<IActionResult> Update(Guid id, [FromBody] CategoryDto dto)
         {
-            var categoryGetResult = await _categoryLogic.GetByIdAsync(dto.Id);
+            var categoryGetResult = await _categoryLogic.GetByIdAsync(id);
             if(categoryGetResult.Success == false)
             {
                 return NotFound(categoryGetResult);

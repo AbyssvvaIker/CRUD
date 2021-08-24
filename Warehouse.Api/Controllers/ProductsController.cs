@@ -91,15 +91,16 @@ namespace Warehouse.Api.Controllers
         /// <summary>
         /// Update existing product
         /// </summary>
+        /// <param name="id"></param>
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
         [ProducesResponseType(200, Type = typeof(Result<ProductDto>))]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> Update(ProductDto dto)
+        public async Task<IActionResult> Update(Guid id, [FromBody] ProductDto dto)
         {
-            var productGetResult = await _productLogic.GetByIdAsync(dto.Id);
+            var productGetResult = await _productLogic.GetByIdAsync(id);
             if (productGetResult.Success == false)
             {
                 return NotFound(productGetResult);
