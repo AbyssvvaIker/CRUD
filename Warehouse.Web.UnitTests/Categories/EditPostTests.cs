@@ -113,6 +113,7 @@ namespace Warehouse.Web.UnitTests.Categories
             var errorProperty = "property";
             var errorMessage = "error message";
             CategoryUpdateResult = Result.Failure<Category>(errorProperty, errorMessage);
+            MockCategoryLogic.Setup(x => x.UpdateAsync(It.IsAny<Category>())).ReturnsAsync(CategoryUpdateResult);
             //act
             var result = await controller.Edit(ViewModel);
             //assert

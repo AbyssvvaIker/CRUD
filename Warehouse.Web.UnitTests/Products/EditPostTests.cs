@@ -136,6 +136,7 @@ namespace Warehouse.Web.UnitTests.Products
             var errorProperty = "property";
             var errorMessage = "error message";
             ProductUpdateResult = Result.Failure<Product>(errorProperty, errorMessage);
+            MockProductLogic.Setup(x => x.UpdateAsync(It.IsAny<Product>())).ReturnsAsync(ProductUpdateResult);
             //act
             var result = await controller.Edit(ViewModel);
             //assert
