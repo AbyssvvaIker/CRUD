@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Warehouse.Api.DTOs.Product;
 using Warehouse.Core.Entities;
 
-namespace Warehouse.Web.AutoMapperProfiles
+namespace Warehouse.Api.AutoMapperProfiles
 {
     public class ProductProfile : Profile
     {

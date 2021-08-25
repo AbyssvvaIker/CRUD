@@ -7,7 +7,7 @@ using Warehouse.Api.DTOs.Category;
 using Warehouse.Core.Entities;
 using Warehouse.Core.Interfaces;
 
-namespace Warehouse.Web.AutoMapperProfiles
+namespace Warehouse.Api.AutoMapperProfiles
 {
     public class CategoryProfile : Profile
     {
