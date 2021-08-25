@@ -12,7 +12,7 @@ using AutoMapper;
 using System.Collections.Generic;
 using Warehouse.Core;
 
-namespace Warehouse.Web.Controllers
+namespace Warehouse.Api.Controllers
 {
     [Route("api/Category")]
     [ApiController]
@@ -65,7 +65,7 @@ namespace Warehouse.Web.Controllers
                 return BadRequest(result);
             }
 
-            var dto = _mapper.Map<CategoryDto>(result.Value);
+            var dto = _mapper.Map<IEnumerable<CategoryDto>>(result.Value);
             var resultDto = Result.Ok(dto);
 
             return Ok(resultDto);

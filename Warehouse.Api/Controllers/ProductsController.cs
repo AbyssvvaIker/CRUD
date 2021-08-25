@@ -65,7 +65,7 @@ namespace Warehouse.Api.Controllers
                 return BadRequest(result);
             }
 
-            var dto = _mapper.Map<ProductDto>(result.Value);
+            var dto = _mapper.Map<IEnumerable<ProductDto>>(result.Value);
             var resultDto = Result.Ok(dto);
 
             return Ok(resultDto);
