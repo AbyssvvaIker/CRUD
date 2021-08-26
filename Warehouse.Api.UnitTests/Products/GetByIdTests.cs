@@ -48,7 +48,6 @@ namespace Warehouse.Api.UnitTests.Products
             var property = "property";
             var message = "message";
             ProductResult = Result.Failure<Product>(property, message);
-
             MockProductLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(ProductResult);
             //act
             var result =await controller.GetById(Product.Id);

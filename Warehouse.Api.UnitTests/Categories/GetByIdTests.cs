@@ -48,7 +48,6 @@ namespace Warehouse.Api.UnitTests.Categories
             var property = "property";
             var message = "message";
             CategoryResult = Result.Failure<Category>(property, message);
-
             MockCategoryLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(CategoryResult);
             //act
             var result =await controller.GetById(Category.Id);

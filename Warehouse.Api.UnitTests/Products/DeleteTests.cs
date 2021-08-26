@@ -18,8 +18,6 @@ namespace Warehouse.Api.UnitTests.Products
         protected Product Product { get; set; }
         protected Result<Product> GetResult { get; set; }
         protected Result<Product> DeleteResult { get; set; }
-        protected Result<ProductDto> DtoResult { get; set; }
-        protected ProductDto Dto { get; set; }
         protected override ProductsController Create()
         {
             var controller = base.Create();
@@ -27,12 +25,8 @@ namespace Warehouse.Api.UnitTests.Products
             Product = Builder<Product>.CreateNew()
                 .Build();
 
-            Dto = Builder<ProductDto>.CreateNew()
-                .Build();
-
             GetResult = Result.Ok(Product);
             DeleteResult = Result.Ok(Product);
-            DtoResult = Result.Ok(Dto);
 
             MockProductLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(GetResult);
             MockProductLogic.Setup(x => x.DeleteAsync(It.IsAny<Product>())).ReturnsAsync(DeleteResult);
@@ -46,6 +40,7 @@ namespace Warehouse.Api.UnitTests.Products
             var property = "property";
             var message = "message";
             GetResult = Result.Failure<Product>(property, message);
+            MockProductLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(GetResult);
             //act
             var result = await controller.Delete(Product.Id);
             //assert
@@ -67,6 +62,7 @@ namespace Warehouse.Api.UnitTests.Products
             var property = "property";
             var message = "message";
             DeleteResult = Result.Failure<Product>(property, message);
+            MockProductLogic.Setup(x => x.DeleteAsync(It.IsAny<Product>())).ReturnsAsync(DeleteResult);
             //act
             var result = await controller.Delete(Product.Id);
             //assert

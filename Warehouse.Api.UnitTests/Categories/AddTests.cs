@@ -52,7 +52,7 @@ namespace Warehouse.Api.UnitTests.Categories
             var result =await controller.Add(Dto);
             //assert
             result.Should()
-                .BeBadRequest<Result<Category>>(property, message, string.Empty);
+                .BeBadRequest<Category>(property, message, string.Empty);
 
             MockCategoryLogic.Verify(x =>
             x.AddAsync(Category),

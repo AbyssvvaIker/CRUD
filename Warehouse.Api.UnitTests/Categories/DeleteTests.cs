@@ -18,8 +18,6 @@ namespace Warehouse.Api.UnitTests.Categories
         protected Category Category { get; set; }
         protected Result<Category> GetResult { get; set; }
         protected Result<Category> DeleteResult { get; set; }
-        protected Result<CategoryDto> DtoResult { get; set; }
-        protected CategoryDto Dto { get; set; }
         protected override CategoryController Create()
         {
             var controller = base.Create();
@@ -27,12 +25,8 @@ namespace Warehouse.Api.UnitTests.Categories
             Category = Builder<Category>.CreateNew()
                 .Build();
 
-            Dto = Builder<CategoryDto>.CreateNew()
-                .Build();
-
             GetResult = Result.Ok(Category);
             DeleteResult = Result.Ok(Category);
-            DtoResult = Result.Ok(Dto);
 
             MockCategoryLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(GetResult);
             MockCategoryLogic.Setup(x => x.DeleteAsync(It.IsAny<Category>())).ReturnsAsync(DeleteResult);
@@ -46,6 +40,7 @@ namespace Warehouse.Api.UnitTests.Categories
             var property = "property";
             var message = "message";
             GetResult = Result.Failure<Category>(property, message);
+            MockCategoryLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(GetResult);
             //act
             var result = await controller.Delete(Category.Id);
             //assert
@@ -62,11 +57,12 @@ namespace Warehouse.Api.UnitTests.Categories
         [Fact]
         public async Task Should_Be_BadRequest_When_DeleteResultIs_Failure()
         {
-
+            //arrange
             var controller = Create();
             var property = "property";
             var message = "message";
             DeleteResult = Result.Failure<Category>(property, message);
+            MockCategoryLogic.Setup(x => x.DeleteAsync(It.IsAny<Category>())).ReturnsAsync(DeleteResult);
             //act
             var result = await controller.Delete(Category.Id);
             //assert
@@ -79,6 +75,17 @@ namespace Warehouse.Api.UnitTests.Categories
             MockCategoryLogic.Verify(x =>
             x.DeleteAsync(Category),
             Times.Once);
+        }
+        [Fact]
+        public async Task Should_Be_NoContent_When_ResultsAre_Ok()
+        {
+            //arrange
+            var controller = Create();
+            //act
+            var result =await controller.Delete(Category.Id);
+            //assert
+            //result.Should()
+            //    .BeNoContent();
         }
 
     }

@@ -52,7 +52,7 @@ namespace Warehouse.Api.UnitTests.Products
             var result =await controller.Add(Dto);
             //assert
             result.Should()
-                .BeBadRequest<Result<Product>>(property, message, string.Empty);
+                .BeBadRequest<Product>(property, message, string.Empty);
 
             MockProductLogic.Verify(x =>
             x.AddAsync(Product),
