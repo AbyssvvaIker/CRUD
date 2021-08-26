@@ -46,6 +46,7 @@ namespace Warehouse.Api.UnitTests.Products
             var property = "property";
             var message = "message";
             GetResult = Result.Failure<Product>(property, message);
+            MockProductLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(GetResult);
             //act
             var result = await controller.Update(Product.Id, Dto);
             //assert
@@ -72,6 +73,7 @@ namespace Warehouse.Api.UnitTests.Products
             var property = "property";
             var message = "message";
             UpdateResult = Result.Failure<Product>(property, message);
+            MockProductLogic.Setup(x => x.UpdateAsync(It.IsAny<Product>())).ReturnsAsync(UpdateResult);
             //act
             var result = await controller.Update(Product.Id, Dto);
             //assert
