@@ -51,6 +51,19 @@ namespace Warehouse.Api.UnitTests.Categories
             //assert
             result.Should()
                 .BeNotFound<Result<Category>>(property, message, string.Empty);
+
+            MockCategoryLogic.Verify(x =>
+            x.GetByIdAsync(Category.Id),
+            Times.Once);
+            MockMapper.Verify(x =>
+            x.Map(It.IsAny<CategoryDto>(), It.IsAny<Category>()),
+            Times.Never);
+            MockCategoryLogic.Verify(x =>
+            x.UpdateAsync(It.IsAny<Category>()),
+            Times.Never);
+            MockMapper.Verify(x =>
+            x.Map<CategoryDto>(It.IsAny<Category>()),
+            Times.Never);
         }
         [Fact]
         public async Task Should_Be_BadRequest_When_UpdateResultIs_Failure()
@@ -69,10 +82,13 @@ namespace Warehouse.Api.UnitTests.Categories
             x.GetByIdAsync(Category.Id),
             Times.Once);
             MockMapper.Verify(x =>
-            x.Map(It.IsAny<CategoryDto>(), It.IsAny<Category>()),
-            Times.Never);
+            x.Map(Dto, Category),
+            Times.Once);
             MockCategoryLogic.Verify(x =>
-            x.UpdateAsync(It.IsAny<Category>()),
+            x.UpdateAsync(Category),
+            Times.Once);
+            MockMapper.Verify(x =>
+            x.Map<CategoryDto>(It.IsAny<Category>()),
             Times.Never);
         }
         [Fact]
@@ -94,6 +110,9 @@ namespace Warehouse.Api.UnitTests.Categories
             Times.Once);
             MockCategoryLogic.Verify(x =>
             x.UpdateAsync(Category),
+            Times.Once);
+            MockMapper.Verify(x =>
+            x.Map<CategoryDto>(Category),
             Times.Once);
         }
     }
