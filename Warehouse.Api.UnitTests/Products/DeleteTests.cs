@@ -45,7 +45,7 @@ namespace Warehouse.Api.UnitTests.Products
             var result = await controller.Delete(Product.Id);
             //assert
             result.Should()
-                .BeNotFound<Result<Product>>(property, message, string.Empty);
+                .BeNotFound<Product>(property, message, string.Empty);
             MockProductLogic.Verify(x =>
             x.GetByIdAsync(Product.Id),
             Times.Once);
@@ -67,7 +67,7 @@ namespace Warehouse.Api.UnitTests.Products
             var result = await controller.Delete(Product.Id);
             //assert
             result.Should()
-                .BeBadRequest<Result<Product>>(property, message, string.Empty);
+                .BeBadRequest<Product>(property, message, string.Empty);
 
             MockProductLogic.Verify(x =>
             x.GetByIdAsync(Product.Id),

@@ -45,7 +45,7 @@ namespace Warehouse.Api.UnitTests.Categories
             var result = await controller.Delete(Category.Id);
             //assert
             result.Should()
-                .BeNotFound<Result<Category>>(property, message, string.Empty);
+                .BeNotFound<Category>(property, message, string.Empty);
             MockCategoryLogic.Verify(x =>
             x.GetByIdAsync(Category.Id),
             Times.Once);
@@ -67,7 +67,7 @@ namespace Warehouse.Api.UnitTests.Categories
             var result = await controller.Delete(Category.Id);
             //assert
             result.Should()
-                .BeBadRequest<Result<Category>>(property, message, string.Empty);
+                .BeBadRequest<Category>(property, message, string.Empty);
 
             MockCategoryLogic.Verify(x =>
             x.GetByIdAsync(Category.Id),

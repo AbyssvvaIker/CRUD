@@ -51,7 +51,7 @@ namespace Warehouse.Api.UnitTests.Categories
             var result = await controller.Update(Category.Id, Dto);
             //assert
             result.Should()
-                .BeNotFound<Result<Category>>(property, message, string.Empty);
+                .BeNotFound<Category>(property, message, string.Empty);
 
             MockCategoryLogic.Verify(x =>
             x.GetByIdAsync(Category.Id),
@@ -78,7 +78,7 @@ namespace Warehouse.Api.UnitTests.Categories
             var result = await controller.Update(Category.Id, Dto);
             //assert
             result.Should()
-                .BeBadRequest<Result<Category>>(property, message, string.Empty);
+                .BeBadRequest<Category>(property, message, string.Empty);
 
             MockCategoryLogic.Verify(x =>
             x.GetByIdAsync(Category.Id),

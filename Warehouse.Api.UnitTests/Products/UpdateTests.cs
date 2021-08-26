@@ -51,7 +51,7 @@ namespace Warehouse.Api.UnitTests.Products
             var result = await controller.Update(Product.Id, Dto);
             //assert
             result.Should()
-                .BeNotFound<Result<Product>>(property, message, string.Empty);
+                .BeNotFound<Product>(property, message, string.Empty);
 
             MockProductLogic.Verify(x =>
             x.GetByIdAsync(Product.Id),
@@ -78,7 +78,7 @@ namespace Warehouse.Api.UnitTests.Products
             var result = await controller.Update(Product.Id, Dto);
             //assert
             result.Should()
-                .BeBadRequest<Result<Product>>(property, message, string.Empty);
+                .BeBadRequest<Product>(property, message, string.Empty);
 
             MockProductLogic.Verify(x =>
             x.GetByIdAsync(Product.Id),

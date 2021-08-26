@@ -52,7 +52,7 @@ namespace Warehouse.Api.UnitTests.Products
             var result =await controller.GetAllActive();
             //assert
             result.Should()
-                .BeBadRequest<Result<IEnumerable<ProductDto>>>(property, message);
+                .BeBadRequest<IEnumerable<ProductDto>>(property, message);
 
             MockProductLogic.Verify(x =>
             x.GetAllActiveAsync(),
