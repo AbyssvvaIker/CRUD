@@ -34,6 +34,7 @@ namespace Warehouse.Api.UnitTests.Categories
 
             MockCategoryLogic.Setup(x => x.AddAsync(It.IsAny<Category>())).ReturnsAsync(CategoryResult);
             MockMapper.Setup(x => x.Map<Category>(It.IsAny<CategoryDto>())).Returns(Category);
+            MockMapper.Setup(x => x.Map<CategoryDto>(It.IsAny<Category>())).Returns(Dto);
 
             return controller;
         }
@@ -46,6 +47,7 @@ namespace Warehouse.Api.UnitTests.Categories
             var property = "property";
             var message = "message";
             CategoryResult = Result.Failure<Category>(property, message);
+            MockCategoryLogic.Setup(x => x.AddAsync(It.IsAny<Category>())).ReturnsAsync(CategoryResult);
             //act
             var result =await controller.Add(Dto);
             //assert

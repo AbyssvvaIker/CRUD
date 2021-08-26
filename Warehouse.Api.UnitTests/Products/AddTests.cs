@@ -34,6 +34,7 @@ namespace Warehouse.Api.UnitTests.Products
 
             MockProductLogic.Setup(x => x.AddAsync(It.IsAny<Product>())).ReturnsAsync(ProductResult);
             MockMapper.Setup(x => x.Map<Product>(It.IsAny<ProductDto>())).Returns(Product);
+            MockMapper.Setup(x => x.Map<ProductDto>(It.IsAny<Product>())).Returns(Dto);
 
             return controller;
         }
@@ -46,6 +47,7 @@ namespace Warehouse.Api.UnitTests.Products
             var property = "property";
             var message = "message";
             ProductResult = Result.Failure<Product>(property, message);
+            MockProductLogic.Setup(x => x.AddAsync(It.IsAny<Product>())).ReturnsAsync(ProductResult);
             //act
             var result =await controller.Add(Dto);
             //assert
