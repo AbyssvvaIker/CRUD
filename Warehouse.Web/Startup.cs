@@ -15,6 +15,8 @@ using FluentValidation.AspNetCore;
 using FluentValidation;
 using Warehouse.Core.Entities;
 using Warehouse.Core.Validators;
+using Serilog;
+using Warehouse.Web.Middleware;
 
 namespace Warehouse.Web
 {
@@ -49,6 +51,8 @@ namespace Warehouse.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseMiddleware<ExceptionMiddleware>();
+            app.UseSerilogRequestLogging();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
