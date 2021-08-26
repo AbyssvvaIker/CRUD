@@ -40,13 +40,14 @@ namespace Warehouse.Api.UnitTests.Categories
             return controller;
         }
         [Fact]
-        public async Task Shoukd_Be_BadRequest_When_ResultIs_Failure()
+        public async Task Should_Be_BadRequest_When_ResultIs_Failure()
         {
             //arrange
             var controller = Create();
             var property = "property";
             var message = "message";
             CategoriesResult = Result.Failure<IEnumerable<Category>>(property, message);
+            MockCategoryLogic.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(CategoriesResult);
             //act
             var result =await controller.GetAllActive();
             //assert
@@ -61,7 +62,7 @@ namespace Warehouse.Api.UnitTests.Categories
             Times.Never);
         }
         [Fact]
-        public async Task Shoukd_Be_Ok_When_ResultIs_Ok()
+        public async Task Should_Be_Ok_When_ResultIs_Ok()
         {
             //arrange
             var controller = Create();

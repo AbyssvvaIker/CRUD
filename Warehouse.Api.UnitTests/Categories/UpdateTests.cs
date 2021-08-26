@@ -46,6 +46,7 @@ namespace Warehouse.Api.UnitTests.Categories
             var property = "property";
             var message = "message";
             GetResult = Result.Failure<Category>(property, message);
+            MockCategoryLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(GetResult);
             //act
             var result = await controller.Update(Category.Id, Dto);
             //assert
@@ -72,6 +73,7 @@ namespace Warehouse.Api.UnitTests.Categories
             var property = "property";
             var message = "message";
             UpdateResult = Result.Failure<Category>(property, message);
+            MockCategoryLogic.Setup(x => x.UpdateAsync(It.IsAny<Category>())).ReturnsAsync(UpdateResult);
             //act
             var result = await controller.Update(Category.Id, Dto);
             //assert
