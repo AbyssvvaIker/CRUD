@@ -200,5 +200,13 @@ namespace Warehouse.Core
 
             return this;
         }
+
+        public ActionResultAssertions BeNoContent(string because = "",params object[] becauseArgs)
+        {
+            Subject.Should()
+                .BeOfType<NoContentResult>();
+
+            return this;
+        }
     }
 }
