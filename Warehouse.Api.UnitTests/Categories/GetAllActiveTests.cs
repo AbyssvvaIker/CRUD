@@ -52,7 +52,7 @@ namespace Warehouse.Api.UnitTests.Categories
             var result =await controller.GetAllActive();
             //assert
             result.Should()
-                .BeBadRequest<IEnumerable<CategoryDto>>(property, message);
+                .BeBadRequest<IEnumerable<Category>>(property, message);
 
             MockCategoryLogic.Verify(x =>
             x.GetAllActiveAsync(),
