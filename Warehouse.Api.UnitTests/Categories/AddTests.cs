@@ -51,6 +51,16 @@ namespace Warehouse.Api.UnitTests.Categories
             //assert
             result.Should()
                 .BeBadRequest<Result<Category>>(property, message, string.Empty);
+
+            MockCategoryLogic.Verify(x =>
+            x.AddAsync(Category),
+            Times.Once);
+            MockMapper.Verify(x =>
+            x.Map<Category>(Dto),
+            Times.Once);
+            MockMapper.Verify(x =>
+            x.Map<CategoryDto>(It.IsAny<Category>()),
+            Times.Never);
         }
         [Fact]
         public async Task Should_Be_Ok_When_ResultIs_Ok()
@@ -62,6 +72,16 @@ namespace Warehouse.Api.UnitTests.Categories
             //assert
             result.Should()
                 .BeCreatedAtAction(DtoResult);
+
+            MockCategoryLogic.Verify(x =>
+            x.AddAsync(Category),
+            Times.Once);
+            MockMapper.Verify(x =>
+            x.Map<Category>(Dto),
+            Times.Once);
+            MockMapper.Verify(x =>
+            x.Map<CategoryDto>(Category),
+            Times.Once);
         }
 
     }

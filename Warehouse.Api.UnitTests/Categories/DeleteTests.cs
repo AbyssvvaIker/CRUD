@@ -36,7 +36,6 @@ namespace Warehouse.Api.UnitTests.Categories
 
             MockCategoryLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(GetResult);
             MockCategoryLogic.Setup(x => x.DeleteAsync(It.IsAny<Category>())).ReturnsAsync(DeleteResult);
-            MockMapper.Setup(x => x.Map<CategoryDto>(It.IsAny<Category>())).Returns(Dto);
 
             return controller;
         }
@@ -52,6 +51,12 @@ namespace Warehouse.Api.UnitTests.Categories
             //assert
             result.Should()
                 .BeNotFound<Result<Category>>(property, message, string.Empty);
+            MockCategoryLogic.Verify(x =>
+            x.GetByIdAsync(Category.Id),
+            Times.Once);
+            MockCategoryLogic.Verify(x =>
+            x.DeleteAsync(It.IsAny<Category>()),
+            Times.Never);
         }
 
         [Fact]
@@ -67,6 +72,13 @@ namespace Warehouse.Api.UnitTests.Categories
             //assert
             result.Should()
                 .BeBadRequest<Result<Category>>(property, message, string.Empty);
+
+            MockCategoryLogic.Verify(x =>
+            x.GetByIdAsync(Category.Id),
+            Times.Once);
+            MockCategoryLogic.Verify(x =>
+            x.DeleteAsync(Category),
+            Times.Once);
         }
 
     }

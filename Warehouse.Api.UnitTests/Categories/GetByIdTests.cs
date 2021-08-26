@@ -56,7 +56,12 @@ namespace Warehouse.Api.UnitTests.Categories
             result.Should()
                 .BeNotFound<Result<Category>>(message);
 
-
+            MockCategoryLogic.Verify(x =>
+            x.GetByIdAsync(Category.Id),
+            Times.Once);
+            MockMapper.Verify(x =>
+            x.Map<CategoryDto>(It.IsAny<Category>()),
+            Times.Never);
 
         }
 
@@ -70,6 +75,13 @@ namespace Warehouse.Api.UnitTests.Categories
             //assert
             result.Should()
                 .BeOk(DtoResult);
+
+            MockCategoryLogic.Verify(x =>
+            x.GetByIdAsync(Category.Id),
+            Times.Once);
+            MockMapper.Verify(x =>
+            x.Map<CategoryDto>(Category),
+            Times.Once);
         }
     }
 }
