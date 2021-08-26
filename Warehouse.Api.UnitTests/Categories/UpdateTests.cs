@@ -105,7 +105,7 @@ namespace Warehouse.Api.UnitTests.Categories
 
             var controller = Create();
             //act
-            var result = await controller.Add(Dto);
+            var result = await controller.Update(Category.Id, Dto);
             //assert
             result.Should()
                 .BeOk(Dto);

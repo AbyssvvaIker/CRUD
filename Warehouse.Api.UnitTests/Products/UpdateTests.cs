@@ -105,7 +105,7 @@ namespace Warehouse.Api.UnitTests.Products
 
             var controller = Create();
             //act
-            var result = await controller.Add(Dto);
+            var result = await controller.Update(Product.Id, Dto);
             //assert
             result.Should()
                 .BeOk(Dto);
