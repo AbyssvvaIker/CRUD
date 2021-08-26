@@ -79,6 +79,16 @@ namespace Warehouse.Api.UnitTests.Products
             x.DeleteAsync(Product),
             Times.Once);
         }
+        [Fact]
+        public async Task Should_Be_NoContent_When_ResultsAre_Ok()
+        {
+            //arrange
+            var controller = Create();
+            //act
+            var result = await controller.Delete(Product.Id);
+            //assert
+            result.Should().BeNoContent();
+        }
 
     }
 }

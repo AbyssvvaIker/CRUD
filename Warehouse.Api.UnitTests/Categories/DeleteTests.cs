@@ -87,8 +87,7 @@ namespace Warehouse.Api.UnitTests.Categories
             //act
             var result =await controller.Delete(Category.Id);
             //assert
-            //result.Should()
-            //    .BeNoContent();
+            result.Should().BeNoContent();
         }
 
     }
