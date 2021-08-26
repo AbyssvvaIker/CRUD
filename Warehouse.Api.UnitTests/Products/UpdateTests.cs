@@ -92,7 +92,7 @@ namespace Warehouse.Api.UnitTests.Products
             Times.Once);
 
             MockProductLogic.Verify(x =>
-            x.UpdateAsync(Product),
+            x.UpdateAsync(GetResult.Value),
             Times.Once);
 
             MockMapper.Verify(x =>
@@ -119,7 +119,7 @@ namespace Warehouse.Api.UnitTests.Products
             Times.Once);
 
             MockProductLogic.Verify(x =>
-            x.UpdateAsync(Product),
+            x.UpdateAsync(GetResult.Value),
             Times.Once);
 
             MockMapper.Verify(x =>

@@ -92,7 +92,7 @@ namespace Warehouse.Api.UnitTests.Categories
             Times.Once);
 
             MockCategoryLogic.Verify(x =>
-            x.UpdateAsync(Category),
+            x.UpdateAsync(GetResult.Value),
             Times.Once);
 
             MockMapper.Verify(x =>
@@ -119,7 +119,7 @@ namespace Warehouse.Api.UnitTests.Categories
             Times.Once);
 
             MockCategoryLogic.Verify(x =>
-            x.UpdateAsync(Category),
+            x.UpdateAsync(GetResult.Value),
             Times.Once);
 
             MockMapper.Verify(x =>
