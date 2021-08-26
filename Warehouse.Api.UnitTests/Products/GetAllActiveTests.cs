@@ -34,7 +34,7 @@ namespace Warehouse.Api.UnitTests.Products
             DtoResult = Result.Ok(Dto);
 
             MockProductLogic.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(ProductsResult);
-            MockMapper.Setup(x => x.Map<IEnumerable<ProductDto>>(It.IsAny<IEnumerable<Category>>()))
+            MockMapper.Setup(x => x.Map<IEnumerable<ProductDto>>(It.IsAny<IEnumerable<Product>>()))
                 .Returns(Dto);
 
             return controller;
