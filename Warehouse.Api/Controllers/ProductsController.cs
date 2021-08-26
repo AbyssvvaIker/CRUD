@@ -20,13 +20,11 @@ namespace Warehouse.Api.Controllers
     public class ProductsController : Controller
     {
         private readonly IProductLogic _productLogic;
-        private readonly ICategoryLogic _categoryLogic;
         private readonly IMapper _mapper;
 
-        public ProductsController(IProductLogic productLogic, ICategoryLogic categoryLogic, IMapper mapper)
+        public ProductsController(IProductLogic productLogic, IMapper mapper)
         {
             _productLogic = productLogic;
-            _categoryLogic = categoryLogic;
             _mapper = mapper;
         }
         /// <summary>
