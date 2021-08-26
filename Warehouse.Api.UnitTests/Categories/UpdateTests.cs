@@ -102,7 +102,7 @@ namespace Warehouse.Api.UnitTests.Categories
             var result = await controller.Add(Dto);
             //assert
             result.Should()
-                .BeOk(DtoResult);
+                .BeOk(Dto);
 
             MockCategoryLogic.Verify(x =>
             x.GetByIdAsync(Category.Id),

@@ -102,7 +102,7 @@ namespace Warehouse.Api.UnitTests.Products
             var result = await controller.Add(Dto);
             //assert
             result.Should()
-                .BeOk(DtoResult);
+                .BeOk(Dto);
 
             MockProductLogic.Verify(x =>
             x.GetByIdAsync(Product.Id),

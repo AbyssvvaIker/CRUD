@@ -73,7 +73,7 @@ namespace Warehouse.Api.UnitTests.Products
             var result = await controller.Add(Dto);
             //assert
             result.Should()
-                .BeCreatedAtAction(DtoResult);
+                .BeCreatedAtAction(Dto);
 
             MockProductLogic.Verify(x =>
             x.AddAsync(Product),

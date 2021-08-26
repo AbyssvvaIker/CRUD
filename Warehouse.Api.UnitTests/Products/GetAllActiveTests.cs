@@ -70,7 +70,7 @@ namespace Warehouse.Api.UnitTests.Products
             var result = await controller.GetAllActive();
             //assert
             result.Should()
-                .BeOk(DtoResult);
+                .BeOk(Dto);
 
             MockProductLogic.Verify(x =>
             x.GetAllActiveAsync(),

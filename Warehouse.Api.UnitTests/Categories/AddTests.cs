@@ -73,7 +73,7 @@ namespace Warehouse.Api.UnitTests.Categories
             var result = await controller.Add(Dto);
             //assert
             result.Should()
-                .BeCreatedAtAction(DtoResult);
+                .BeCreatedAtAction(Dto);
 
             MockCategoryLogic.Verify(x =>
             x.AddAsync(Category),
