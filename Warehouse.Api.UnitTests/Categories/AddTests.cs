@@ -57,9 +57,11 @@ namespace Warehouse.Api.UnitTests.Categories
             MockCategoryLogic.Verify(x =>
             x.AddAsync(Category),
             Times.Once);
+
             MockMapper.Verify(x =>
             x.Map<Category>(Dto),
             Times.Once);
+
             MockMapper.Verify(x =>
             x.Map<CategoryDto>(It.IsAny<Category>()),
             Times.Never);
@@ -78,9 +80,11 @@ namespace Warehouse.Api.UnitTests.Categories
             MockCategoryLogic.Verify(x =>
             x.AddAsync(Category),
             Times.Once);
+
             MockMapper.Verify(x =>
             x.Map<Category>(Dto),
             Times.Once);
+
             MockMapper.Verify(x =>
             x.Map<CategoryDto>(Category),
             Times.Once);

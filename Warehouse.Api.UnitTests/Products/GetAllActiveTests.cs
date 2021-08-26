@@ -57,6 +57,7 @@ namespace Warehouse.Api.UnitTests.Products
             MockProductLogic.Verify(x =>
             x.GetAllActiveAsync(),
             Times.Once);
+
             MockMapper.Verify(x =>
             x.Map<IEnumerable<ProductDto>>(It.IsAny<IEnumerable<Product>>()),
             Times.Never);
@@ -75,6 +76,7 @@ namespace Warehouse.Api.UnitTests.Products
             MockProductLogic.Verify(x =>
             x.GetAllActiveAsync(),
             Times.Once);
+
             MockMapper.Verify(x =>
             x.Map<IEnumerable<ProductDto>>(Products),
             Times.Once);

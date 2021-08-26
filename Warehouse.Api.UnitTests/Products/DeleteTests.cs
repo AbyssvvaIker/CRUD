@@ -46,9 +46,11 @@ namespace Warehouse.Api.UnitTests.Products
             //assert
             result.Should()
                 .BeNotFound<Product>(property, message, string.Empty);
+
             MockProductLogic.Verify(x =>
             x.GetByIdAsync(Product.Id),
             Times.Once);
+
             MockProductLogic.Verify(x =>
             x.DeleteAsync(It.IsAny<Product>()),
             Times.Never);
@@ -72,6 +74,7 @@ namespace Warehouse.Api.UnitTests.Products
             MockProductLogic.Verify(x =>
             x.GetByIdAsync(Product.Id),
             Times.Once);
+
             MockProductLogic.Verify(x =>
             x.DeleteAsync(Product),
             Times.Once);

@@ -46,9 +46,11 @@ namespace Warehouse.Api.UnitTests.Categories
             //assert
             result.Should()
                 .BeNotFound<Category>(property, message, string.Empty);
+
             MockCategoryLogic.Verify(x =>
             x.GetByIdAsync(Category.Id),
             Times.Once);
+
             MockCategoryLogic.Verify(x =>
             x.DeleteAsync(It.IsAny<Category>()),
             Times.Never);
@@ -72,6 +74,7 @@ namespace Warehouse.Api.UnitTests.Categories
             MockCategoryLogic.Verify(x =>
             x.GetByIdAsync(Category.Id),
             Times.Once);
+
             MockCategoryLogic.Verify(x =>
             x.DeleteAsync(Category),
             Times.Once);

@@ -56,12 +56,15 @@ namespace Warehouse.Api.UnitTests.Products
             MockProductLogic.Verify(x =>
             x.GetByIdAsync(Product.Id),
             Times.Once);
+
             MockMapper.Verify(x =>
             x.Map(It.IsAny<ProductDto>(), It.IsAny<Product>()),
             Times.Never);
+
             MockProductLogic.Verify(x =>
             x.UpdateAsync(It.IsAny<Product>()),
             Times.Never);
+
             MockMapper.Verify(x =>
             x.Map<ProductDto>(It.IsAny<Product>()),
             Times.Never);
@@ -83,12 +86,15 @@ namespace Warehouse.Api.UnitTests.Products
             MockProductLogic.Verify(x =>
             x.GetByIdAsync(Product.Id),
             Times.Once);
+
             MockMapper.Verify(x =>
             x.Map(Dto, Product),
             Times.Once);
+
             MockProductLogic.Verify(x =>
             x.UpdateAsync(Product),
             Times.Once);
+
             MockMapper.Verify(x =>
             x.Map<ProductDto>(It.IsAny<Product>()),
             Times.Never);
@@ -107,12 +113,15 @@ namespace Warehouse.Api.UnitTests.Products
             MockProductLogic.Verify(x =>
             x.GetByIdAsync(Product.Id),
             Times.Once);
+
             MockMapper.Verify(x =>
             x.Map(Dto, Product),
             Times.Once);
+
             MockProductLogic.Verify(x =>
             x.UpdateAsync(Product),
             Times.Once);
+
             MockMapper.Verify(x =>
             x.Map<ProductDto>(Product),
             Times.Once);

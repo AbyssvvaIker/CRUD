@@ -57,6 +57,7 @@ namespace Warehouse.Api.UnitTests.Categories
             MockCategoryLogic.Verify(x =>
             x.GetAllActiveAsync(),
             Times.Once);
+
             MockMapper.Verify(x =>
             x.Map<IEnumerable<CategoryDto>>(It.IsAny<IEnumerable<Category>>()),
             Times.Never);
@@ -75,6 +76,7 @@ namespace Warehouse.Api.UnitTests.Categories
             MockCategoryLogic.Verify(x =>
             x.GetAllActiveAsync(),
             Times.Once);
+
             MockMapper.Verify(x =>
             x.Map<IEnumerable<CategoryDto>>(Categories),
             Times.Once);

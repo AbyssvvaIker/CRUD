@@ -57,9 +57,11 @@ namespace Warehouse.Api.UnitTests.Products
             MockProductLogic.Verify(x =>
             x.AddAsync(Product),
             Times.Once);
+
             MockMapper.Verify(x =>
             x.Map<Product>(Dto),
             Times.Once);
+
             MockMapper.Verify(x =>
             x.Map<ProductDto>(It.IsAny<Product>()),
             Times.Never);
@@ -78,9 +80,11 @@ namespace Warehouse.Api.UnitTests.Products
             MockProductLogic.Verify(x =>
             x.AddAsync(Product),
             Times.Once);
+
             MockMapper.Verify(x =>
             x.Map<Product>(Dto),
             Times.Once);
+
             MockMapper.Verify(x =>
             x.Map<ProductDto>(Product),
             Times.Once);
