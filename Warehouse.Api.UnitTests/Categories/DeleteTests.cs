@@ -1,6 +1,4 @@
 ﻿using FizzWare.NBuilder;
-//using FluentAssertions.AspNetCore.Mvc;
-//using FluentAssertions;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -15,10 +13,11 @@ using Xunit;
 
 namespace Warehouse.Api.UnitTests.Categories
 {
-    public class GetByIdTests : BaseTest
+    public class DeleteTests : BaseTest
     {
         protected Category Category { get; set; }
-        protected Result<Category> CategoryResult { get; set; }
+        protected Result<Category> GetResult { get; set; }
+        protected Result<Category> DeleteResult { get; set; }
         protected Result<CategoryDto> DtoResult { get; set; }
         protected CategoryDto Dto { get; set; }
         protected override CategoryController Create()
@@ -31,45 +30,44 @@ namespace Warehouse.Api.UnitTests.Categories
             Dto = Builder<CategoryDto>.CreateNew()
                 .Build();
 
-            CategoryResult = Result.Ok(Category);
+            GetResult = Result.Ok(Category);
+            DeleteResult = Result.Ok(Category);
             DtoResult = Result.Ok(Dto);
 
-            MockCategoryLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(CategoryResult);
+            MockCategoryLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(GetResult);
+            MockCategoryLogic.Setup(x => x.DeleteAsync(It.IsAny<Category>())).ReturnsAsync(DeleteResult);
             MockMapper.Setup(x => x.Map<CategoryDto>(It.IsAny<Category>())).Returns(Dto);
 
             return controller;
         }
-
         [Fact]
-        public async Task Should_Be_NotFound_When_ResultIs_Failure()
+        public async Task Should_Be_NotFound_When_GetResultIs_Failure()
         {
-            //arrange
             var controller = Create();
             var property = "property";
             var message = "message";
-            CategoryResult = Result.Failure<Category>(property, message);
-
-            MockCategoryLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(CategoryResult);
+            GetResult = Result.Failure<Category>(property, message);
             //act
-            var result =await controller.GetById(Category.Id);
+            var result = await controller.Delete(Category.Id);
             //assert
             result.Should()
-                .BeNotFound<Result<Category>>(message);
-
-
-
+                .BeNotFound<Result<Category>>(property, message, string.Empty);
         }
 
         [Fact]
-        public async Task Should_Return_ResultDto_When_ResultIs_Ok()
+        public async Task Should_Be_BadRequest_When_DeleteResultIs_Failure()
         {
-            //arrange
+
             var controller = Create();
+            var property = "property";
+            var message = "message";
+            DeleteResult = Result.Failure<Category>(property, message);
             //act
-            var result =await controller.GetById(Category.Id);
+            var result = await controller.Delete(Category.Id);
             //assert
             result.Should()
-                .BeOk(DtoResult);
+                .BeBadRequest<Result<Category>>(property, message, string.Empty);
         }
+
     }
 }

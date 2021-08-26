@@ -1,6 +1,4 @@
 ﻿using FizzWare.NBuilder;
-//using FluentAssertions.AspNetCore.Mvc;
-//using FluentAssertions;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -15,7 +13,7 @@ using Xunit;
 
 namespace Warehouse.Api.UnitTests.Categories
 {
-    public class GetByIdTests : BaseTest
+    public class AddTests : BaseTest
     {
         protected Category Category { get; set; }
         protected Result<Category> CategoryResult { get; set; }
@@ -34,42 +32,37 @@ namespace Warehouse.Api.UnitTests.Categories
             CategoryResult = Result.Ok(Category);
             DtoResult = Result.Ok(Dto);
 
-            MockCategoryLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(CategoryResult);
-            MockMapper.Setup(x => x.Map<CategoryDto>(It.IsAny<Category>())).Returns(Dto);
+            MockCategoryLogic.Setup(x => x.AddAsync(It.IsAny<Category>())).ReturnsAsync(CategoryResult);
+            MockMapper.Setup(x => x.Map<Category>(It.IsAny<CategoryDto>())).Returns(Category);
 
             return controller;
         }
 
         [Fact]
-        public async Task Should_Be_NotFound_When_ResultIs_Failure()
+        public async Task Should_Be_BadRequest_When_ResultIs_Failure()
         {
             //arrange
             var controller = Create();
             var property = "property";
             var message = "message";
             CategoryResult = Result.Failure<Category>(property, message);
-
-            MockCategoryLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(CategoryResult);
             //act
-            var result =await controller.GetById(Category.Id);
+            var result =await controller.Add(Dto);
             //assert
             result.Should()
-                .BeNotFound<Result<Category>>(message);
-
-
-
+                .BeBadRequest<Result<Category>>(property, message, string.Empty);
         }
-
         [Fact]
-        public async Task Should_Return_ResultDto_When_ResultIs_Ok()
+        public async Task Should_Be_Ok_When_ResultIs_Ok()
         {
             //arrange
             var controller = Create();
             //act
-            var result =await controller.GetById(Category.Id);
+            var result = await controller.Add(Dto);
             //assert
             result.Should()
-                .BeOk(DtoResult);
+                .BeCreatedAtAction(DtoResult);
         }
+
     }
 }
