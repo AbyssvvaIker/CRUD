@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Warehouse.Api.Controllers;
-using Warehouse.Api.DTOs.Category;
+using Warehouse.Api.DTOs.Product;
 using Warehouse.Api.UnitTests.Products.Infrastructure;
 using Warehouse.Core;
 using Warehouse.Core.Entities;
@@ -16,25 +16,25 @@ namespace Warehouse.Api.UnitTests.Products
 {
     public class GetAllActiveTests : BaseTest
     {
-        protected IEnumerable<Category> Categories { get; set; }
-        protected Result<IEnumerable<Category>> CategoriesResult { get; set; }
-        protected Result<IEnumerable<CategoryDto>> DtoResult { get; set; }
-        protected IEnumerable<CategoryDto> Dto { get; set; }
-        protected override CategoryController Create()
+        protected IEnumerable<Product> Products { get; set; }
+        protected Result<IEnumerable<Product>> ProductsResult { get; set; }
+        protected Result<IEnumerable<ProductDto>> DtoResult { get; set; }
+        protected IEnumerable<ProductDto> Dto { get; set; }
+        protected override ProductsController Create()
         {
             var controller = base.Create();
 
-            Categories = Builder<Category>.CreateListOfSize(5)
+            Products = Builder<Product>.CreateListOfSize(5)
                 .Build();
 
-            Dto = Builder<CategoryDto>.CreateListOfSize(5)
+            Dto = Builder<ProductDto>.CreateListOfSize(5)
                 .Build();
 
-            CategoriesResult = Result.Ok(Categories);
+            ProductsResult = Result.Ok(Products);
             DtoResult = Result.Ok(Dto);
 
-            MockProductLogic.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(CategoriesResult);
-            MockMapper.Setup(x => x.Map<IEnumerable<CategoryDto>>(It.IsAny<IEnumerable<Category>>()))
+            MockProductLogic.Setup(x => x.GetAllActiveAsync()).ReturnsAsync(ProductsResult);
+            MockMapper.Setup(x => x.Map<IEnumerable<ProductDto>>(It.IsAny<IEnumerable<Category>>()))
                 .Returns(Dto);
 
             return controller;
@@ -46,18 +46,18 @@ namespace Warehouse.Api.UnitTests.Products
             var controller = Create();
             var property = "property";
             var message = "message";
-            CategoriesResult = Result.Failure<IEnumerable<Category>>(property, message);
+            ProductsResult = Result.Failure<IEnumerable<Product>>(property, message);
             //act
             var result =await controller.GetAllActive();
             //assert
             result.Should()
-                .BeBadRequest<Result<IEnumerable<CategoryDto>>>(property, message);
+                .BeBadRequest<Result<IEnumerable<ProductDto>>>(property, message);
 
             MockProductLogic.Verify(x =>
             x.GetAllActiveAsync(),
             Times.Once);
             MockMapper.Verify(x =>
-            x.Map<IEnumerable<CategoryDto>>(It.IsAny<IEnumerable<Category>>()),
+            x.Map<IEnumerable<ProductDto>>(It.IsAny<IEnumerable<Product>>()),
             Times.Never);
         }
         [Fact]
@@ -75,7 +75,7 @@ namespace Warehouse.Api.UnitTests.Products
             x.GetAllActiveAsync(),
             Times.Once);
             MockMapper.Verify(x =>
-            x.Map<IEnumerable<CategoryDto>>(Categories),
+            x.Map<IEnumerable<ProductDto>>(Products),
             Times.Once);
         }
     }

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Warehouse.Api.Controllers;
-using Warehouse.Api.DTOs.Category;
+using Warehouse.Api.DTOs.Product;
 using Warehouse.Api.UnitTests.Products.Infrastructure;
 using Warehouse.Core;
 using Warehouse.Core.Entities;
@@ -17,25 +17,25 @@ namespace Warehouse.Api.UnitTests.Products
 {
     public class GetByIdTests : BaseTest
     {
-        protected Category Category { get; set; }
-        protected Result<Category> CategoryResult { get; set; }
-        protected Result<CategoryDto> DtoResult { get; set; }
-        protected CategoryDto Dto { get; set; }
-        protected override CategoryController Create()
+        protected Product Product { get; set; }
+        protected Result<Product> ProductResult { get; set; }
+        protected Result<ProductDto> DtoResult { get; set; }
+        protected ProductDto Dto { get; set; }
+        protected override ProductsController Create()
         {
             var controller = base.Create();
 
-            Category = Builder<Category>.CreateNew()
+            Product = Builder<Product>.CreateNew()
                 .Build();
 
-            Dto = Builder<CategoryDto>.CreateNew()
+            Dto = Builder<ProductDto>.CreateNew()
                 .Build();
 
-            CategoryResult = Result.Ok(Category);
+            ProductResult = Result.Ok(Product);
             DtoResult = Result.Ok(Dto);
 
-            MockProductLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(CategoryResult);
-            MockMapper.Setup(x => x.Map<CategoryDto>(It.IsAny<Category>())).Returns(Dto);
+            MockProductLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(ProductResult);
+            MockMapper.Setup(x => x.Map<ProductDto>(It.IsAny<Product>())).Returns(Dto);
 
             return controller;
         }
@@ -47,20 +47,20 @@ namespace Warehouse.Api.UnitTests.Products
             var controller = Create();
             var property = "property";
             var message = "message";
-            CategoryResult = Result.Failure<Category>(property, message);
+            ProductResult = Result.Failure<Product>(property, message);
 
-            MockProductLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(CategoryResult);
+            MockProductLogic.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(ProductResult);
             //act
-            var result =await controller.GetById(Category.Id);
+            var result =await controller.GetById(Product.Id);
             //assert
             result.Should()
-                .BeNotFound<Result<Category>>(message);
+                .BeNotFound<Result<Product>>(message);
 
             MockProductLogic.Verify(x =>
-            x.GetByIdAsync(Category.Id),
+            x.GetByIdAsync(Product.Id),
             Times.Once);
             MockMapper.Verify(x =>
-            x.Map<CategoryDto>(It.IsAny<Category>()),
+            x.Map<ProductDto>(It.IsAny<Product>()),
             Times.Never);
 
         }
@@ -71,16 +71,16 @@ namespace Warehouse.Api.UnitTests.Products
             //arrange
             var controller = Create();
             //act
-            var result =await controller.GetById(Category.Id);
+            var result =await controller.GetById(Product.Id);
             //assert
             result.Should()
                 .BeOk(DtoResult);
 
             MockProductLogic.Verify(x =>
-            x.GetByIdAsync(Category.Id),
+            x.GetByIdAsync(Product.Id),
             Times.Once);
             MockMapper.Verify(x =>
-            x.Map<CategoryDto>(Category),
+            x.Map<ProductDto>(Product),
             Times.Once);
         }
     }
