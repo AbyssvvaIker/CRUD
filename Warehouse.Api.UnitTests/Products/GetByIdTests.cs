@@ -53,7 +53,7 @@ namespace Warehouse.Api.UnitTests.Products
             var result =await controller.GetById(Product.Id);
             //assert
             result.Should()
-                .BeNotFound<Product>(message);
+                .BeNotFound<Product>(property,message);
 
             MockProductLogic.Verify(x =>
             x.GetByIdAsync(Product.Id),

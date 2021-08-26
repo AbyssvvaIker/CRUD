@@ -53,7 +53,7 @@ namespace Warehouse.Api.UnitTests.Categories
             var result =await controller.GetById(Category.Id);
             //assert
             result.Should()
-                .BeNotFound<Category>(message);
+                .BeNotFound<Category>(property,message);
 
             MockCategoryLogic.Verify(x =>
             x.GetByIdAsync(Category.Id),

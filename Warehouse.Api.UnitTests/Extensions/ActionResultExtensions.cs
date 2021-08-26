@@ -111,7 +111,7 @@ namespace Warehouse.Core
             return this;
         }
 
-        public ActionResultAssertions BeNotFound<T>(string message, string because = "", params object[] becauseArgs)
+        public ActionResultAssertions BeNotFound<T>(string property, string message, string because = "", params object[] becauseArgs)
         {
             var subject = Subject.As<ObjectResult>();
             var subjectValue = subject.Value.As<Result<T>>(); //subjectValue is null when running tests(?)
@@ -151,7 +151,7 @@ namespace Warehouse.Core
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(error.Message == message)
-                .FailWith($"The Message should be '{message}'.");
+                .FailWith($"The Message should be '{message}', but is '{error.Message}'");
 
             return this;
         }
@@ -196,7 +196,7 @@ namespace Warehouse.Core
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(error.Message == message)
-                .FailWith($"The Message for property '{property}' should be '{message}'.");
+                .FailWith($"The Message for property '{property}' should be '{message}', but is {error.Message}");
 
             return this;
         }
