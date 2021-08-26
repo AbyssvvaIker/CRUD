@@ -28,7 +28,7 @@ namespace Warehouse.Core
         public ActionResultAssertions BeOk<T>(T value, string because = "", params object[] becauseArgs)
         {
             var subject = Subject.As<ObjectResult>();
-            var subjectValue = subject.Value.As<Result<T>>(); //subjectValue is null when running tests(?)
+            var subjectValue = subject.Value.As<Result<T>>();
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -71,7 +71,7 @@ namespace Warehouse.Core
         public ActionResultAssertions BeCreatedAtAction<T>(T value, string because = "", params object[] becauseArgs)
         {
             var subject = Subject.As<ObjectResult>();
-            var subjectValue = subject.Value.As<Result<T>>(); //subjectValue is null when running tests(?)
+            var subjectValue = subject.Value.As<Result<T>>();
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -114,7 +114,7 @@ namespace Warehouse.Core
         public ActionResultAssertions BeNotFound<T>(string property, string message, string because = "", params object[] becauseArgs)
         {
             var subject = Subject.As<ObjectResult>();
-            var subjectValue = subject.Value.As<Result<T>>(); //subjectValue is null when running tests(?)
+            var subjectValue = subject.Value.As<Result<T>>();
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -159,7 +159,7 @@ namespace Warehouse.Core
         public ActionResultAssertions BeBadRequest<T>(string property, string message, string because = "", params object[] becauseArgs)
         {
             var subject = Subject.As<ObjectResult>();
-            var subjectValue = subject.Value.As<Result<T>>(); //subjectValue is null when running tests(?)
+            var subjectValue = subject.Value.As<Result<T>>();
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
