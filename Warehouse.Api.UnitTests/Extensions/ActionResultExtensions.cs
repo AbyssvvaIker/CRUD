@@ -28,7 +28,7 @@ namespace Warehouse.Core
         public ActionResultAssertions BeOk<T>(T value, string because = "", params object[] becauseArgs)
         {
             var subject = Subject.As<ObjectResult>();
-            var subjectValue = subject.Value.As<Result<T>>();
+            var subjectValue = subject.Value.As<Result<T>>(); //subjectValue is null when running tests(?)
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -38,7 +38,7 @@ namespace Warehouse.Core
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(subject.StatusCode == 200)
-                .FailWith("The StatusCode should be 200.");
+                .FailWith($"The StatusCode should be 200, but is {subject.StatusCode}");
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -71,7 +71,7 @@ namespace Warehouse.Core
         public ActionResultAssertions BeCreatedAtAction<T>(T value, string because = "", params object[] becauseArgs)
         {
             var subject = Subject.As<ObjectResult>();
-            var subjectValue = subject.Value.As<Result<T>>();
+            var subjectValue = subject.Value.As<Result<T>>(); //subjectValue is null when running tests(?)
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -81,7 +81,7 @@ namespace Warehouse.Core
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(subject.StatusCode == 201)
-                .FailWith("The StatusCode should be 201.");
+                .FailWith($"The StatusCode should be 201, but is {subject.StatusCode}");
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -114,7 +114,7 @@ namespace Warehouse.Core
         public ActionResultAssertions BeNotFound<T>(string message, string because = "", params object[] becauseArgs)
         {
             var subject = Subject.As<ObjectResult>();
-            var subjectValue = subject.Value.As<Result<T>>();
+            var subjectValue = subject.Value.As<Result<T>>(); //subjectValue is null when running tests(?)
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -124,7 +124,7 @@ namespace Warehouse.Core
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(subject.StatusCode == 404)
-                .FailWith("The StatusCode should be 404.");
+                .FailWith($"The StatusCode should be 404, but is {subject.StatusCode}");
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -159,7 +159,7 @@ namespace Warehouse.Core
         public ActionResultAssertions BeBadRequest<T>(string property, string message, string because = "", params object[] becauseArgs)
         {
             var subject = Subject.As<ObjectResult>();
-            var subjectValue = subject.Value.As<Result<T>>();
+            var subjectValue = subject.Value.As<Result<T>>(); //subjectValue is null when running tests(?)
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -169,7 +169,7 @@ namespace Warehouse.Core
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(subject.StatusCode == 400)
-                .FailWith("The StatusCode should be 400.");
+                .FailWith($"The StatusCode should be 400, but is {subject.StatusCode}");
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -191,24 +191,12 @@ namespace Warehouse.Core
                 .ForCondition(subjectValue.Errors.Any())
                 .FailWith("The Errors should have errors.");
 
-            var propertyError = subjectValue.Errors.FirstOrDefault(e => e.PropertyName == property);
+            var error = subjectValue.Errors.FirstOrDefault();
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(propertyError != null)
-                .FailWith($"The Errors should contains error for property '{property}'.");
-
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .ForCondition(propertyError.Message == message)
+                .ForCondition(error.Message == message)
                 .FailWith($"The Message for property '{property}' should be '{message}'.");
-
-            return this;
-        }
-
-        public ActionResultAssertions BeBadRequest<T>(string message, string because = "", params object[] becauseArgs)
-        {
-            BeBadRequest<T>(string.Empty, message, because, becauseArgs);
 
             return this;
         }
