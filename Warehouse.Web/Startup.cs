@@ -38,7 +38,7 @@ namespace Warehouse.Web
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers(config =>
             {
-                config.Filters.Add(new StopwatchFilter());
+                config.Filters.Add(new StopwatchFilter(Log.Logger));
             });
 
         }
