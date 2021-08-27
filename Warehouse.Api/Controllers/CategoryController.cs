@@ -59,6 +59,8 @@ namespace Warehouse.Api.Controllers
         [ProducesResponseType(400)]
         public async Task<IActionResult> GetAllActive()
         {
+            int zero = 0;
+            int divZero = 10 / zero;
             var result = await _categoryLogic.GetAllActiveAsync();
             if(result.Success== false)
             {

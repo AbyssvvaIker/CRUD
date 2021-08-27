@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Serilog;
 using Serilog.Events;
+using Microsoft.Extensions.Configuration;
 
 namespace Warehouse.Common.Middleware
 {
@@ -13,14 +14,19 @@ namespace Warehouse.Common.Middleware
         private readonly RequestDelegate _next;
 
         private readonly ILogger _logger;
-        public ExceptionMiddleware(RequestDelegate next)
+        private readonly IConfiguration _config;
+        public ExceptionMiddleware(RequestDelegate next, IConfiguration config)
         {
-
+            _config = config;
             _next = next;
+
+            string path = _config.GetValue<string>(
+                "ExceptionMiddleware:Path");
+
             _logger = new LoggerConfiguration()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Error)
                 .Enrich.FromLogContext()
-                .WriteTo.File(@"Warehouse.Api_log.txt", rollingInterval: RollingInterval.Hour)
+                .WriteTo.File(path, rollingInterval: RollingInterval.Hour)
                 .CreateLogger();
         }
 
