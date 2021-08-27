@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Serilog;
 using Serilog.Events;
 
-namespace Warehouse.Web.Middleware
+namespace Warehouse.Api.Middleware
 {
     public class ExceptionMiddleware
     {
@@ -20,7 +20,7 @@ namespace Warehouse.Web.Middleware
             _logger = new LoggerConfiguration()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Error)
                 .Enrich.FromLogContext()
-                .WriteTo.File(@"Warehouse.Web_log.txt", rollingInterval: RollingInterval.Hour)
+                .WriteTo.File(@"Warehouse.Api_log.txt", rollingInterval: RollingInterval.Hour)
                 .CreateLogger();
         }
 
