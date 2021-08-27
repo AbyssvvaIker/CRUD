@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Serilog;
 using Serilog.Events;
 
-namespace Warehouse.Api.Middleware
+namespace Warehouse.Common.Middleware
 {
     public class ExceptionMiddleware
     {

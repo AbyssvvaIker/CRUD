@@ -16,7 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Warehouse.Api.Middleware;
+using Warehouse.Common.Middleware;
 using Warehouse.Infrastructure.DataAccess;
 
 namespace Warehouse.Api

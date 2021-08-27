@@ -16,7 +16,7 @@ using FluentValidation;
 using Warehouse.Core.Entities;
 using Warehouse.Core.Validators;
 using Serilog;
-using Warehouse.Web.Middleware;
+using Warehouse.Common.Middleware;
 
 namespace Warehouse.Web
 {
