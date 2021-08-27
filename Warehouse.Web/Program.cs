@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Warehouse.Infrastructure.DataAccess;
 using Autofac.Extensions.DependencyInjection;
+using Serilog;
+using Serilog.Events;
 
 namespace Warehouse.Web
 {
@@ -16,6 +18,29 @@ namespace Warehouse.Web
     {
         public static void Main(string[] args)
         {
+            var logConfig = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(logConfig)
+                .CreateLogger();
+            try
+            {
+                Log.Information("starting web host");
+                CreateHostBuilder(args).Build().Run();
+                return;
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Host terminated unexpectedly");
+                return;
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
+
+
             var host = CreateHostBuilder(args).Build();
 
             using (var scope = host.Services.CreateScope())
@@ -36,6 +61,7 @@ namespace Warehouse.Web
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .UseSerilog()
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
