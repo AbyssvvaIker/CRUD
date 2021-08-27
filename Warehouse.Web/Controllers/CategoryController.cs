@@ -29,8 +29,6 @@ namespace Warehouse.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            int zero = 0;
-            int divZero = 10 / zero;
             var result = await _categoryLogic.GetAllActiveAsync();
 
             var viewModel = new IndexViewModel()

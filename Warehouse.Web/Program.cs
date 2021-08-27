@@ -18,10 +18,11 @@ namespace Warehouse.Web
     {
         public static void Main(string[] args)
         {
+            var logConfig = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
             Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
-                .Enrich.FromLogContext()
-                .WriteTo.Console()
+                .ReadFrom.Configuration(logConfig)
                 .CreateLogger();
             try
             {
