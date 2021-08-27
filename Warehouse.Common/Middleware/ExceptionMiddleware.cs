@@ -33,6 +33,7 @@ namespace Warehouse.Common.Middleware
             catch(Exception ex)
             {
                 _logger.Error(ex, $"Something went wrong: {ex.Message}");
+                context.Response.StatusCode = 500;
                 throw;
             }
         }
