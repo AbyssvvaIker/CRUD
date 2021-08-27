@@ -14,7 +14,8 @@ namespace Warehouse.Common.Filters
             stopwatch.Stop();
             var elapsedTime = stopwatch.ElapsedMilliseconds;
             var log = $"Action: {context.ActionDescriptor.DisplayName} \n\t ExecutionTime: {elapsedTime} ms";
-            Log.Error(log);
+            var contextLog = Log.ForContext("SourceContext", "Stopwatch");
+            contextLog.Information(log);
         }
     }
 }
