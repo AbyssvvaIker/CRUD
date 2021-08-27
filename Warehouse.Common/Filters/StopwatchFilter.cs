@@ -16,7 +16,7 @@ namespace Warehouse.Common.Filters
             await next();
             stopwatch.Stop();
             var elapsedTime = stopwatch.ElapsedMilliseconds;
-            Debug.WriteLine($"{elapsedTime}");
+            Debug.WriteLine($"Action: {context.HttpContext} \n\t ExecutionTime: {elapsedTime}");
         }
     }
 }
