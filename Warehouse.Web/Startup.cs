@@ -17,6 +17,7 @@ using Warehouse.Core.Entities;
 using Warehouse.Core.Validators;
 using Serilog;
 using Warehouse.Common.Middleware;
+using Warehouse.Common.Filters;
 
 namespace Warehouse.Web
 {
@@ -35,6 +36,10 @@ namespace Warehouse.Web
             services.AddControllersWithViews();
             services.AddDbContext<DataContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddControllers(config =>
+            {
+                config.Filters.Add(new StopwatchFilter());
+            });
 
         }
 

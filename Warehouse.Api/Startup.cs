@@ -16,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Warehouse.Common.Filters;
 using Warehouse.Common.Middleware;
 using Warehouse.Infrastructure.DataAccess;
 
@@ -37,6 +38,10 @@ namespace Warehouse.Api
             services.AddDbContext<DataContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             AddSwagger(ref services);
+            services.AddControllers(config =>
+            {
+                config.Filters.Add(new StopwatchFilter());
+            });
 
         }
 
