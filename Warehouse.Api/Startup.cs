@@ -9,12 +9,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Warehouse.Api.Middleware;
 using Warehouse.Infrastructure.DataAccess;
 
 namespace Warehouse.Api
@@ -45,7 +47,8 @@ namespace Warehouse.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseMiddleware<ExceptionMiddleware>();
+            app.UseSerilogRequestLogging();
             app.UseHttpsRedirection();
 
             app.UseRouting();
